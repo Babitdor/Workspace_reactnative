@@ -1,0 +1,54 @@
+{
+    "Items": 
+    [
+        {
+            "id":1,
+            "title": "Laptop",
+            "price": "₹3000",
+            "image": "https://cdn.thewirecutter.com/wp-content/media/2022/07/laptop-under-500-2048px-acer-1.jpg"
+        },
+        {
+            "id": 2,
+            "title": "Coffee",
+            "price": "₹20",
+            "image": "https://www.indivstock.com/static33/preview1/stock-photo-coffee-to-go-cup-isolated-on-white-background-470560.jpg"
+        },
+        {
+            "id": 3,
+            "title": "Fast Internet",
+            "price": "₹200",
+            "image": "https://img.freepik.com/premium-vector/wi-fi-icon-wifi-signal-icon-wireless-internet-connection-signal-vector-illustration-isolated-white-background_192280-968.jpg"
+        },
+
+        {
+        "id": 4,
+        "title": "Printer",
+        "price": "₹100",
+        "image": "https://m.media-amazon.com/images/I/61oeZRV1ZTL._SL1500_.jpg"
+        },
+        {
+            "id": 5,
+            "title": "Stationary",
+            "price": "₹100",
+            "image": "https://5.imimg.com/data5/SELLER/Default/2021/3/WO/LC/AV/3888161/stationary-2-1--500x500.jpg"
+        },
+        {
+            "id": 6,
+            "title": "Kindle PaperWhite",
+            "price": "₹500",
+            "image": "https://www.proshop.no/Images/915x900/3083780_3c520b93959e.jpg"
+        },
+        {
+            "id": 7,
+            "title": "Kindle XL",
+            "price": "₹500",
+            "image": "https://www.proshop.no/Images/915x900/3083780_3c520b93959e.jpg"
+        },
+        {
+            "id": 8,
+            "title": "Kindle XXL",
+            "price": "₹500",
+            "image": "https://www.proshop.no/Images/915x900/3083780_3c520b93959e.jpg"
+        }
+    ]
+}
