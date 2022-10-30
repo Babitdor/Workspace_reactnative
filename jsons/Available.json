@@ -1,0 +1,191 @@
+{
+    "Tables": 
+    [
+        {   "id":1,
+            "title":"Table-A",
+            "price": 120,
+            "description":["Casual,Formal,Chill,Work,Fun"],
+            "image":"https://images.steelcase.com/image/upload/c_fill,dpr_auto,q_70,h_656,w_1166/v1504705535/www.steelcase.com/2017/09/06/16-0014178.jpg",
+            "seats": 
+            [
+                { "id": "A1","empty": true,"booked": false},
+                { "id": "A2","empty": true,"booked": false}
+            ]
+        },
+        {   
+            "id":2,
+            "title":"Table-B",
+            "price": 160,
+            "description":["Casual,Formal,Chill,Work"],
+            "image":"https://www.alloffice.co.za/wp-content/uploads/2019/03/office-desk-1920-1024x670.jpg",
+            "seats": 
+            [
+                {"id": "B1","empty": true, "booked": false},
+                {"id": "B2","empty": true, "booked": false},
+                {"id": "B3","empty": true, "booked": false}
+            ]
+
+        },
+        {
+            "id":3,
+            "title":"Table-C",
+            "price": 150,
+            "description":["Casual,Formal,Chill"],
+            "image":"https://m.media-amazon.com/images/I/81rBTtiPVRS._SL1500_.jpg",
+            "seats": 
+            [
+                { "id": "C1","empty": true,"booked": false},
+                { "id": "C2","empty": true,"booked": false},
+                { "id": "C3","empty": true,"booked": false},
+                { "id": "C4","empty": true,"booked": false},
+                { "id": "C5","empty": true,"booked": false},
+                { "id": "C6","empty": true,"booked": false},
+                { "id": "C7","empty": true,"booked": false},
+                { "id": "C8","empty": true,"booked": false}
+            ]
+        },
+        {
+            "id":4,
+            "title":"Table-D",
+            "price": 170,
+            "description":["Casual,Formal"],
+            "image":"https://image.archify.com/blog/03-How-to-Create-a-Comfortable-Workspace-at-Home.jpg",
+            "seats":
+            [
+                {"id": "D1","empty": true, "booked": false},
+                {"id": "D2","empty": true, "booked": false},
+                {"id": "D3","empty": true, "booked": false},
+                {"id": "D4","empty": true, "booked": false}
+            ]
+        },
+        {
+            "id":5,
+            "title":"Table-E",
+            "price": 180,
+            "description":["Casual"],
+            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW8UviR6-I7J5yHVOQK-Cw5nyzRufgP_krTixEyULANTdNLHHNsWbi2ZRR8bOC1AMTik0&usqp=CAU",
+            "seats":
+            [
+                {"id": "E1","empty": true, "booked": false},
+                {"id": "E2","empty": true, "booked": false},
+                {"id": "E3","empty": true, "booked": false}
+            ]
+        },
+        {
+            "id":6,
+            "title":"Table-F",
+            "price": 180,
+            "description":["Casual"],
+            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW8UviR6-I7J5yHVOQK-Cw5nyzRufgP_krTixEyULANTdNLHHNsWbi2ZRR8bOC1AMTik0&usqp=CAU",
+            "seats":
+            [
+                {"id": "F","empty": false, "booked": false}
+            ]
+        },
+        {
+            "id":7,
+            "title":"Table-G",
+            "price": 0,
+            "description":["Casual"],
+            "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW8UviR6-I7J5yHVOQK-Cw5nyzRufgP_krTixEyULANTdNLHHNsWbi2ZRR8bOC1AMTik0&usqp=CAU",
+            "seats":
+            [
+                {"id": "G1","empty": true, "booked": false},
+                {"id": "G2","empty": true, "booked": false},
+                {"id": "G3","empty": true, "booked": false}
+            ]
+        }
+
+    ],
+    "Available": [
+    {
+      "id": "A1",
+      "Available": true
+    },
+    {
+      "id": "A2",
+      "Available": true
+    },
+    {
+      "id": "B1",
+      "Available": true
+    },
+    {
+      "id": "B2",
+      "Available": true
+    },
+    {
+      "id": "B3",
+      "Available": true
+    },
+    {
+      "id": "C1",
+      "Available": true
+    },
+    {
+      "id": "C2",
+      "Available": true
+    },
+    {
+      "id": "C3",
+      "Available": true
+    },
+    {
+      "id": "C4",
+      "Available": true
+    },
+    {
+      "id": "C5",
+      "Available": true
+    },
+    {
+      "id": "C6",
+      "Available": true
+    },
+    {
+      "id": "C7",
+      "Available": true
+    },
+    {
+      "id": "C8",
+      "Available": true
+    },
+    {
+      "id": "D1",
+      "Available": true
+    },
+    {
+      "id": "D2",
+      "Available": true
+    },
+    {
+      "id": "D3",
+      "Available": true
+    },
+
+    {
+      "id": "D4",
+      "Available": true
+    },
+    {
+      "id": "E1",
+      "Available": true
+    },
+    {
+      "id": "E2",
+      "Available": true
+    },
+    {
+      "id": "E3",
+      "Available": true
+    },
+    {
+      "id": "E4",
+      "Available": true
+    },
+    {
+      "id": "F",
+      "Available": true
+    }
+  ]
+}
