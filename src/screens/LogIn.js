@@ -5,6 +5,11 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize,
+} from 'react-native-responsive-dimensions';
 import React, {useState, useContext} from 'react';
 import {Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -12,13 +17,14 @@ import User from 'react-native-vector-icons/AntDesign';
 import Lock from 'react-native-vector-icons/AntDesign';
 import Check from 'react-native-vector-icons/AntDesign';
 import Eye from 'react-native-vector-icons/Entypo';
-import { AuthContext } from '../navigation/AuthProvider';
+import {AuthContext} from '../navigation/AuthProvider';
 import {TextInput} from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
-  const {login} = useContext(AuthContext);
+  const {login, googleLogin} = useContext(AuthContext);
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -62,7 +68,7 @@ export default function LoginScreen() {
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
-          <User name="user" size={30} color="black" />
+          <User name="user" size={30} color="white" />
           <TextInput
             style={styles.TextInput}
             autoCapitalize="none"
@@ -76,7 +82,7 @@ export default function LoginScreen() {
         </View>
         <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
         <View style={styles.action}>
-          <Lock name="lock" size={30} color="black" />
+          <Lock name="lock" size={30} color='white' />
           <TextInput
             style={styles.TextInput}
             autoCapitalize="none"
@@ -85,9 +91,9 @@ export default function LoginScreen() {
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
-              <Eye name="eye-with-line" size={25} />
+              <Eye name="eye-with-line" size={25} color='white'/>
             ) : (
-              <Eye name="eye" size={25} />
+              <Eye name="eye" size={25} color='white'/>
             )}
           </TouchableOpacity>
         </View>
@@ -108,9 +114,26 @@ export default function LoginScreen() {
                 backgroundColor: 'white',
               },
             ]}
-            onPress={() => navigation.navigate("SignIn")}>
+            onPress={() => navigation.navigate('SignIn')}>
             <Text style={[styles.textSign, {color: 'black'}]}>Register</Text>
           </TouchableOpacity>
+          <View style={{alignSelf: 'center', padding: 10}}>
+            <Text
+              style={{
+                fontSize: responsiveFontSize(2),
+                fontWeight: '600',
+                color: 'white',
+                fontSize:25
+              }}>
+              OR
+            </Text>
+          </View>
+          <GoogleSigninButton
+            style={{width: '100%', height: 60}}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={() => googleLogin()}
+          />
         </View>
       </Animatable.View>
     </View>
@@ -121,18 +144,18 @@ const {height} = Dimensions.get('screen');
 const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#181818',
+    flex: responsiveHeight(0.2),
+    backgroundColor: 'black',
   },
   header: {
-    flex: 2,
+    flex: responsiveHeight(0.05),
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
     paddingBottom: 50,
   },
   footer: {
-    flex: 3,
-    backgroundColor: '#fff',
+    flex: responsiveHeight(0.25),
+    backgroundColor: '#181818',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 35,
@@ -140,11 +163,12 @@ const styles = StyleSheet.create({
   },
   text_header: {
     color: 'white',
+    alignSelf:'center',
     colorWeight: 'bold',
     fontSize: 30,
   },
   text_footer: {
-    color: 'black',
+    color: 'white',
     fontSize: 18,
   },
   action: {
@@ -162,26 +186,21 @@ const styles = StyleSheet.create({
     color: '#05375a',
   },
   button: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
     marginTop: 30,
     padding: 10,
   },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 18,
-  },
   signIn: {
-    width: '100%',
-    height: 60,
-    backgroundColor: 'black',
+    width: responsiveWidth(70),
+    height: responsiveHeight(8),
+    backgroundColor: 'rgba(137, 252, 233, 1)',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
   },
   textSign: {
-    fontSize: 20,
-    color: 'white',
+    fontSize: responsiveFontSize(2),
+    color: 'black',
     fontWeight: 'bold',
   },
 });

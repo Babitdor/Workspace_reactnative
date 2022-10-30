@@ -6,6 +6,11 @@ let reducers = combineReducers({
 })
 
 const rootReducer = (state, action) => {
+
+    if(action.type === 'DESTORY_SESSION'){
+        state = undefined;
+    }
+
     return reducers(state,action);
 };
 

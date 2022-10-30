@@ -5,16 +5,21 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize,
+  responsiveScreenFontSize,
+} from 'react-native-responsive-dimensions';
 import React, {useState, useContext} from 'react';
-import {Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import User from 'react-native-vector-icons/AntDesign';
 import Lock from 'react-native-vector-icons/AntDesign';
 import Check from 'react-native-vector-icons/AntDesign';
 import Eye from 'react-native-vector-icons/Entypo';
-import { AuthContext } from '../navigation/AuthProvider';
+import {AuthContext} from '../navigation/AuthProvider';
 import {TextInput} from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 export default function SignIn1() {
   const navigation = useNavigation();
@@ -107,7 +112,9 @@ export default function SignIn1() {
           </TouchableOpacity>
         </View>
 
-        <Text style={[styles.text_footer, {marginTop: 35}]}>Confirm Password</Text>
+        <Text style={[styles.text_footer, {marginTop: 35}]}>
+          Confirm Password
+        </Text>
         <View style={styles.action}>
           <Lock name="lock" size={30} color="black" />
           <TextInput
@@ -135,13 +142,13 @@ export default function SignIn1() {
             style={[
               styles.signIn,
               {
-                marginTop: 20,
+                marginTop: 10,
                 borderColor: 'black',
                 borderWidth: 1,
                 backgroundColor: 'white',
               },
             ]}
-            onPress={() => register(data.email,data.password)}>
+            onPress={() => register(data.email, data.password)}>
             <Text style={[styles.textSign, {color: 'black'}]}>Register Me</Text>
           </TouchableOpacity>
         </View>
@@ -158,13 +165,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#181818',
   },
   header: {
-    flex: 2,
+    flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
     paddingBottom: 50,
   },
   footer: {
-    flex: 3,
+    flex: 6,
     backgroundColor: '#fff',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -174,11 +181,12 @@ const styles = StyleSheet.create({
   text_header: {
     color: 'white',
     colorWeight: 'bold',
-    fontSize: 30,
+    alignSelf: 'center',
+    fontSize: responsiveScreenFontSize(3),
   },
   text_footer: {
     color: 'black',
-    fontSize: 20,
+    fontSize: responsiveScreenFontSize(2),
   },
   action: {
     flexDirection: 'row',
@@ -189,24 +197,19 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
-    fontSize: 25,
+    marginTop: -12,
+    fontSize: responsiveScreenFontSize(2.5),
     paddingLeft: 10,
     color: '#05375a',
   },
   button: {
     alignItems: 'flex-end',
-    marginTop: 30,
-    padding: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 18,
+    marginTop: 20,
+    padding: 5,
   },
   signIn: {
     width: '100%',
-    height: 60,
+    height: 50,
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',

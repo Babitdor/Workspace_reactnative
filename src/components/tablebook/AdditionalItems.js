@@ -1,13 +1,26 @@
 import { View, Text, StyleSheet,Image, FlatList } from 'react-native'
-import React, { useRef }from 'react'
-import { Divider } from '@rneui/base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, { useRef,useEffect,useState }from 'react'
 import BouncyCheckBox from 'react-native-bouncy-checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import Animated from 'react-native-reanimated';
-
+import {firebase} from '@react-native-firebase/database';
+import Loading from '../home/Loading'
 export default function AdditionalItems(props) {
     
+    useEffect(() => {
+        async function FetchData() {
+          var snapshot = await firebase
+            .app()
+            .database(
+              'https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app/',
+            )
+            .ref('/Data/Items/')
+            .once('value');
+          setITEMS(snapshot.val());
+        }
+        FetchData();
+      }, []);
+    const [items, setITEMS] = useState([]);
     const scrollY = useRef(new Animated.Value(0)).current;
     const dispatch = useDispatch();
     const selectItem = (item, checkboxValue) =>  
@@ -31,9 +44,12 @@ export default function AdditionalItems(props) {
     const ITEM_SIZE = AVATAR_SIZE + SPACING * 3;
 
     return ( 
+    
+    <>
+    {items ? 
     <Animated.FlatList
         showsVerticalScrollIndicator={false}
-        data={props.items}
+        data={items}
         onScroll={Animated.event(
             [{nativeEvent: {contentOffset: {y: scrollY}}}],
             {useNativeDriver: true}
@@ -66,7 +82,7 @@ export default function AdditionalItems(props) {
             return <Animated.View 
             useNativeDriver
             animation='fadeInLeft' delay={500}
-            style={{backgroundColor:'#242526',
+            style={{backgroundColor:'#181818',
             padding:20,
             borderRadius:20,
             flexDirection:"row",
@@ -85,15 +101,15 @@ export default function AdditionalItems(props) {
                 <ItemImage items={item}/>
                 <ItemTitle items={item}/>
                 <BouncyCheckBox 
-                fillColor="#3A3B3C" 
+                fillColor="rgba(98, 190, 175, 1)" 
                 size={30}
                 iconStyle={{ borderColor:'lightgray'}}
                 onPress={(checkboxValue) => selectItem(item,checkboxValue)}
                 isChecked={isIteminCart(item,cartItems)}/>
             </Animated.View>
             
-        }}
-    />
+        }}/>:<Loading/>}
+    </>
 
   );
 };

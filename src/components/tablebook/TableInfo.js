@@ -1,8 +1,6 @@
 import {
   View,
   Text,
-  StatusBar,
-  Image,
   ImageBackground,
   Dimensions,
 } from 'react-native';
@@ -80,6 +78,16 @@ export default function TableInfo(props) {
             marginHorizontal: 15,
           }}>
           Breakfast Complementary
+        </Text>
+        <Text
+          style={{
+            fontSize: 25,
+            fontWeight: '600',
+            marginTop: 10,
+            color: 'white',
+            marginHorizontal: 15,
+          }}>
+          Price: ₹{props.database.price}
         </Text>
       </Animatable.View>
     </View>

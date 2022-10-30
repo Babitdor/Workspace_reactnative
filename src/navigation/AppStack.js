@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar,Easing,View} from 'react-native';
+import {StatusBar, Easing, View} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -14,6 +14,7 @@ import {Provider as ReduxProvider} from 'react-redux';
 import configureStore from '../../redux/store';
 import TableDescription from '../screens/TableDescription';
 import Profile from '../screens/Profile';
+import OrderComplete from '../screens/OrderComplete';
 
 const store = configureStore();
 export default function AppStack() {
@@ -22,52 +23,89 @@ export default function AppStack() {
   const config = {
     animation: 'Spring',
     config: {
-        stiffness: 1000,
-        damping: 500,
-        mass: 3,
-        overshootClamping: true,
-        restDisplacementThreshold: 0.01,
-        restSpeedThreshold: 0.01,
+      stiffness: 1000,
+      damping: 500,
+      mass: 3,
+      overshootClamping: true,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 0.01,
     },
-}
-const closeConfig = {
-    animation:'Timing',
-    config:{
-        duration:500,
-        easing: Easing.linear
-    }
-}
+  };
+  const closeConfig = {
+    animation: 'Timing',
+    config: {
+      duration: 500,
+      easing: Easing.linear,
+    },
+  };
 
-const screenOptions = {
+  const screenOptions = {
     headerShown: false,
     CardStyleInterpolators: CardStyleInterpolators.forHorizontalIOS,
     transitionSpec: {
-        open: config,
-        close: closeConfig
+      open: config,
+      close: closeConfig,
     },
-};
+    
+  };
 
-const forFade = ({ current, closing }) => ({
-  cardStyle: {
-    backgroundColor:'black',
-    opacity: current.progress,
-    presentaion: 'modal',
-  },
-});
+  const forFade = ({current, closing}) => ({
+    cardStyle: {
+      backgroundColor: 'black',
+      opacity: current.progress,
+      presentaion: 'modal',
+    },
+  });
   return (
     <>
       <StatusBar translucent backgroundColor="transparent" />
       <ReduxProvider store={store}>
-        
         <Stack.Navigator screenOptions={screenOptions}>
-          <Stack.Screen name="Home" component={Home} options={{ cardStyleInterpolator: forFade }}/>
-          <Stack.Screen name="TableBook" component={TableBook} options={{ cardStyleInterpolator: forFade }}/>
-          <Stack.Screen name="TableDescription" component={TableDescription} options={{ cardStyleInterpolator: forFade }}/>
-          <Stack.Screen name="Seating" component={Seating} options={{ cardStyleInterpolator: forFade }}/>
-          <Stack.Screen name="Conference" component={Conference} options={{ cardStyleInterpolator: forFade }}/>
-          <Stack.Screen name="Coffee_Convo" component={Coffee_Convo} options={{ cardStyleInterpolator: forFade }}/>
-          <Stack.Screen name="WholeHall" component={WholeHall} options={{ cardStyleInterpolator: forFade }}/>
-          <Stack.Screen name="Profile" component={Profile} options={{ cardStyleInterpolator: forFade }}/>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="TableBook"
+            component={TableBook}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="TableDescription"
+            component={TableDescription}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="Seating"
+            component={Seating}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="Conference"
+            component={Conference}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="Coffee_Convo"
+            component={Coffee_Convo}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="WholeHall"
+            component={WholeHall}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="Completed"
+            component={OrderComplete}
+            options={{cardStyleInterpolator: forFade}}
+          />
         </Stack.Navigator>
       </ReduxProvider>
     </>
