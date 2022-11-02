@@ -7,8 +7,9 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
-  const [SelectedSeats,setSeats] = useState([])
-  const [isChanged,setChanged] = useState(false);
+  const [Category, setCategory] = useState('Starters');
+  const [SelectedSeats, setSeats] = useState([]);
+  const [isChanged, setChanged] = useState(false);
   const [MinTime, setMin] = useState('');
   const [MaxTime, setMax] = useState('');
   const [SelectDate, setSelectDate] = useState('');
@@ -16,12 +17,14 @@ export const AuthProvider = ({children}) => {
   return (
     <AuthContext.Provider
       value={{
-        MinTime, 
+        MinTime,
         MaxTime,
+        Category,
         SelectDate,
         user,
         isChanged,
         SelectedSeats,
+        setCategory,
         setSeats,
         setMax,
         setSelectDate,
@@ -41,14 +44,6 @@ export const AuthProvider = ({children}) => {
             const googleCredential =
               auth.GoogleAuthProvider.credential(idToken);
             await auth().signInWithCredential(googleCredential);
-            // .then(User => {
-            //     database()
-            //     .ref('/Data/Users/')
-            //     .set({
-            //         uid: User.user.uid,
-            //     })
-            // .then(() => console.log('Data Set'));
-            // })
           } catch (e) {
             console.log(e);
           }
@@ -56,15 +51,6 @@ export const AuthProvider = ({children}) => {
         register: async (email, password) => {
           try {
             await auth().createUserWithEmailAndPassword(email, password);
-            // .then(registeredUser => {
-            //     database()
-            //     .ref('/Data/Users/')
-            //     .set({
-            //         uid: registeredUser.user.id,
-            //     })
-            //     .then(() => console.log('Data set'))
-
-            // })
           } catch (e) {
             console.log(e);
           }

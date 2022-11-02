@@ -39,6 +39,7 @@ export default function BookMySeat(props) {
   const [table4, setTable4] = useState([]);
   const [table5, setTable5] = useState([]);
   const [table6, setTable6] = useState([]);
+  const [table7, setTable7] = useState([]);
   const {SelectedSeats, setSeats} = useContext(AuthContext);
   const {isChanged, setChanged} = useContext(AuthContext);
 
@@ -58,6 +59,7 @@ export default function BookMySeat(props) {
       setTable4(snapshot.val()[3].seats);
       setTable5(snapshot.val()[4].seats);
       setTable6(snapshot.val()[5].seats);
+      setTable7(snapshot.val()[6].seats);
     }
     FetchData();
   }, [isChanged]);
@@ -181,6 +183,26 @@ export default function BookMySeat(props) {
     });
     setTable6(tempSeats);
   };
+  const onSelectRow7 = index => {
+    let tempRow = [];
+    tempRow = table7;
+    tempRow.map((item, ind) => {
+      if (index === ind) {
+        if (item.booked === true) {
+          item.booked = false;
+          item.empty = true;
+        } else {
+          item.booked = true;
+          item.empty = false;
+        }
+      }
+    });
+    let tempSeats = [];
+    tempRow.map(item => {
+      tempSeats.push(item);
+    });
+    setTable7(tempSeats);
+  };
   const getAllSeats = () => {
     selectedseats = [];
     SeatSelectedStatus = [];
@@ -234,9 +256,16 @@ export default function BookMySeat(props) {
         seatsprices += props.database[5].price;
       }
     });
+    table7.map(item => {
+      if (item.booked == true) {
+        selectedseats.push(1);
+        SeatSelectedStatus.push(item);
+        selectedseatsid.push(item.id);
+        seatsprices += props.database[6].price;
+      }
+    });
     return selectedseatsid + '';
   };
-
   const confirmseat = () => {
     setSeats(SeatSelectedStatus);
     setChanged(isChanged => !isChanged);
@@ -432,7 +461,7 @@ export default function BookMySeat(props) {
                 {/* TABLE C */}
                 <View
                   style={{
-                    top: 180,
+                    top: 160,
                     left: 220,
                     zIndex: 100,
                     flex: 1,
@@ -743,6 +772,75 @@ export default function BookMySeat(props) {
                                 transform: [{rotate: '270deg'}],
                               }}
                               source={require('../../assets/TableF.png')}
+                            />
+                          ) : null}
+                        </TouchableOpacity>
+                      );
+                    }}
+                    vertical
+                  />
+                </View>
+                {/* Table G */}
+                <View
+                  style={{
+                    top: 315,
+                    left: 190,
+                    zIndex: 100,
+                    flex: 1,
+                    alignItems: 'center',
+                    position: 'absolute',
+                    padding: 5,
+                  }}>
+                  <TouchableOpacity
+                    style={{
+                      borderRadius: 5,
+                      borderColor: 'white',
+                      borderWidth: 2,
+                      marginBottom: 10,
+                      padding: 8,
+                    }}
+                    onPress={() => {
+                      navigation.navigate('TableDescription', {
+                        Table: props.database[6],
+                      });
+                    }}>
+                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                      Table G
+                    </Text>
+                  </TouchableOpacity>
+                  <FlatList
+                    data={table7}
+                    horizontal
+                    renderItem={({item, index}) => {
+                      return (
+                        <TouchableOpacity style={{padding: 5}} disabled={true}>
+                          {item.empty == false && item.booked == true ? (
+                            <Image
+                              style={{
+                                width: 30,
+                                height: 30,
+                                tintColor: 'white',
+                              }}
+                              source={require('../../assets/TableD.png')}
+                            />
+                          ) : item.empty == true && item.booked == false ? (
+                            <Image
+                              style={{
+                                width: 30,
+                                height: 30,
+                                tintColor: 'white',
+                              }}
+                              source={require('../../assets/TableD.png')}
+                            />
+                          ) : item.empty == false && item.booked == false ? (
+                            <Image
+                              style={{
+                                width: 40,
+                                height: 40,
+                                tintColor: 'white',
+                                resizeMode: 'contain',
+                              }}
+                              source={require('../../assets/TableB.png')}
                             />
                           ) : null}
                         </TouchableOpacity>

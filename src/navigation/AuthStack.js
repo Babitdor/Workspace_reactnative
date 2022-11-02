@@ -4,10 +4,10 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import LogIn from '../screens/LogIn';
-import SignIn from '../screens/SignIn';
+import LogIn from '../components/login_signin/LogIn';
+import SignIn from '../components/login_signin/SignIn';
 import {Easing} from 'react-native-reanimated';
-import LoginMain from '../screens/LoginMain';
+import LoginMain from '../components/login_signin/LoginMain';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 export default function AuthStack() {

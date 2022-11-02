@@ -13,6 +13,7 @@ import {
 import React, {useState, useContext} from 'react';
 import {Linking, Platform} from 'react-native';
 import Phone from 'react-native-vector-icons/Entypo';
+import Mail from 'react-native-vector-icons/Entypo';
 import Address from 'react-native-vector-icons/Entypo';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -90,7 +91,7 @@ export default function WholeHall({navigation}) {
                 styles.text_footer,
                 {marginBottom: 5, fontWeight: 'bold'},
               ]}>
-              Mobile No
+              Call Us
             </Text>
             <Animatable.View animation='fadeInLeft' delay={500}>
             <TouchableOpacity
@@ -117,20 +118,20 @@ export default function WholeHall({navigation}) {
                 styles.text_footer,
                 {marginBottom: 5, marginTop: 10, fontWeight: 'bold'},
               ]}>
-              Office No
+              Drop A Mail
             </Text>
             <Animatable.View animation='fadeInLeft' delay={900}><TouchableOpacity
               onPress={() => {
-                dialCall(36422345532);
+                Linking.openURL('mailto:support@example.com');
               }}
               style={styles.btn}>
               <View style={styles.action}>
                 <View>
-                  <Phone name="phone" size={30} color="black" />
+                  <Mail name="mail" size={30} color="black" />
                 </View>
 
                 <View>
-                  <Text style={styles.TextInput}>0364 22345532</Text>
+                  <Text style={styles.TextInput}>support@example.com</Text>
                 </View>
               </View>
             </TouchableOpacity>

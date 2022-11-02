@@ -9,7 +9,7 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
-export default function SeatIndicator(props) {
+export default function ConferenceIndicator(props) {
   const navigation = useNavigation();
   return (
     <>
@@ -23,11 +23,11 @@ export default function SeatIndicator(props) {
         <View style={{flexDirection: 'column', alignItems: 'center'}}>
           <Image
             style={{
-              width: 22,
-              height: 22,
+              width: 50,
+              height: 50,
               resizeMode: 'contain',
             }}
-            source={require('../../assets/TableD.png')}
+            source={require('../../assets/Conference.png')}
           />
           <Text
             style={{
@@ -41,11 +41,11 @@ export default function SeatIndicator(props) {
         <View style={{flexDirection: 'column', alignItems: 'center'}}>
           <Image
             style={{
-              width: 22,
-              height: 22,
+              width: 50,
+              height: 50,
               tintColor: 'rgba(137, 252, 233, 1)',
             }}
-            source={require('../../assets/TableD.png')}
+            source={require('../../assets/Conference.png')}
           />
           <Text
             style={{
@@ -59,11 +59,11 @@ export default function SeatIndicator(props) {
         <View style={{flexDirection: 'column', alignItems: 'center'}}>
           <Image
             style={{
-              width: 22,
-              height: 22,
+              width: 50,
+              height: 50,
               tintColor: 'rgba(147, 147, 147, 0.53)',
             }}
-            source={require('../../assets/TableD.png')}
+            source={require('../../assets/Conference.png')}
           />
           <Text
             style={{
@@ -74,24 +74,7 @@ export default function SeatIndicator(props) {
             Occupied
           </Text>
         </View>
-        <View style={{flexDirection: 'column', alignItems: 'center'}}>
-          <Image
-            style={{
-              width: 22,
-              height: 22,
-              tintColor: 'white',
-            }}
-            source={require('../../assets/TableD.png')}
-          />
-          <Text
-            style={{
-              color: 'gray',
-              fontWeight: '600',
-              fontSize: 12,
-            }}>
-            Free to use
-          </Text>
-        </View>
+        
       </View>
     </>
   );

@@ -13,8 +13,9 @@ import WholeHall from '../screens/WholeHall';
 import {Provider as ReduxProvider} from 'react-redux';
 import configureStore from '../../redux/store';
 import TableDescription from '../screens/TableDescription';
-import Profile from '../screens/Profile';
+import Profile from '../components/profile/Profile';
 import OrderComplete from '../screens/OrderComplete';
+import FoodMenu from '../screens/FoodMenu';
 
 const store = configureStore();
 export default function AppStack() {
@@ -46,7 +47,6 @@ export default function AppStack() {
       open: config,
       close: closeConfig,
     },
-    
   };
 
   const forFade = ({current, closing}) => ({
@@ -104,6 +104,11 @@ export default function AppStack() {
           <Stack.Screen
             name="Completed"
             component={OrderComplete}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="FoodMenu"
+            component={FoodMenu}
             options={{cardStyleInterpolator: forFade}}
           />
         </Stack.Navigator>

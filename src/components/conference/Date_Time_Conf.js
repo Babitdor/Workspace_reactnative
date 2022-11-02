@@ -12,13 +12,15 @@ import {
 import {useContext} from 'react';
 import {AuthContext} from '../../navigation/AuthProvider';
 
+
+
 let currentStartTime = '';
 let currentEndTime = '';
 let currentDate = '';
 let tempstart = '';
 let tempend = '';
 
-export default function Date_time() {
+export default function Date_Time_Conf() {
   useEffect(() => {
     currentStartTime = '';
     currentEndTime = '';
@@ -145,6 +147,8 @@ export default function Date_time() {
           <DateTimePicker
             value={EndTime}
             mode={displaymode}
+            minuteInterval={10}
+            
             is24Hour={false}
             display="default"
             onChange={changeEndSelectedTime}
@@ -175,7 +179,7 @@ export default function Date_time() {
         <DateTimePicker
           testID="dateTimePicker"
           value={date}
-          minimumDate={new Date()}
+          minimumDate={new Date(Date.now() + ( 3600 * 1000 * 24 * 2))}
           maximumDate={new Date(2023, 12, 31)}
           mode={displaymode}
           is24Hour={true}
