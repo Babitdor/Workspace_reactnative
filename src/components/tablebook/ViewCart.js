@@ -21,7 +21,11 @@ const {height} = Dimensions.get('screen');
 let Count = 0;
 export default function ViewCart(props) {
   const [Tables, setTable] = useState([]);
-  const reference = firebase.app().database('https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app/')
+  const reference = firebase
+    .app()
+    .database(
+      'https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app/',
+    );
 
   useEffect(() => {
     async function FetchData() {
@@ -40,7 +44,7 @@ export default function ViewCart(props) {
   // const {Date, EndTime, StartTime} = props.Date_Time.Date_Time;
   const navigation = useNavigation();
   const {seatid, tprice} = props.seats;
-  const {MaxTime,MinTime,SelectDate} = useContext(AuthContext);
+  const {MaxTime, MinTime, SelectDate} = useContext(AuthContext);
   const {user, SelectedSeats} = useContext(AuthContext);
   const dispatch = useDispatch();
   const {isChanged, setChanged} = useContext(AuthContext);
@@ -55,31 +59,33 @@ export default function ViewCart(props) {
     style: 'currency',
     currency: 'INR',
   });
-
   const Checking = SelectedSeats => {
     setChanged(isChanged => !isChanged);
-    Count=0;
+    Count = 0;
     SelectedSeats.map(seat => {
-    for (var i = 0; i < Object.keys(Tables).length; i++) {
-      for (var j = 0; j < Object.keys(Tables[i].seats).length; j++) {
-          if (JSON.stringify(seat.empty)===JSON.stringify(!Tables[i].seats[j].empty) 
-          && JSON.stringify(seat.booked) === (JSON.stringify(!Tables[i].seats[j].booked)) 
-          && JSON.stringify(seat.id) === (JSON.stringify(Tables[i].seats[j].id))) 
-          {
+      for (var i = 0; i < Object.keys(Tables).length; i++) {
+        for (var j = 0; j < Object.keys(Tables[i].seats).length; j++) {
+          if (
+            JSON.stringify(seat.empty) ===
+              JSON.stringify(!Tables[i].seats[j].empty) &&
+            JSON.stringify(seat.booked) ===
+              JSON.stringify(!Tables[i].seats[j].booked) &&
+            JSON.stringify(seat.id) === JSON.stringify(Tables[i].seats[j].id)
+          ) {
             Count++;
           }
+        }
       }
-    }
-  })
-  return Count;
+    });
+    return Count;
   };
 
-  const grayoutseats = (SelectedSeats) => {
+  const grayoutseats = SelectedSeats => {
     setChanged(isChanged => !isChanged);
     reference.ref('/Data/Tables/').once('value', snapshot => {
       const Seat = Object.assign({}, snapshot.val());
       SelectedSeats.map(item => {
-        console.log(item)
+        console.log(item);
         for (var i = 0; i < Object.keys(Seat).length; i++) {
           for (var j = 0; j < Object.keys(Seat[i].seats).length; j++) {
             if (item.id === Seat[i].seats[j].id) {
@@ -90,11 +96,10 @@ export default function ViewCart(props) {
             }
           }
         }
-      })
-  })
-  return;
-};
-
+      });
+    });
+    return;
+  };
 
   const OnPayment = () => {
     dispatch({type: 'DESTORY_SESSION'});
@@ -102,23 +107,27 @@ export default function ViewCart(props) {
   //Function to update & store the firebase cloud store. Note : Integration of payment framework are to be done in here
   const addOrdertoFirebase = () => {
     // AddtoBooked(seatid);
-    if (Checking(SelectedSeats) > 0) 
-    {
-      const db = firestore();
-      db.collection('orders')
-        .add({
+    if (Checking(SelectedSeats) > 0) {
+      const db = firestore()
+        .collection('BookATable')
+        .doc(user.uid)
+        .collection('Orders');
+      db.add(
+        {
+          Type: 'Table Booking',
           email: user.email,
           items: items,
           Date: SelectDate,
-          StartTime: MaxTime,
-          EndTime: MinTime,
+          StartTime: MinTime,
+          EndTime: MaxTime,
           total: totalRs,
           seatsNo: seatid,
           createdAt: firestore.FieldValue.serverTimestamp(),
-        })
-        .then(() => {
-          console.log('Data Uploaded');
-        });
+        },
+        {merge: true},
+      ).then(() => {
+        console.log('Data Uploaded');
+      });
       grayoutseats(SelectedSeats);
       OnPayment();
       setModalVisible(false);

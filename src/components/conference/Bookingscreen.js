@@ -103,7 +103,7 @@ import ConferenceIndicator from './ConferenceIndicator';
     const confirmseat = () => {
       setSeats(SeatSelectedStatus);
       setChanged(isChanged => !isChanged);
-      navigation.navigate('TableBook', {
+      navigation.navigate('ConferenceBook', {
         seatselected: SeatSelectedStatus,
         seatid: selectedseatsid,
         tprice: seatsprices,

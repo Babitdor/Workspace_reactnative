@@ -44,11 +44,7 @@ export default function LoginScreen() {
           <View
             style={{backgroundColor: 'white', padding: 8, borderRadius: 50}}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <Home
-                name="home"
-                size={25}
-                color={'black'}
-              />
+              <Home name="home" size={25} color={'black'} />
             </TouchableOpacity>
           </View>
           <View>
@@ -165,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   card: {
-    backgroundColor: '#181818',
+    backgroundColor: 'black',
     padding: 12,
     alignItems: 'center',
     borderRadius: 10,
@@ -184,7 +180,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: responsiveScreenHeight(0.5),
-    backgroundColor: '#242526',
+    backgroundColor: '#181818',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 35,

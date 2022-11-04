@@ -12,8 +12,6 @@ import {
 import {useContext} from 'react';
 import {AuthContext} from '../../navigation/AuthProvider';
 
-
-
 let currentStartTime = '';
 let currentEndTime = '';
 let currentDate = '';
@@ -40,12 +38,11 @@ export default function Date_Time_Conf() {
   const [isDisplayDate, setDateShow] = useState(false);
 
   const changeStartSelectedTime = (_event, selectedStartTime) => {
-    tempstart = moment(selectedStartTime).format('HH:MM ');
-    console.log(tempstart)
+    tempstart = moment(selectedStartTime).format('HH:mm:ss');
     currentStartTime = moment(selectedStartTime).format('hh:mm A');
     if (tempstart != tempend || tempstart < tempend) {
       setStartTimeShow(false);
-      setMin(currentStartTime);
+      setMin(tempstart);
     } else {
       Alert.alert('Inaccurate Time Selection');
       currentStartTime = '';
@@ -60,16 +57,16 @@ export default function Date_Time_Conf() {
     showStartTimeMode('time');
   };
   const changeEndSelectedTime = (_event, selectedEndTime) => {
-    tempend = moment(selectedEndTime).format('HH:MM');
-    console.log(tempend)
+    tempend = moment(selectedEndTime).format('HH:mm:ss A');
     currentEndTime = moment(selectedEndTime).format('hh:mm A');
+    console.log(tempend);
     if (tempend === tempstart || tempend < tempstart) {
       Alert.alert('Inaccurate Time Selection');
       currentEndTime = '';
       setEndTimeShow(false);
     } else {
       setEndTimeShow(false);
-      setMax(currentEndTime);
+      setMax(tempend);
     }
   };
   const showEndTimeMode = currentMode => {
@@ -80,7 +77,7 @@ export default function Date_Time_Conf() {
     showEndTimeMode('time');
   };
   const changeSelectedDate = (_event, selectedDate) => {
-    currentDate = moment(selectedDate).format('Do MMMM YYYY');
+    currentDate = moment(selectedDate).format('YYYY-MM-DD');
     setDateShow(false);
     setSelectDate(currentDate);
   };
@@ -118,7 +115,7 @@ export default function Date_Time_Conf() {
           <DateTimePicker
             value={StartTime}
             mode={displaymode}
-            is24Hour={false}
+            is24Hour={true}
             display="default"
             onChange={changeStartSelectedTime}
           />
@@ -148,8 +145,7 @@ export default function Date_Time_Conf() {
             value={EndTime}
             mode={displaymode}
             minuteInterval={10}
-            
-            is24Hour={false}
+            is24Hour={true}
             display="default"
             onChange={changeEndSelectedTime}
           />
@@ -179,7 +175,7 @@ export default function Date_Time_Conf() {
         <DateTimePicker
           testID="dateTimePicker"
           value={date}
-          minimumDate={new Date(Date.now() + ( 3600 * 1000 * 24 * 2))}
+          minimumDate={new Date(Date.now() + 3600 * 1000 * 24 * 2)}
           maximumDate={new Date(2023, 12, 31)}
           mode={displaymode}
           is24Hour={true}

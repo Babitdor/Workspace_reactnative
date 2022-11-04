@@ -70,25 +70,6 @@ export default function Home({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  TextInput: {
-    width: responsiveWidth(78),
-    backgroundColor: '#242526',
-    padding: 8,
-    borderRadius: 15,
-    marginBottom: 10,
-    marginHorizontal: 15,
-    paddingHorizontal: 20,
-  },
-  TextInputTime: {
-    width: responsiveWidth(35),
-    backgroundColor: '#242526',
-    padding: 8,
-    borderRadius: 15,
-    marginBottom: 10,
-    marginTop: 10,
-    marginHorizontal: 15,
-    paddingHorizontal: 20,
-  },
   Text: {
     color: 'white',
     fontSize: responsiveFontSize(1.7),
@@ -103,7 +84,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 2,
-    backgroundColor: '#242526',
+    backgroundColor: '#181818',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 20,

@@ -25,6 +25,7 @@ export default function SignIn1() {
   const navigation = useNavigation();
   const {register} = useContext(AuthContext);
   const [data, setData] = useState({
+    name: '',
     email: '',
     password: '',
     confirm_password: '',
@@ -47,6 +48,12 @@ export default function SignIn1() {
         check_textInputChange: false,
       });
     }
+  };
+  const nameinput = val => {
+    setData({
+      ...data,
+      name: val,
+    });
   };
   const handleConfirmPasswordChange = val => {
     setData({
@@ -80,9 +87,18 @@ export default function SignIn1() {
       </View>
 
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
-        <Text style={styles.text_footer}>Email</Text>
+        <Text style={styles.text_footer}>Name</Text>
         <View style={styles.action}>
           <User name="user" size={30} color="black" />
+          <TextInput
+            style={styles.TextInput}
+            autoCapitalize="none"
+            onChangeText={val => nameinput(val)}
+          />
+        </View>
+        <Text style={styles.text_footer}>Email</Text>
+        <View style={styles.action}>
+          <User name="mail" size={30} color="black" />
           <TextInput
             style={styles.TextInput}
             autoCapitalize="none"

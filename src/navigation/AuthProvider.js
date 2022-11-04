@@ -1,9 +1,15 @@
-import React, {Children, createContext, useState} from 'react';
+import React, {
+  Children,
+  createContext,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
 import auth from '@react-native-firebase/auth';
-// import database from '@react-native-firebase/database'
-import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 export const AuthContext = createContext();
+
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
@@ -13,12 +19,18 @@ export const AuthProvider = ({children}) => {
   const [MinTime, setMin] = useState('');
   const [MaxTime, setMax] = useState('');
   const [SelectDate, setSelectDate] = useState('');
-
+  const [TicketType, setTicketType] = useState('BookATable');
+  const timer = 8600;
+  const refTimer = useRef(60);
+  
   return (
     <AuthContext.Provider
       value={{
+        timer,
+        refTimer,
         MinTime,
         MaxTime,
+        TicketType,
         Category,
         SelectDate,
         user,
@@ -26,6 +38,7 @@ export const AuthProvider = ({children}) => {
         SelectedSeats,
         setCategory,
         setSeats,
+        setTicketType,
         setMax,
         setSelectDate,
         setChanged,
@@ -50,7 +63,11 @@ export const AuthProvider = ({children}) => {
         },
         register: async (email, password) => {
           try {
-            await auth().createUserWithEmailAndPassword(email, password);
+            await auth()
+              .createUserWithEmailAndPassword(email, password)
+              .then(res => {
+                console.log(res.user.uid);
+              });
           } catch (e) {
             console.log(e);
           }

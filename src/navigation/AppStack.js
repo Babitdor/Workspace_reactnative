@@ -13,9 +13,12 @@ import WholeHall from '../screens/WholeHall';
 import {Provider as ReduxProvider} from 'react-redux';
 import configureStore from '../../redux/store';
 import TableDescription from '../screens/TableDescription';
-import Profile from '../components/profile/Profile';
 import OrderComplete from '../screens/OrderComplete';
 import FoodMenu from '../screens/FoodMenu';
+import ConferenceBook from '../screens/ConferenceBook';
+import ProfileScreen from '../screens/ProfileScreen';
+import TicketPreview from '../components/profile/Booking/TicketPreview';
+import CoffeeConvoPreviewPage from '../components/profile/Coffee&Convo/CoffeeConvoPreviewPage';
 
 const store = configureStore();
 export default function AppStack() {
@@ -72,6 +75,11 @@ export default function AppStack() {
             options={{cardStyleInterpolator: forFade}}
           />
           <Stack.Screen
+            name="ConferenceBook"
+            component={ConferenceBook}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
             name="TableDescription"
             component={TableDescription}
             options={{cardStyleInterpolator: forFade}}
@@ -98,7 +106,7 @@ export default function AppStack() {
           />
           <Stack.Screen
             name="Profile"
-            component={Profile}
+            component={ProfileScreen}
             options={{cardStyleInterpolator: forFade}}
           />
           <Stack.Screen
@@ -109,6 +117,16 @@ export default function AppStack() {
           <Stack.Screen
             name="FoodMenu"
             component={FoodMenu}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="Ticket"
+            component={TicketPreview}
+            options={{cardStyleInterpolator: forFade}}
+          />
+          <Stack.Screen
+            name="CoffeeConvoTicket"
+            component={CoffeeConvoPreviewPage}
             options={{cardStyleInterpolator: forFade}}
           />
         </Stack.Navigator>

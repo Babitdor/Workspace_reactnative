@@ -38,12 +38,12 @@ export default function Date_time() {
   const [isDisplayDate, setDateShow] = useState(false);
 
   const changeStartSelectedTime = (_event, selectedStartTime) => {
-    tempstart = moment(selectedStartTime).format('HH:MM ');
-    console.log(tempstart)
+    tempstart = moment(selectedStartTime).format('HH:mm:ss');
+    console.log(tempstart);
     currentStartTime = moment(selectedStartTime).format('hh:mm A');
     if (tempstart != tempend || tempstart < tempend) {
       setStartTimeShow(false);
-      setMin(currentStartTime);
+      setMin(tempstart);
     } else {
       Alert.alert('Inaccurate Time Selection');
       currentStartTime = '';
@@ -58,8 +58,8 @@ export default function Date_time() {
     showStartTimeMode('time');
   };
   const changeEndSelectedTime = (_event, selectedEndTime) => {
-    tempend = moment(selectedEndTime).format('HH:MM');
-    console.log(tempend)
+    tempend = moment(selectedEndTime).format('HH:mm:ss');
+    console.log(tempend);
     currentEndTime = moment(selectedEndTime).format('hh:mm A');
     if (tempend === tempstart || tempend < tempstart) {
       Alert.alert('Inaccurate Time Selection');
@@ -67,7 +67,7 @@ export default function Date_time() {
       setEndTimeShow(false);
     } else {
       setEndTimeShow(false);
-      setMax(currentEndTime);
+      setMax(tempend);
     }
   };
   const showEndTimeMode = currentMode => {
@@ -78,8 +78,9 @@ export default function Date_time() {
     showEndTimeMode('time');
   };
   const changeSelectedDate = (_event, selectedDate) => {
-    currentDate = moment(selectedDate).format('Do MMMM YYYY');
+    currentDate = moment(selectedDate).format('YYYY-MM-DD');
     setDateShow(false);
+    console.log(currentDate);
     setSelectDate(currentDate);
   };
   const showDateMode = currentMode => {
@@ -116,7 +117,7 @@ export default function Date_time() {
           <DateTimePicker
             value={StartTime}
             mode={displaymode}
-            is24Hour={false}
+            is24Hour={true}
             display="default"
             onChange={changeStartSelectedTime}
           />
@@ -145,7 +146,7 @@ export default function Date_time() {
           <DateTimePicker
             value={EndTime}
             mode={displaymode}
-            is24Hour={false}
+            is24Hour={true}
             display="default"
             onChange={changeEndSelectedTime}
           />
