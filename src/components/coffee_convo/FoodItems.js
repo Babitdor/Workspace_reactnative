@@ -113,10 +113,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#181818',
     padding: 10,
-    borderRadius: 30,
+    borderRadius: 10,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    margin: 8,
+    margin: 5,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

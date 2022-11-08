@@ -16,14 +16,12 @@ export default function LoginMain({navigation}) {
           duration={1500}
           style={styles.logo}
           resizeMode="stretch"
-          source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Uber_logo_2018.svg/2560px-Uber_logo_2018.svg.png',
-          }}
+          source={require('../../assets/Workspace.png')}
         />
       </View>
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
         <Text style={styles.title}>Come On And Chill with Us!</Text>
-        <Text style={styles.text}>Sign in with account</Text>
+        <Text style={styles.text}>Sign in with an account</Text>
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.buttonbtn}
@@ -57,8 +55,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   logo: {
-    width: responsiveWidth(60),
-    height: responsiveHeight(10),
+    width: 400,
+    height: 250,
     tintColor: 'white',
     resizeMode: 'contain',
   },
@@ -81,8 +79,8 @@ const styles = StyleSheet.create({
   buttonbtn: {
     backgroundColor: 'rgba(137, 252, 233, 1)',
     width: responsiveWidth(50),
-    padding: 15,
-    borderRadius: 20,
+    padding: 10,
+    borderRadius: 10,
     alignItems: 'center',
   },
   buttonText: {

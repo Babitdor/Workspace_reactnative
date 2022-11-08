@@ -59,7 +59,6 @@ export default function Date_Time_Conf() {
   const changeEndSelectedTime = (_event, selectedEndTime) => {
     tempend = moment(selectedEndTime).format('HH:mm:ss A');
     currentEndTime = moment(selectedEndTime).format('hh:mm A');
-    console.log(tempend);
     if (tempend === tempstart || tempend < tempstart) {
       Alert.alert('Inaccurate Time Selection');
       currentEndTime = '';

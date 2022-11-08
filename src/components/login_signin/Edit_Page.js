@@ -4,47 +4,46 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
-  Pressable,
   Image,
+  BackHandler,
 } from 'react-native';
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize,
-  responsiveScreenFontSize,
-} from 'react-native-responsive-dimensions';
-import React, {useState, useContext, useEffect} from 'react';
+import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
+import React, {useState, useContext, useEffect, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 import User from 'react-native-vector-icons/AntDesign';
 import Phone from 'react-native-vector-icons/AntDesign';
-import Lock from 'react-native-vector-icons/AntDesign';
-import Check from 'react-native-vector-icons/AntDesign';
 import Gender from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Eye from 'react-native-vector-icons/Entypo';
 import Cake from 'react-native-vector-icons/MaterialCommunityIcons';
 import {AuthContext} from '../../navigation/AuthProvider';
 import {TextInput} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {RadioButton} from 'react-native-paper';
 
-export default function SignIn1() {
+export default function Edit_Page() {
   const [isDisplayDate, setDateShow] = useState(false);
   const navigation = useNavigation();
   const [displaymode, setMode] = useState('time');
-  const {register} = useContext(AuthContext);
+  const {user, updateIncompleteData, setRefresh, Refresh} = useContext(AuthContext);
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, []),
+  );
+
   const [data, setData] = useState({
-    name: '',
-    email: '',
+    name: user.displayName,
     phoneNo: '',
     date_of_birth: '',
-    password: '',
-    gender: 'Male',
-    confirm_password: '',
-    check_textInputChange: false,
-    secureTextEntry: true,
-    confirm_secureTextEntry: true,
+    gender: '',
   });
   const changeSelectedDate = (_event, selectedDate) => {
     currentDate = moment(selectedDate).format('DD-MM-YYYY');
@@ -60,21 +59,6 @@ export default function SignIn1() {
   };
   const displayDatepicker = () => {
     showDateMode('date');
-  };
-  const emailInputChange = val => {
-    if (val.length != 0) {
-      setData({
-        ...data,
-        email: val,
-        check_textInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        email: val,
-        check_textInputChange: false,
-      });
-    }
   };
   const phonenoChange = val => {
     if (val.length != 0) {
@@ -95,41 +79,17 @@ export default function SignIn1() {
       name: val,
     });
   };
-  const handleConfirmPasswordChange = val => {
-    setData({
-      ...data,
-      confirm_password: val,
-    });
-  };
-  const handlePasswordChange = val => {
-    setData({
-      ...data,
-      password: val,
-    });
-  };
-  const updateSecureTextEntry = () => {
-    setData({
-      ...data,
-      secureTextEntry: !data.secureTextEntry,
-    });
-  };
-  const updateConfirmSecureTextEntry = () => {
-    setData({
-      ...data,
-      confirm_secureTextEntry: !data.confirm_secureTextEntry,
-    });
-  };
 
+  const Update = (User, Name, DOB, Phone, Gender) => {
+    updateIncompleteData(User, Name, DOB, Phone, Gender);
+    setRefresh(Resfresh => !Refresh);
+    navigation.navigate('ProfileScreen');
+  };
   return (
     <View style={styles.container}>
-      <View style={[styles.header, {alignItems: 'center'}]}>
-        <Image
-          source={require('../../assets/register.png')}
-          style={{width: 200, height: 100, marginTop: 40}}
-          resizeMode="contain"
-        />
+      <View style={styles.header}>
+        <Text style={styles.text_header}>Register Now</Text>
       </View>
-      <Text style={styles.text_header}>Register Me!</Text>
 
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
         {/* Name Section */}
@@ -139,6 +99,7 @@ export default function SignIn1() {
           <TextInput
             style={styles.TextInput}
             autoCapitalize="none"
+            value={data.name}
             onChangeText={val => nameinput(val)}
           />
         </View>
@@ -193,7 +154,7 @@ export default function SignIn1() {
         <View
           style={[
             styles.action,
-            {flexDirection: 'row', justifyContent: 'space-between'},
+            {flexDirection: 'row', justifyContent: 'space-evenly'},
           ]}>
           <Gender
             name={data.gender === 'Male' ? 'male' : 'female'}
@@ -229,91 +190,36 @@ export default function SignIn1() {
         </View>
 
         {/* Email Section */}
-        <Text style={[styles.text_footer, {marginTop: 10}]}>Email</Text>
-        <View style={styles.action}>
-          <User name="mail" size={30} color="white" />
-          <TextInput
-            style={styles.TextInput}
-            autoCapitalize="none"
-            onChangeText={val => emailInputChange(val)}
-          />
-          {data.check_textInputChange ? (
-            <Animatable.View animation="bounceIn">
-              <Check name="checkcircleo" size={25} />
-            </Animatable.View>
-          ) : null}
-        </View>
-
-        {/* Password Section */}
-        <Text style={[styles.text_footer, {marginTop: 10}]}>Password</Text>
-        <View style={styles.action}>
-          <Lock name="lock" size={30} color="white" />
-          <TextInput
-            style={styles.TextInput}
-            autoCapitalize="none"
-            secureTextEntry={data.secureTextEntry ? true : false}
-            onChangeText={val => handlePasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Eye name="eye-with-line" size={25} color="white" />
-            ) : (
-              <Eye name="eye" size={25} color="white" />
-            )}
-          </TouchableOpacity>
-        </View>
-
-        {/* Confirm Password Section */}
-        {/* <Text style={[styles.text_footer, {marginTop: 10}]}>
-          Confirm Password
-        </Text>
-        <View style={styles.action}>
-          <Lock name="lock" size={30} color="white" />
-          <TextInput
-            style={styles.TextInput}
-            autoCapitalize="none"
-            secureTextEntry={data.confirm_secureTextEntry ? true : false}
-            onChangeText={val => handleConfirmPasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
-            {data.confirm_secureTextEntry ? (
-              <Eye name="eye-with-line" size={25} color="white" />
-            ) : (
-              <Eye name="eye" size={25} color="white" />
-            )}
-          </TouchableOpacity>
-        </View> */}
-
         <View style={styles.button}>
           <TouchableOpacity
+            onPress={() =>
+              Update(
+                user,
+                data.name,
+                data.date_of_birth,
+                data.phoneNo,
+                data.gender,
+              )
+            }
             style={[
               styles.signIn,
               {
                 marginTop: 10,
-                borderColor: 'black',
-                borderWidth: 1,
-                backgroundColor: 'rgba(137, 252, 233, 1)',
+                backgroundColor: 'white',
               },
-            ]}
-            onPress={() =>
-              register(
-                data.email,
-                data.password,
-                data.phoneNo,
-                data.gender,
-                data.date_of_birth,
-                data.name,
-              )
-            }>
-            <Text style={[styles.textSign, {color: 'black'}]}>Register Me</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{marginTop: 20}}
-            onPress={() => navigation.goBack()}>
-            <Text style={[styles.textSign, {fontSize: 16}]}>
-              Account Created ? Sign In
-            </Text>
+            ]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <View>
+                <Text style={[styles.textSign, {color: 'black'}]}>
+                  Update Profile
+                </Text>
+              </View>
+            </View>
           </TouchableOpacity>
         </View>
       </Animatable.View>
@@ -330,19 +236,20 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 10,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingBottom: 10,
   },
   footer: {
-    flex: 2.5,
-    paddingVertical: 30,
+    flex: 4,
+    paddingVertical: 35,
     paddingHorizontal: 30,
   },
   text_header: {
     color: 'white',
     colorWeight: 'bold',
     alignSelf: 'center',
-    fontSize: 20,
+    fontSize: 30,
   },
   text_footer: {
     color: 'white',
@@ -351,7 +258,7 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: 'row',
     marginTop: 10,
-    borderBottomWidth: 0.2,
+    borderBottomWidth: 1,
     borderBottomColor: 'rgba(137, 252, 233, 1)',
     paddingBottom: 5,
   },

@@ -15,12 +15,16 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import {firebase} from '@react-native-firebase/database';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
+import urid from 'urid';
+import moment from 'moment';
+import PushNotification from 'react-native-push-notification';
 // import database from '@react-native-firebase/database';
 const {height} = Dimensions.get('screen');
 
 let Count = 0;
 export default function ViewCart(props) {
   const [Tables, setTable] = useState([]);
+  const [BookingID, setBookingID] = useState();
   const reference = firebase
     .app()
     .database(
@@ -40,6 +44,11 @@ export default function ViewCart(props) {
     }
     FetchData();
   }, [isChanged]);
+
+  useEffect(() => {
+    const id = urid(`0123456789TALEBOKING`);
+    setBookingID(id);
+  }, []);
 
   // const {Date, EndTime, StartTime} = props.Date_Time.Date_Time;
   const navigation = useNavigation();
@@ -85,7 +94,6 @@ export default function ViewCart(props) {
     reference.ref('/Data/Tables/').once('value', snapshot => {
       const Seat = Object.assign({}, snapshot.val());
       SelectedSeats.map(item => {
-        console.log(item);
         for (var i = 0; i < Object.keys(Seat).length; i++) {
           for (var j = 0; j < Object.keys(Seat[i].seats).length; j++) {
             if (item.id === Seat[i].seats[j].id) {
@@ -101,6 +109,7 @@ export default function ViewCart(props) {
     return;
   };
 
+
   const OnPayment = () => {
     dispatch({type: 'DESTORY_SESSION'});
   };
@@ -115,6 +124,7 @@ export default function ViewCart(props) {
       db.add(
         {
           Type: 'Table Booking',
+          BookingID: BookingID,
           email: user.email,
           items: items,
           Date: SelectDate,
@@ -127,6 +137,15 @@ export default function ViewCart(props) {
         {merge: true},
       ).then(() => {
         console.log('Data Uploaded');
+      });
+      var reminder = moment(`${SelectDate} ${MinTime}`).subtract(30, 'm').toDate();
+      PushNotification.localNotificationSchedule({
+        title:`Table Booking : ${BookingID}`,
+        message:`30 mins left till Start Time: ${moment(MinTime,'HH:mm:ss').format('LT')}`,
+        date: new Date(`${reminder}`),
+        allowWhileIdle: false, 
+        channelId: '1',
+        repeatTime: 1, 
       });
       grayoutseats(SelectedSeats);
       OnPayment();

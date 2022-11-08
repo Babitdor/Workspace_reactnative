@@ -14,11 +14,12 @@ import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../../navigation/AuthProvider';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
-
+import urid from 'urid';
 const {height} = Dimensions.get('screen');
 
 export default function ViewCart() {
   const navigation = useNavigation();
+  const [BookingID,setBookingID] = useState();
   const {user} = useContext(AuthContext);
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,6 +33,12 @@ export default function ViewCart() {
     currency: 'INR',
   });
 
+
+ useEffect(() => {
+    const id = urid(`0123456789COFEV&`);
+    setBookingID(id)
+  },[])
+
   const OnPayment = () => {
     dispatch({type: 'DESTORY_SESSION'});
   };
@@ -44,6 +51,7 @@ export default function ViewCart() {
       .add({
         Type: 'Coffee & Convo',
         email: user.email,
+        BookingID: BookingID,
         items: items,
         total: totalRs,
         createdAt: firestore.FieldValue.serverTimestamp(),

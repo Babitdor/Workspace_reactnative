@@ -4,6 +4,11 @@
       "id": 1,
       "title": "Table-A",
       "price": 120,
+      "perks": [
+        "Free Internet for upto 10GB",
+        "4 Cup of Coffee For Free",
+        "4 Notebook Free"
+      ],
       "description": ["Casual,Formal,Chill,Work,Fun"],
       "image": "https://images.steelcase.com/image/upload/c_fill,dpr_auto,q_70,h_656,w_1166/v1504705535/www.steelcase.com/2017/09/06/16-0014178.jpg",
       "seats": [
@@ -15,6 +20,11 @@
       "id": 2,
       "title": "Table-B",
       "price": 160,
+      "perks": [
+        "Free Internet for 4 GB",
+        "1 Cup of Coffee For Free",
+        "2 Notebook Free"
+      ],
       "description": ["Casual,Formal,Chill,Work"],
       "image": "https://www.alloffice.co.za/wp-content/uploads/2019/03/office-desk-1920-1024x670.jpg",
       "seats": [
@@ -27,6 +37,11 @@
       "id": 3,
       "title": "Table-C",
       "price": 150,
+      "perks": [
+        "Free Internet for 1 GB",
+        "1 Notebook Free",
+        "Kindle for 1 hour Free"
+      ],
       "description": ["Casual,Formal,Chill"],
       "image": "https://m.media-amazon.com/images/I/81rBTtiPVRS._SL1500_.jpg",
       "seats": [
@@ -44,6 +59,11 @@
       "id": 4,
       "title": "Table-D",
       "price": 170,
+      "perks": [
+        "Free Internet for 1 GB",
+        "Free Stationary Items",
+        "Kindle Paper for half & hour"
+      ],
       "description": ["Casual,Formal"],
       "image": "https://image.archify.com/blog/03-How-to-Create-a-Comfortable-Workspace-at-Home.jpg",
       "seats": [
@@ -57,8 +77,13 @@
       "id": 5,
       "title": "Table-E",
       "price": 180,
-      "description": ["Casual"],
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW8UviR6-I7J5yHVOQK-Cw5nyzRufgP_krTixEyULANTdNLHHNsWbi2ZRR8bOC1AMTik0&usqp=CAU",
+      "perks": [
+        "Free Internet for 2 Hour",
+        "3 Cup of Coffee For Free",
+        "2 Notebook Free"
+      ],
+      "description": ["Casual, Smoking Zone, Outside View"],
+      "image": "https://media11.s-nbcnews.com/i/MSNBC/Components/Video/202006/tdy_home_10a_outdoors2_200626.jpg",
       "seats": [
         {"id": "E1", "empty": true, "booked": false},
         {"id": "E2", "empty": true, "booked": false},
@@ -69,20 +94,192 @@
       "id": 6,
       "title": "Table-F",
       "price": 180,
-      "description": ["Casual"],
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW8UviR6-I7J5yHVOQK-Cw5nyzRufgP_krTixEyULANTdNLHHNsWbi2ZRR8bOC1AMTik0&usqp=CAU",
-      "seats": [{"id": "F", "empty": false, "booked": false}]
+      "perks": [
+        "Free Internet for 6 GB",
+        "Projector Screen Free to Use",
+        "WhiteBoard for 1 hour",
+        "Free Stationary Items"
+      ],
+      "description": ["Casual & Chill Spot"],
+      "image": "https://5.imimg.com/data5/ANDROID/Default/2022/6/GC/QR/RH/24135102/prod-20220613-0117226945143835226740350-jpg-500x500.jpg",
+      "seats": [{"id": "F", "empty": true, "booked": false}]
     },
     {
       "id": 7,
       "title": "Table-G",
       "price": 0,
-      "description": ["Casual"],
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW8UviR6-I7J5yHVOQK-Cw5nyzRufgP_krTixEyULANTdNLHHNsWbi2ZRR8bOC1AMTik0&usqp=CAU",
+      "perks": [
+        "Free Internet for 1 Hour",
+        "A Cup of Coffee For Free",
+        "1 Notebook Free"
+      ],
+      "description": ["Casual, Smoking Zone"],
+      "image": "https://heylinteriors.co.uk/wp-content/uploads/2019/07/BoxTable3.jpg",
       "seats": [
         {"id": "G1", "empty": true, "booked": false},
         {"id": "G2", "empty": true, "booked": false},
         {"id": "G3", "empty": true, "booked": false}
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Conference Table",
+      "price": 1500,
+      "perks": ["Free Projector", "Free Coffee for all participants"],
+      "description": [
+        "Formal Group Meetings, Public Gatherings, No Smoking Zone"
+      ],
+      "image": "https://worldclassofficetabledesign.com.ph/wp-content/uploads/2021/09/Conference-Table-MCCT12-05.jpg",
+      "seats": [{"id": "Conf-C", "empty": true, "booked": false}]
+    }
+  ],
+  "Foods": [
+    {
+      "Starters": [
+        {
+          "id": 1,
+          "title": "Cheese Poppers",
+          "price": "₹200",
+          "image": "https://cdn.tarladalal.com/members/9306/procstepimgs/cheese-poppers-5-186761.jpg"
+        },
+        {
+          "id": 2,
+          "title": "Nacho Chips",
+          "price": "₹120",
+          "image": "https://hips.hearstapps.com/hmg-prod/images/torilla-chips-fried-1615217244.jpeg?crop=0.793xw:0.594xh;0.0901xw,0.153xh&resize=640:*"
+        },
+        {
+          "id": 3,
+          "title": "Chilli Paneer",
+          "price": "₹200",
+          "image": "https://www.indianhealthyrecipes.com/wp-content/uploads/2022/02/chilli-paneer-recipe.jpg"
+        },
+        {
+          "id": 4,
+          "title": "Veg Manchurians",
+          "price": "₹200",
+          "image": "https://geekrobocook.com/wp-content/uploads/2021/04/Gobi-manchurian.jpg"
+        },
+        {
+          "id": 5,
+          "title": "Steamed Wontons",
+          "price": "₹180",
+          "image": "https://rasamalaysia.com/wp-content/uploads/2006/12/shrimp_wonton-1.jpg"
+        }
+      ],
+      "Main": [
+        {
+          "id": 1,
+          "title": "Spaghetti",
+          "price": "₹200",
+          "image": "https://www.nicepng.com/png/detail/11-110448_spaghetti-png-transparent-image-spaghetti-png.png"
+        },
+        {
+          "id": 2,
+          "title": "Pizza",
+          "price": "₹500",
+          "image": "https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?w=2000"
+        },
+        {
+          "id": 3,
+          "title": "Mac & Cheese",
+          "price": "₹200",
+          "image": "https://www.allrecipes.com/thmb/CanMXBeN-9DZyRSzDxLAoy0w-t8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/238691-Simple-Macaroni-And-Cheese-mfs_006-f7f521c65f894aef85e17bc9125c2c4a.jpg"
+        },
+        {
+          "id": 4,
+          "title": "Fish & Fingers",
+          "price": "₹220",
+          "image": "https://www.whiskaffair.com/wp-content/uploads/2020/07/Fish-Fingers-2-3.jpg"
+        },
+        {
+          "id": 5,
+          "title": "Grilled Sandwich",
+          "price": "₹180",
+          "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2014/01/grilled-sandwich-1.jpg"
+        },
+        {
+          "id": 6,
+          "title": "Fried Rice Mug",
+          "price": "₹180",
+          "image": "https://i0.wp.com/homanathome.com/wp-content/uploads/2022/02/Rice-2.jpg?ssl=1"
+        },
+        {
+          "id": 7,
+          "title": "Pizza Mug",
+          "price": "₹150",
+          "image": "https://www.biggerbolderbaking.com/wp-content/uploads/2016/01/IMG_9073.jpg"
+        },
+        {
+          "id": 8,
+          "title": "French Toast Mug",
+          "price": "₹150",
+          "image": "https://www.prettyprudent.com/wp-content/uploads/2012/01/IMG_7209.jpg"
+        }
+      ],
+      "Desserts": [
+        {
+          "id": 1,
+          "title": "Key Lime Pie Mousse",
+          "price": "₹150",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/key-lime-pie-mousse-5-1649370548.jpg?crop=0.836xw:1.00xh;0.0812xw,0&resize=980:*"
+        },
+        {
+          "id": 2,
+          "title": "Chocolate Pots De Crème",
+          "price": "₹180",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/chocolatepotsdecreme4-1643994522.jpg?crop=0.831xw:0.831xh;0.0881xw,0.134xh&resize=980:*"
+        },
+        {
+          "id": 3,
+          "title": "Espresso Cookies",
+          "price": "₹120",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/espresso-cookies3-1655325932.jpg?crop=0.8333333333333334xw:1xh;center,top&resize=980:*"
+        },
+        {
+          "id": 4,
+          "title": "Easy Blondies",
+          "price": "₹140",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/blondiesdelish-1-1637555111.jpg?crop=0.782xw:0.782xh;0.136xw,0.131xh&resize=980:*"
+        },
+        {
+          "id": 5,
+          "title": "Carrot Cake Dip",
+          "price": "₹180",
+          "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/carrot-cake-dip-7-1649281592.jpg?crop=0.836xw:1.00xh;0.147xw,0&resize=980:*"
+        }
+      ],
+      "Beverages": [
+        {
+          "id": 1,
+          "title": "Pina Colada",
+          "price": "₹180",
+          "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2015/05/pina-colada-recipe.jpg"
+        },
+        {
+          "id": 2,
+          "title": "Virgin Mojito",
+          "price": "₹180",
+          "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2015/04/basil-lemon-mojito.jpg"
+        },
+        {
+          "id": 3,
+          "title": "Watermelon Agua Fresca",
+          "price": "₹160",
+          "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2022/05/agua-fresca-recipe-01-1024x1536.jpg"
+        },
+        {
+          "id": 4,
+          "title": "Chocolate Milkshake",
+          "price": "₹160",
+          "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2017/04/chocolate-milkshake-recipe.jpg"
+        },
+        {
+          "id": 5,
+          "title": "Dalgona Coffee",
+          "price": "₹160",
+          "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2020/05/whipped-coffee.jpg"
+        }
       ]
     }
   ],
@@ -127,24 +324,39 @@
     },
     {
       "id": 7,
-      "title": "Kindle XL",
+      "title": "Projector",
       "price": "₹500",
-      "image": "https://www.proshop.no/Images/915x900/3083780_3c520b93959e.jpg"
+      "image": "https://5.imimg.com/data5/QJ/MF/MY-25895802/digital-projector-500x500.jpg"
     },
     {
       "id": 8,
-      "title": "Kindle XXL",
-      "price": "₹500",
-      "image": "https://www.proshop.no/Images/915x900/3083780_3c520b93959e.jpg"
-    }
-  ],
-  "Booked":[
-    {
-      "id":"A1"
+      "title": "File Organizer",
+      "price": "₹200",
+      "image": "https://m.media-amazon.com/images/I/714oV-t43iL._SL1001_.jpg"
     },
     {
-      "id":"A2"
-    }
+      "id": 9,
+      "title": "Cable Clips",
+      "price": "₹100",
+      "image": "https://images-cdn.ubuy.co.in/6ZV02VZ2-lamicall-cable-clips-cable-management.jpg"
+    },
+    {
+      "id": 10,
+      "title": "Desk Lamp ",
+      "price": "₹160",
+      "image": "https://m.media-amazon.com/images/I/61m9t9aqYiL._SX569_.jpg"
+    },
+    {
+      "id": 11,
+      "title": "WhiteBoard",
+      "price": "₹100",
+      "image": "https://lh6.googleusercontent.com/eU5qOKDObRTtc1jFam6fPLto08dmYLynnXTAyiLfH0Iqtd81qaRyIrF38LhaZ770-eEpc69e42ahBNwEZk5LPj8SRNHHINyXd43kFgjxkGEslUJDSUlySPcPwQ_DoIrxHtg0E6u9"
+    },
+    {
+      "id": 12,
+      "title": "Wireless Mouse & Keyboard",
+      "price": "₹120",
+      "image": "http://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/peripherals/input-devices/dell/keyboards/km3322w/spi/ng/keyboard-mouse-km3322w-campaign-hero-504x350-ng.psd?fmt=jpg&wid=504&hei=350"
+    }  
   ]
-  
 }

@@ -1,15 +1,14 @@
-import {View, TouchableOpacity, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {View, TouchableOpacity, Text,BackHandler} from 'react-native';
+import React, {useEffect, useState,useCallback} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BookMySeat from '../components/seating/BookMySeat';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import {firebase} from '@react-native-firebase/database';
 import * as Animatable from 'react-native-animatable';
 import Loading from '../components/home/Loading';
-import SeatIndicator from '../components/seating/SeatIndicator';
+import { useFocusEffect } from '@react-navigation/native';
 export default function Seating({route, navigation}) {
   const [Data, SetDatabase] = useState();
-  
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase

@@ -59,7 +59,6 @@ export default function Date_time() {
   };
   const changeEndSelectedTime = (_event, selectedEndTime) => {
     tempend = moment(selectedEndTime).format('HH:mm:ss');
-    console.log(tempend);
     currentEndTime = moment(selectedEndTime).format('hh:mm A');
     if (tempend === tempstart || tempend < tempstart) {
       Alert.alert('Inaccurate Time Selection');
@@ -80,7 +79,6 @@ export default function Date_time() {
   const changeSelectedDate = (_event, selectedDate) => {
     currentDate = moment(selectedDate).format('YYYY-MM-DD');
     setDateShow(false);
-    console.log(currentDate);
     setSelectDate(currentDate);
   };
   const showDateMode = currentMode => {

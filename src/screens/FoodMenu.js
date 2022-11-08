@@ -5,19 +5,26 @@ import {
   BackHandler,
   FlatList,
 } from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import FoodItems from '../components/coffee_convo/FoodItems';
 import Category from '../components/coffee_convo/Category';
 import Cart from '../components/coffee_convo/Cart';
+import { useDispatch } from 'react-redux';
 
-export default function TableBook({navigation}) {
+export default function TableBook() {
+  
+  useEffect(() => {
+    dispatch({type: 'DESTORY_SESSION'});
+  },[])
+  
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
-        return true;
+        dispatch({type: 'DESTORY_SESSION'});
+        // navigation.goBack()
       };
 
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
@@ -25,6 +32,10 @@ export default function TableBook({navigation}) {
         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, []),
   );
+
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+    
   return (
     <SafeAreaView
       style={{backgroundColor: 'black', height: '100%', width: '100%'}}>
@@ -37,7 +48,7 @@ export default function TableBook({navigation}) {
           zIndex: 999,
           top: 47,
         }}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.popToTop()}>
           <ArrowLeft
             name="arrowleft"
             size={25}

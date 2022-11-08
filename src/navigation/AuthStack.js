@@ -9,6 +9,7 @@ import SignIn from '../components/login_signin/SignIn';
 import {Easing} from 'react-native-reanimated';
 import LoginMain from '../components/login_signin/LoginMain';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import GoogleSigninDetails from '../components/login_signin/Edit_Page';
 
 export default function AuthStack() {
   const Stack = createStackNavigator();

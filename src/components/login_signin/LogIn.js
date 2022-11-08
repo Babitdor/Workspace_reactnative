@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {
   responsiveHeight,
@@ -20,7 +21,6 @@ import Eye from 'react-native-vector-icons/Entypo';
 import {AuthContext} from '../../navigation/AuthProvider';
 import {TextInput} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -62,60 +62,62 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.text_header}>Welcome, Buddy!</Text>
+        <Image source = {require('../../assets/Waving.png')} resizeMode='contain' style={{width:'30%'}}/>
       </View>
+      <Text style={styles.text_header}>Welcome, Buddy!</Text>
 
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
-        <Text style={styles.text_footer}>Email</Text>
-        <View style={styles.action}>
-          <User name="user" size={30} color="white" />
-          <TextInput
-            style={styles.TextInput}
-            autoCapitalize="none"
-            onChangeText={val => textInputChange(val)}
-          />
-          {data.check_textInputChange ? (
-            <Animatable.View animation="bounceIn">
-              <Check name="checkcircleo" size={25} />
-            </Animatable.View>
-          ) : null}
-        </View>
-        <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
-        <View style={styles.action}>
-          <Lock name="lock" size={30} color='white' />
-          <TextInput
-            style={styles.TextInput}
-            autoCapitalize="none"
-            secureTextEntry={data.secureTextEntry ? true : false}
-            onChangeText={val => handlePasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Eye name="eye-with-line" size={25} color='white'/>
-            ) : (
-              <Eye name="eye" size={25} color='white'/>
-            )}
-          </TouchableOpacity>
+        <View>
+          <Text style={styles.text_footer}>Email</Text>
+          <View style={styles.action}>
+            <User name="user" size={30} color="white" />
+            <TextInput
+              style={styles.TextInput}
+              autoCapitalize="none"
+              onChangeText={val => textInputChange(val)}
+            />
+            {data.check_textInputChange ? (
+              <Animatable.View animation="bounceIn">
+                <Check name="checkcircleo" size={25} />
+              </Animatable.View>
+            ) : null}
+          </View>
+          <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
+
+          <View style={styles.action}>
+            <Lock name="lock" size={30} color="white" />
+            <TextInput
+              style={styles.TextInput}
+              autoCapitalize="none"
+              secureTextEntry={data.secureTextEntry ? true : false}
+              onChangeText={val => handlePasswordChange(val)}
+            />
+            <TouchableOpacity onPress={updateSecureTextEntry}>
+              {data.secureTextEntry ? (
+                <Eye name="eye-with-line" size={25} color="white" />
+              ) : (
+                <Eye name="eye" size={25} color="white" />
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <View style={styles.button}>
+        <View style={[styles.button, {marginTop: 70}]}>
           <TouchableOpacity
             style={styles.signIn}
             onPress={() => login(data.email, data.password)}>
             <Text style={styles.textSign}>Log In</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[
-              styles.signIn,
-              {
-                marginTop: 20,
-                borderColor: 'black',
-                borderWidth: 1,
-                backgroundColor: 'white',
-              },
-            ]}
+            style={{marginTop: 20, marginBottom: 20}}
             onPress={() => navigation.navigate('SignIn')}>
-            <Text style={[styles.textSign, {color: 'black'}]}>Register</Text>
+            <Text
+              style={[
+                styles.textSign,
+                {color: 'white', fontSize: 16, fontWeight: 'bold'},
+              ]}>
+              No Account ? Create Now
+            </Text>
           </TouchableOpacity>
           <View style={{alignSelf: 'center', padding: 10}}>
             <Text
@@ -123,17 +125,43 @@ export default function LoginScreen() {
                 fontSize: responsiveFontSize(2),
                 fontWeight: '600',
                 color: 'white',
-                fontSize:25
+                fontSize: 20,
               }}>
               OR
             </Text>
           </View>
-          <GoogleSigninButton
-            style={{width: '100%', height: 60}}
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={() => googleLogin()}
-          />
+
+          <TouchableOpacity
+            style={[
+              styles.signIn,
+              {
+                marginTop: 10,
+                padding: 0,
+                backgroundColor: 'white',
+              },
+            ]}
+            onPress={() => googleLogin()}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <View>
+                <Image
+                  style={{width: 50, height: 50}}
+                  source={{
+                    uri: 'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png',
+                  }}
+                />
+              </View>
+              <View>
+                <Text style={[styles.textSign, {color: 'black'}]}>
+                  Sign in with Google
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
         </View>
       </Animatable.View>
     </View>
@@ -144,26 +172,28 @@ const {height} = Dimensions.get('screen');
 const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
-    flex: responsiveHeight(0.2),
+    flex: 1,
     backgroundColor: 'black',
   },
   header: {
-    flex: responsiveHeight(0.05),
-    justifyContent: 'flex-end',
-    paddingHorizontal: 20,
-    paddingBottom: 50,
+    alignItems:'center',
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingBottom: 0,
   },
   footer: {
-    flex: responsiveHeight(0.25),
-    backgroundColor: '#181818',
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingVertical: 35,
+    paddingVertical: 30,
     paddingHorizontal: 30,
   },
   text_header: {
     color: 'white',
-    alignSelf:'center',
+    alignSelf: 'center',
     colorWeight: 'bold',
     fontSize: 30,
   },
@@ -174,8 +204,8 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: 'row',
     marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
+    borderBottomWidth: 0.2,
+    borderBottomColor: 'rgba(137, 252, 233, 1)',
     paddingBottom: 5,
   },
   TextInput: {
@@ -183,20 +213,21 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     fontSize: 18,
     paddingLeft: 10,
-    color: '#05375a',
+    color: 'rgba(137, 252, 233, 1)',
   },
   button: {
+    flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 30,
     padding: 10,
   },
   signIn: {
-    width: responsiveWidth(70),
-    height: responsiveHeight(8),
+    width: '80%',
+    padding: 10,
     backgroundColor: 'rgba(137, 252, 233, 1)',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 10,
   },
   textSign: {
     fontSize: responsiveFontSize(2),

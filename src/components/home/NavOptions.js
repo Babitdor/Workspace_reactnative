@@ -15,29 +15,25 @@ const options = [
   {
     id: '1',
     title: 'Table',
-    image:
-      'http://atlas-content-cdn.pixelsquid.com/stock-images/desk-with-books-and-plant-writing-rv2l623-600.jpg',
+    image: require('../../assets/NavOps/TableBook.png'),
     screens: 'Seating',
   },
   {
     id: '2',
     title: 'Conference',
-    image:
-      'https://www.ambiencedore.com/wp-content/uploads/2016/04/Gather-Round-Table.jpg',
+    image: require('../../assets/NavOps/ConferenceBooking.png'),
     screens: 'Conference',
   },
   {
     id: '3',
     title: 'Coffee & Convo',
-    image:
-      'https://img.freepik.com/premium-vector/two-cartoon-girl-friend-sit-table-cafe-talk-use-smartphone-together-vector-flat-illustration-gossiping-female-drinking-coffee-enjoy-conversation-isolated-white-background-dog-owner_198278-7505.jpg?w=2000',
+    image: require('../../assets/NavOps/Coffee_Convo.png'),
     screens: 'Coffee_Convo',
   },
   {
     id: '4',
     title: 'Entire Floor',
-    image:
-      'https://thumbs.dreamstime.com/b/city-hall-icon-vector-isolated-white-background-your-web-mobile-app-design-city-hall-logo-concept-city-hall-icon-vector-134158652.jpg',
+    image: require('../../assets/NavOps/EntireHall.png'),
     screens: 'WholeHall',
   },
 ];
@@ -49,7 +45,7 @@ export default function NavOptions(props) {
       showsVerticalScrollIndicator={false}
       data={options}
       numColumns={2}
-      style={{alignSelf: 'center',marginTop:10}}
+      style={{alignSelf: 'center', marginTop: 10}}
       keyExtractor={item => item.id}
       renderItem={({item}) => (
         <TouchableOpacity
@@ -63,7 +59,7 @@ export default function NavOptions(props) {
           style={{
             padding: 10,
             margin: 8,
-            marginTop:15,
+            marginTop: 20,
             backgroundColor: 'white',
             borderRadius: 20,
             shadowOpacity: 0.6,
@@ -75,11 +71,10 @@ export default function NavOptions(props) {
             <Image
               style={{
                 width: responsiveWidth(32),
-                borderRadius:20,
                 height: responsiveHeight(10),
                 resizeMode: 'contain',
               }}
-              source={{uri: item.image}}
+              source={item.image}
             />
             <View
               style={{

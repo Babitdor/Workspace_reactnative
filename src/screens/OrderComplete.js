@@ -7,8 +7,8 @@ import {
   StatusBar,
   BackHandler,
 } from 'react-native';
-import React, { useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React, {useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Home from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
@@ -22,21 +22,22 @@ export default function OrderComplete(route) {
         return true;
       };
 
-      BackHandler.addEventListener('hardwareBackPress',onBackPress);
-      return () => BackHandler.removeEventListener('hardwareBackPress',onBackPress);
-    },[]),
-);
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, []),
+  );
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
-      <StatusBar translucent/>
+      <StatusBar translucent />
       <View style={styles.container}>
         <View
           style={{
             flexDirection: 'row',
             position: 'absolute',
             padding: 15,
-            zIndex:100,
+            zIndex: 100,
             justifyContent: 'space-between',
           }}>
           <View

@@ -1,11 +1,23 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import React, {useRef, useEffect, useState} from 'react';
+import {View, Text, StyleSheet, Image, FlatList, BackHandler} from 'react-native';
+import React, {useRef, useEffect, useState, useCallback} from 'react';
 import BouncyCheckBox from 'react-native-bouncy-checkbox';
 import {useDispatch, useSelector} from 'react-redux';
 import Animated from 'react-native-reanimated';
+import { useFocusEffect } from '@react-navigation/native';
 import {firebase} from '@react-native-firebase/database';
 import Loading from '../home/Loading';
 export default function AdditionalItems(props) {
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, []),
+  );
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase

@@ -1,5 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,} from 'react';
+import { useDispatch } from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import AdditionalItem from '../components/tablebook/AdditionalItems';
@@ -28,6 +29,12 @@ export default function TableBook({route, navigation}) {
   //   }
   //   FetchData();
   // }, []);
+  const dispatch = useDispatch();
+  const goBack = () => {
+    dispatch({type: 'DESTORY_SESSION'});
+    navigation.goBack()
+  }
+  
   return (
     <SafeAreaView
       style={{backgroundColor: 'black', height: '100%', width: '100%'}}>
@@ -40,10 +47,10 @@ export default function TableBook({route, navigation}) {
           zIndex: 999,
           top:47,
         }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => goBack()}>
           <ArrowLeft
             name="arrowleft"
-            size={25}
+            size={26}
             color={'white'}
             style={{
               

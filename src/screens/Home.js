@@ -13,29 +13,15 @@ import {
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import React from 'react';
+import React, {useEffect, useId} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import NavOptions from '../components/home/NavOptions';
 import Settings from 'react-native-vector-icons/Entypo';
 import * as Animatable from 'react-native-animatable';
-
 export default function Home({navigation}) {
   return (
     <SafeAreaView
       style={{height: '100%', width: '100%', backgroundColor: 'black'}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          padding: 15,
-          zIndex: 100,
-          justifyContent: 'space-between',
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Profile')}
-          style={{backgroundColor: 'white', padding: 8, borderRadius: 100}}>
-          <Settings name="menu" size={25} color={'black'} />
-        </TouchableOpacity>
-      </View>
       <View style={styles.container}>
         <Animatable.View animation="fadeInUp" style={styles.header}>
           <Animatable.View
@@ -44,18 +30,16 @@ export default function Home({navigation}) {
             style={{padding: 20, marginBottom: 15}}>
             <Image
               style={{
-                width: 140,
-                height: 100,
+                width: 200,
+                height: 150,
                 alignSelf: 'center',
-                tintColor: 'white',
+                // tintColor: 'white',
                 resizeMode: 'contain',
               }}
-              source={{
-                uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Uber_logo_2018.svg/2560px-Uber_logo_2018.svg.png',
-              }}
+              source={require('../assets/Workspace.png')}
             />
             <Text
-              style={[styles.Text, {alignSelf: 'center', marginBottom: 20}]}>
+              style={[styles.Text, {alignSelf: 'center', marginBottom: 20,fontSize:16}]}>
               Let's Begin Booking!
             </Text>
           </Animatable.View>
@@ -72,10 +56,10 @@ export default function Home({navigation}) {
 const styles = StyleSheet.create({
   Text: {
     color: 'white',
-    fontSize: responsiveFontSize(1.7),
+    fontSize: 17,
   },
   container: {
-    flex: responsiveHeight(1),
+    flex: 1,
     // backgroundColor: '#181818',
   },
   header: {
@@ -85,8 +69,8 @@ const styles = StyleSheet.create({
   footer: {
     flex: 2,
     backgroundColor: '#181818',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     paddingVertical: 20,
     paddingHorizontal: 20,
   },

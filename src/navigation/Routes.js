@@ -1,9 +1,10 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import AppStack from './AppStack';
 import AuthStack from './AuthStack';
 import auth from '@react-native-firebase/auth';
 import {AuthContext} from './AuthProvider';
+import MainStack from './MainStack';
+import {Provider as PaperProvider} from 'react-native-paper';
 
 const Routes = () => {
   const {user, setUser} = useContext(AuthContext);
@@ -23,9 +24,11 @@ const Routes = () => {
   if (initializing) return null;
 
   return (
-    <NavigationContainer>
-      {user ? <AppStack /> : <AuthStack />}
-    </NavigationContainer>
+    <PaperProvider>
+      <NavigationContainer>
+        {user ? <MainStack/> : <AuthStack />}
+      </NavigationContainer>
+    </PaperProvider>
   );
 };
 

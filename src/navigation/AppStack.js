@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar, Easing, View} from 'react-native';
+import {StatusBar, Easing} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -16,11 +16,9 @@ import TableDescription from '../screens/TableDescription';
 import OrderComplete from '../screens/OrderComplete';
 import FoodMenu from '../screens/FoodMenu';
 import ConferenceBook from '../screens/ConferenceBook';
-import ProfileScreen from '../screens/ProfileScreen';
-import TicketPreview from '../components/profile/Booking/TicketPreview';
-import CoffeeConvoPreviewPage from '../components/profile/Coffee&Convo/CoffeeConvoPreviewPage';
 
 const store = configureStore();
+
 export default function AppStack() {
   const Stack = createStackNavigator();
 
@@ -105,11 +103,6 @@ export default function AppStack() {
             options={{cardStyleInterpolator: forFade}}
           />
           <Stack.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{cardStyleInterpolator: forFade}}
-          />
-          <Stack.Screen
             name="Completed"
             component={OrderComplete}
             options={{cardStyleInterpolator: forFade}}
@@ -117,16 +110,6 @@ export default function AppStack() {
           <Stack.Screen
             name="FoodMenu"
             component={FoodMenu}
-            options={{cardStyleInterpolator: forFade}}
-          />
-          <Stack.Screen
-            name="Ticket"
-            component={TicketPreview}
-            options={{cardStyleInterpolator: forFade}}
-          />
-          <Stack.Screen
-            name="CoffeeConvoTicket"
-            component={CoffeeConvoPreviewPage}
             options={{cardStyleInterpolator: forFade}}
           />
         </Stack.Navigator>

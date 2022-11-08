@@ -1,0 +1,124 @@
+import {StyleSheet} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Icon, {Icons} from './Icons';
+import Table_ConferenceHistoryStack from './Table_ConferenceHistoryStack';
+import Coffee_ConvoHistoryStack from './Coffee_ConvoHistoryStack';
+import ProfileStack from './ProfileStack';
+import AppStack from './AppStack';
+import {useRef, useEffect} from 'react';
+import {TouchableOpacity} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+
+const TabArr = [
+  {
+    route: 'HomePageStack',
+    label: 'Home',
+    type: Icons.Ionicons,
+    activeIcon: 'home',
+    inActiveIcon: 'home-outline',
+    component: AppStack,
+  },
+  {
+    route: 'Table_ConferenceHistoryStack',
+    label: 'Table_Conference',
+    type: Icons.MaterialCommunityIcons,
+    activeIcon: 'ticket',
+    inActiveIcon: 'ticket-outline',
+    component: Table_ConferenceHistoryStack,
+  },
+  {
+    route: 'Coffee&ConvoHistoryStack',
+    label: 'Coffee&convo',
+    type: Icons.Ionicons,
+    activeIcon: 'fast-food',
+    inActiveIcon: 'fast-food-outline',
+    component: Coffee_ConvoHistoryStack,
+  },
+  {
+    route: 'ProfileStack',
+    label: 'Profile',
+    type: Icons.Ionicons,
+    activeIcon: 'person',
+    inActiveIcon: 'person-outline',
+    component: ProfileStack,
+  },
+];
+
+const Tab = createBottomTabNavigator();
+
+const TabButton = props => {
+  const {item, onPress, accessibilityState} = props;
+  const focused = accessibilityState.selected;
+  const viewRef = useRef(null);
+
+  useEffect(() => {
+    if (focused) {
+      viewRef.current.animate({0: {scale: 0.5}, 1: {scale: 1.5}});
+    } else {
+      viewRef.current.animate({0: {scale: 1.5}, 1: {scale: 1}});
+    }
+  }, [focused]);
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.5}
+      style={styles.container}>
+      <Animatable.View ref={viewRef} duration={600} style={styles.container}>
+        <Icon
+          type={item.type}
+          name={focused ? item.activeIcon : item.inActiveIcon}
+          color={focused ? 'rgba(137, 252, 233, 1)' : 'white'}
+        />
+      </Animatable.View>
+    </TouchableOpacity>
+  );
+};
+
+export default function MainStack() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: 'black',
+          borderTopWidth: 0,
+          height:60,
+          justifyContent: 'center',
+          ...styles.shadow,
+        },
+      }}>
+      {TabArr.map((item, index) => {
+        return (
+          <Tab.Screen
+            key={index}
+            name={item.route}
+            component={item.component}
+            options={{
+              tabBarButton: props => <TabButton {...props} item={item} />,
+            }}
+          />
+        );
+      })}
+    </Tab.Navigator>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  shadow: {
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
+  },
+});
