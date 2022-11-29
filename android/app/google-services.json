@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "551630299891",
+    "firebase_url": "https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "workspace-booking-392c3",
     "storage_bucket": "workspace-booking-392c3.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "551630299891-cniah4s4omh21gbhtcc0s6q982b6gpf8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reactnative_workspace",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
         {
           "client_id": "551630299891-pptuml96itvobr88ignr0882ivj513sm.apps.googleusercontent.com",
           "client_type": 3

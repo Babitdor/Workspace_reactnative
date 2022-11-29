@@ -10,7 +10,11 @@
         "4 Notebook Free"
       ],
       "description": ["Casual,Formal,Chill,Work,Fun"],
-      "image": "https://images.steelcase.com/image/upload/c_fill,dpr_auto,q_70,h_656,w_1166/v1504705535/www.steelcase.com/2017/09/06/16-0014178.jpg",
+      "image": [
+        "https://images.steelcase.com/image/upload/c_fill,dpr_auto,q_70,h_656,w_1166/v1504705535/www.steelcase.com/2017/09/06/16-0014178.jpg",
+        "https://media.istockphoto.com/id/1093508248/photo/modern-work-table-with-computer-laptop-and-cityscapes-view-from-window-business-concepts-ideas.jpg?s=612x612&w=0&k=20&c=vpMc1UR6KfgPe4GYcFG4x1FfPKLyYsoKqrAJolfBSZs=",
+        "https://media.istockphoto.com/id/1182529932/photo/workplace-desk-with-computer-at-window-in-office-at-home-in-apartment.jpg?s=612x612&w=0&k=20&c=GWNRgerMA6ev7N_VYjJ5qOOfHpY1ir__U1vfa_1I5j0="
+      ],
       "seats": [
         {"id": "A1", "empty": true, "booked": false},
         {"id": "A2", "empty": true, "booked": false}
@@ -26,7 +30,11 @@
         "2 Notebook Free"
       ],
       "description": ["Casual,Formal,Chill,Work"],
-      "image": "https://www.alloffice.co.za/wp-content/uploads/2019/03/office-desk-1920-1024x670.jpg",
+      "image": [
+        "https://www.alloffice.co.za/wp-content/uploads/2019/03/office-desk-1920-1024x670.jpg",
+        "https://usefuldiyprojects.com/wp-content/uploads/2020/02/diy-desk.jpg",
+        "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fwp-content%2Fblogs.dir%2F6%2Ffiles%2F2020%2F04%2Fhome-office-ideas-tips-small-space-apartment-set-up-therapy-heia-studio-decorist-ss.jpg?w=960&cbr=1&q=90&fit=max"
+      ],
       "seats": [
         {"id": "B1", "empty": true, "booked": false},
         {"id": "B2", "empty": true, "booked": false},
@@ -43,7 +51,11 @@
         "Kindle for 1 hour Free"
       ],
       "description": ["Casual,Formal,Chill"],
-      "image": "https://m.media-amazon.com/images/I/81rBTtiPVRS._SL1500_.jpg",
+      "image": [
+        "https://m.media-amazon.com/images/I/81rBTtiPVRS._SL1500_.jpg",
+        "https://rukminim1.flixcart.com/image/612/612/l071d3k0/office-study-table/l/6/2/40-high-density-block-board-solid-wood-t1010-torche-matt-white-original-imagcyn784zghfqg.jpeg?q=70",
+        "https://shop.static.ingka.ikea.com/revamp/table-desk-systems_47423.jpg"
+      ],
       "seats": [
         {"id": "C1", "empty": true, "booked": false},
         {"id": "C2", "empty": true, "booked": false},
@@ -65,7 +77,11 @@
         "Kindle Paper for half & hour"
       ],
       "description": ["Casual,Formal"],
-      "image": "https://image.archify.com/blog/03-How-to-Create-a-Comfortable-Workspace-at-Home.jpg",
+      "image": [
+        "https://image.archify.com/blog/03-How-to-Create-a-Comfortable-Workspace-at-Home.jpg",
+        "https://www.businessinsider.in/thumb.cms?msid=83572034&width=1200&height=900",
+        "https://www.mensjournal.com/wp-content/uploads/2021/01/artifox-3.jpg?w=900&quality=86&strip=all"
+      ],
       "seats": [
         {"id": "D1", "empty": true, "booked": false},
         {"id": "D2", "empty": true, "booked": false},
@@ -83,7 +99,11 @@
         "2 Notebook Free"
       ],
       "description": ["Casual, Smoking Zone, Outside View"],
-      "image": "https://media11.s-nbcnews.com/i/MSNBC/Components/Video/202006/tdy_home_10a_outdoors2_200626.jpg",
+      "image": [
+        "https://media11.s-nbcnews.com/i/MSNBC/Components/Video/202006/tdy_home_10a_outdoors2_200626.jpg",
+        "https://cdn.pixabay.com/photo/2020/08/25/18/29/workplace-5517762__340.jpg",
+        "https://grovemade.imgix.net/https%3A%2F%2Fsiteleaf.grovemade.com%2Fuploads%2FcoverB-desk-shelf-C1.jpg?auto=format&ixlib=python-1.1.2&w=1000&s=0ee7d0fd034d4380665ff9d6eb48539d"
+      ],
       "seats": [
         {"id": "E1", "empty": true, "booked": false},
         {"id": "E2", "empty": true, "booked": false},
@@ -101,7 +121,11 @@
         "Free Stationary Items"
       ],
       "description": ["Casual & Chill Spot"],
-      "image": "https://5.imimg.com/data5/ANDROID/Default/2022/6/GC/QR/RH/24135102/prod-20220613-0117226945143835226740350-jpg-500x500.jpg",
+      "image": [
+        "https://5.imimg.com/data5/ANDROID/Default/2022/6/GC/QR/RH/24135102/prod-20220613-0117226945143835226740350-jpg-500x500.jpg",
+        "http://sc04.alicdn.com/kf/Hf3dbff605fe24d13a5e29dc9f58199e43.jpg",
+        "https://i.pinimg.com/736x/89/38/3e/89383ed47d10023efc5691ab3dd3c4b5.jpg"
+      ],
       "seats": [{"id": "F", "empty": true, "booked": false}]
     },
     {
@@ -114,7 +138,12 @@
         "1 Notebook Free"
       ],
       "description": ["Casual, Smoking Zone"],
-      "image": "https://heylinteriors.co.uk/wp-content/uploads/2019/07/BoxTable3.jpg",
+      "image": [
+        "https://heylinteriors.co.uk/wp-content/uploads/2019/07/BoxTable3.jpg",
+        "https://i.pinimg.com/originals/c3/e2/22/c3e222a74b34304a01386733a9e25b5c.jpg",
+        "https://mithun.com/wp-content/uploads/2022/04/1622800_N52.jpg"
+      ],
+
       "seats": [
         {"id": "G1", "empty": true, "booked": false},
         {"id": "G2", "empty": true, "booked": false},
@@ -129,7 +158,11 @@
       "description": [
         "Formal Group Meetings, Public Gatherings, No Smoking Zone"
       ],
-      "image": "https://worldclassofficetabledesign.com.ph/wp-content/uploads/2021/09/Conference-Table-MCCT12-05.jpg",
+      "image": [
+        "https://worldclassofficetabledesign.com.ph/wp-content/uploads/2021/09/Conference-Table-MCCT12-05.jpg",
+        "https://cdn.decoist.com/wp-content/uploads/2020/03/Small-balcony-with-Scandinavian-style-can-host-everything-from-beautiful-breakfasts-to-romantic-dinners-70397.jpg",
+        "https://www.ideashomegarden.com/storage/posts/gallery/2014/Feb/13066/scandinavian-balconies.jpg"
+      ],
       "seats": [{"id": "Conf-C", "empty": true, "booked": false}]
     }
   ],
@@ -169,49 +202,49 @@
       ],
       "Main": [
         {
-          "id": 1,
+          "id": 6,
           "title": "Spaghetti",
           "price": "₹200",
           "image": "https://www.nicepng.com/png/detail/11-110448_spaghetti-png-transparent-image-spaghetti-png.png"
         },
         {
-          "id": 2,
+          "id": 7,
           "title": "Pizza",
           "price": "₹500",
           "image": "https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?w=2000"
         },
         {
-          "id": 3,
+          "id": 8,
           "title": "Mac & Cheese",
           "price": "₹200",
           "image": "https://www.allrecipes.com/thmb/CanMXBeN-9DZyRSzDxLAoy0w-t8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/238691-Simple-Macaroni-And-Cheese-mfs_006-f7f521c65f894aef85e17bc9125c2c4a.jpg"
         },
         {
-          "id": 4,
+          "id": 9,
           "title": "Fish & Fingers",
           "price": "₹220",
           "image": "https://www.whiskaffair.com/wp-content/uploads/2020/07/Fish-Fingers-2-3.jpg"
         },
         {
-          "id": 5,
+          "id": 10,
           "title": "Grilled Sandwich",
           "price": "₹180",
           "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2014/01/grilled-sandwich-1.jpg"
         },
         {
-          "id": 6,
+          "id": 11,
           "title": "Fried Rice Mug",
           "price": "₹180",
           "image": "https://i0.wp.com/homanathome.com/wp-content/uploads/2022/02/Rice-2.jpg?ssl=1"
         },
         {
-          "id": 7,
+          "id": 12,
           "title": "Pizza Mug",
           "price": "₹150",
           "image": "https://www.biggerbolderbaking.com/wp-content/uploads/2016/01/IMG_9073.jpg"
         },
         {
-          "id": 8,
+          "id": 13,
           "title": "French Toast Mug",
           "price": "₹150",
           "image": "https://www.prettyprudent.com/wp-content/uploads/2012/01/IMG_7209.jpg"
@@ -219,31 +252,31 @@
       ],
       "Desserts": [
         {
-          "id": 1,
+          "id": 14,
           "title": "Key Lime Pie Mousse",
           "price": "₹150",
           "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/key-lime-pie-mousse-5-1649370548.jpg?crop=0.836xw:1.00xh;0.0812xw,0&resize=980:*"
         },
         {
-          "id": 2,
+          "id": 15,
           "title": "Chocolate Pots De Crème",
           "price": "₹180",
           "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/chocolatepotsdecreme4-1643994522.jpg?crop=0.831xw:0.831xh;0.0881xw,0.134xh&resize=980:*"
         },
         {
-          "id": 3,
+          "id": 16,
           "title": "Espresso Cookies",
           "price": "₹120",
           "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/espresso-cookies3-1655325932.jpg?crop=0.8333333333333334xw:1xh;center,top&resize=980:*"
         },
         {
-          "id": 4,
+          "id": 17,
           "title": "Easy Blondies",
           "price": "₹140",
           "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/blondiesdelish-1-1637555111.jpg?crop=0.782xw:0.782xh;0.136xw,0.131xh&resize=980:*"
         },
         {
-          "id": 5,
+          "id": 18,
           "title": "Carrot Cake Dip",
           "price": "₹180",
           "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/carrot-cake-dip-7-1649281592.jpg?crop=0.836xw:1.00xh;0.147xw,0&resize=980:*"
@@ -251,31 +284,31 @@
       ],
       "Beverages": [
         {
-          "id": 1,
+          "id": 19,
           "title": "Pina Colada",
           "price": "₹180",
           "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2015/05/pina-colada-recipe.jpg"
         },
         {
-          "id": 2,
+          "id": 20,
           "title": "Virgin Mojito",
           "price": "₹180",
           "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2015/04/basil-lemon-mojito.jpg"
         },
         {
-          "id": 3,
+          "id": 21,
           "title": "Watermelon Agua Fresca",
           "price": "₹160",
           "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2022/05/agua-fresca-recipe-01-1024x1536.jpg"
         },
         {
-          "id": 4,
+          "id": 22,
           "title": "Chocolate Milkshake",
           "price": "₹160",
           "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2017/04/chocolate-milkshake-recipe.jpg"
         },
         {
-          "id": 5,
+          "id": 23,
           "title": "Dalgona Coffee",
           "price": "₹160",
           "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2020/05/whipped-coffee.jpg"
@@ -357,6 +390,6 @@
       "title": "Wireless Mouse & Keyboard",
       "price": "₹120",
       "image": "http://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/peripherals/input-devices/dell/keyboards/km3322w/spi/ng/keyboard-mouse-km3322w-campaign-hero-504x350-ng.psd?fmt=jpg&wid=504&hei=350"
-    }  
+    }
   ]
 }
