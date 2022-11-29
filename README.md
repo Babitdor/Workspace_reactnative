@@ -16,7 +16,6 @@
 ## 📝 Table of Contents
 - [About](#about)
 - [Getting Started](#getting_started)
-- [Deployment](#deployment)
 - [Usage](#usage)
 - [Built Using](#built_using)
 - [TODO](../TODO.md)
@@ -274,6 +273,93 @@ firestore()
     console.log('User updated!');
   });
 ```
+## Project Usage of Firebase API Examples
+
+### Realtime Database
+
+#### Seat Layout
+This is how the app reads the seat layout from firebase's realtime database using 'Realtime changes' READ TYPE
+```
+async function FetchData() {
+      var snapshot = await firebase
+        .app()
+        .database()
+        .ref('/Data/Tables/')
+        .on('value', snapshot => {
+          setTable(snapshot.val());
+          setTable1(snapshot.val()[0].seats);
+          setTable2(snapshot.val()[1].seats);
+          setTable3(snapshot.val()[2].seats);
+          setTable4(snapshot.val()[3].seats);
+          setTable5(snapshot.val()[4].seats);
+          setTable6(snapshot.val()[5].seats);
+          setTable7(snapshot.val()[6].seats);
+        });
+      return () => database().ref(`/Data/Tables/`).off('value', snapshot);
+    }
+```
+#### Table Description Data
+This is how the app reads the table information and images from firebase's realtime database using 'one-time read' READ TYPE
+```
+ async function FetchData() {
+      var snapshot = await firebase
+        .app()
+        .database()
+        .ref('/Data/Tables/')
+        .once('value', snapshot => {
+          SetDatabase(snapshot.val());
+        });
+    }
+```
+#### Additional Items or Addons 
+
+This is how the app reads the Additional Items or Addons from firebase's realtime database using 'one-time read' READ TYPE
+```
+async function FetchData() {
+      var snapshot = await firebase
+        .app()
+        .database()
+        .ref('/Data/Items/')
+        .once('value', snapshot => {
+          setITEMS(snapshot.val());
+          setOldITEMS(snapshot.val());
+        });
+    }
+```
+
+### Database References (Firebase)
+#### Tables Information and Seat Layout of Each Table
+```.database()
+.ref('/Data/Tables/')
+```
+This references as follows (Example)
+```
+"Tables": [
+    {
+      "id": 1,
+      "title": "Table-A",
+      "price": 120,
+      "perks": [
+        "Free Internet for upto 10GB",
+        "4 Cup of Coffee For Free",
+        "4 Notebook Free"
+      ],
+      "description": ["Casual,Formal,Chill,Work,Fun"],
+      "image": [
+        "https://images.steelcase.com/image/upload/c_fill,dpr_auto,q_70,h_656,w_1166/v1504705535/www.steelcase.com/2017/09/06/16-0014178.jpg",
+        "https://media.istockphoto.com/id/1093508248/photo/modern-work-table-with-computer-laptop-and-cityscapes-view-from-window-business-concepts-ideas.jpg?s=612x612&w=0&k=20&c=vpMc1UR6KfgPe4GYcFG4x1FfPKLyYsoKqrAJolfBSZs=",
+        "https://media.istockphoto.com/id/1182529932/photo/workplace-desk-with-computer-at-window-in-office-at-home-in-apartment.jpg?s=612x612&w=0&k=20&c=GWNRgerMA6ev7N_VYjJ5qOOfHpY1ir__U1vfa_1I5j0="
+      ],
+      "seats": [
+        {"id": "A1", "empty": true, "booked": false},
+        {"id": "A2", "empty": true, "booked": false}
+      ]
+    },
+ ]
+```
+For a clear picture of our it should look, the 'json' folder in the directory contains the 'Database.json'.
+
+
 
 
 ## ⛏️ Built Using <a name = "built_using"></a>
