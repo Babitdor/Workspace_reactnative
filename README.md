@@ -55,7 +55,7 @@ This will install all the necessary dependencies required for the application.
 Once done, you can run the application using the following.
 
 Make sure your physical android device is enabled with USB debugging on
-<div align='center'>or</div>
+or
 Make sure your virtual android device is setup before running the application.
 
 To check if device is connected to Android SDK, connect android device and open cmd type in 'adb devices'
