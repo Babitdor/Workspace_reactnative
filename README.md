@@ -355,7 +355,7 @@ This references as follows (Example)
     },
  ]
 ```
-For a clear picture of our it should look, the 'json' folder in the directory contains the 'Database.json'.
+For a clear picture of how it should look, the 'json' folder in the directory contains the 'Database.json'.
 
 ### Updating Seat Booking Status 
 
@@ -414,18 +414,70 @@ const snapshot = await firebase
           setTickets(documentSnapshot.docs);
         });
 ```
+### Profile Update 
+Since Firestore Authetication does not support profile page information, therefore, i creating a way to store user details in user UID, in Cloud Firestore.
+The following code is for updating the profile screen. Associated code related to Authetication can be found in the 'AuthProvider.js'
+```
+try {
+            const db = firestore().collection('Users').doc(user.uid);
+            db.set(
+              {
+                Name: Name,
+                Date_of_Birth: DateofBirth,
+                PhoneNo: PhoneNo,
+                Gender: Gender,
+                email: user.email,
+                CreatedAt: firestore.FieldValue.serverTimestamp(),
+                Identification: ID_NAME,
+              },
+              {merge: true},
+            ).then(() => {
+              async function ImageData() {
+                try {
+                  let {uri} = ProfileImage;
+                  let uploadUri =
+                    Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+                  const task = await storage()
+                    .ref('Profile/' + user.uid)
+                    .putFile(uploadUri)
+                    .then(() => console.log('Information Updated'))
+                    .catch(error => console.log('storage/unknown'));
+
+                  uri = ID_IMAGE.uri;
+                  console.log(uri);
+                  uploadUri =
+                    Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+                  // Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+                  const task1 = await storage()
+                    .ref('Profile/Identification/' + user.uid)
+                    .putFile(uploadUri)
+                    .then(() => console.log('ID is Updated'))
+                    .catch(error => console.log('storage/unknown'));
+                } catch (err) {
+                  console.log(err);
+                }
+              }
+              ImageData();
+              // console.log('Data Uploaded');
+              // const {uri} = ProfileImage;
+              // const uploadUri =
+              //   Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+              // const task = storage()
+              //   .ref('Profile/' + user.uid)
+              //   .putFile(uploadUri)
+              //   .then(() => console.log('Information Updated'));
+            });
+          } catch (e) {
+            console.log(e);
+          }
+```
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 - [Firebase](https://firebase.google.com) - Database
 - [React Native](https://reactnative.dev) - React JS-based Mobile framework
 - [NodeJs](https://nodejs.org/en/) - Server Environment
+- [React Redux](https://react-redux.js.org) - State Management
 
 ## ✍️ Authors <a name = "authors"></a>
-- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
+- [@Babitdor](https://github.com/Babitdor) - Idea & Initial work
 
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
-
-## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-- Hat tip to anyone whose code was used
-- Inspiration
-- References
