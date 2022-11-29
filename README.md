@@ -54,11 +54,19 @@ This will install all the necessary dependencies required for the application.
 
 Once done, you can run the application using the following.
 
-Make sure your physical android device is enabled with USB debugging on
-or
-Make sure your virtual android device is setup before running the application.
+#### Using Physical Android Device
+* Make sure your physical android device is connected via USB cable 
+* Make sure that USB debugging is turned on under Developer Options.
+* To check if device is connected to ADB, open 'cmd' type in 'adb devices'
 
-To check if device is connected to Android SDK, connect android device and open cmd type in 'adb devices'
+#### Using Virtual Emulated Android Device
+Make sure your virtual android device using Android Studios.
+* Open Android Studios
+* Under More Actions
+* Select Virtual Device Manager
+* Setup an android device, this will require you to install certain dependencies.
+* Once done, click on the play button next to the android device selected, to run the Emulated Device.
+
 
 Once device is setup, you are ready to run the application.
 
