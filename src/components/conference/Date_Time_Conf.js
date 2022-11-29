@@ -39,6 +39,7 @@ export default function Date_Time_Conf() {
 
   const changeStartSelectedTime = (_event, selectedStartTime) => {
     tempstart = moment(selectedStartTime).format('HH:mm:ss');
+    console.log(tempstart);
     currentStartTime = moment(selectedStartTime).format('hh:mm A');
     if (tempstart != tempend || tempstart < tempend) {
       setStartTimeShow(false);
@@ -57,7 +58,7 @@ export default function Date_Time_Conf() {
     showStartTimeMode('time');
   };
   const changeEndSelectedTime = (_event, selectedEndTime) => {
-    tempend = moment(selectedEndTime).format('HH:mm:ss A');
+    tempend = moment(selectedEndTime).format('HH:mm:ss');
     currentEndTime = moment(selectedEndTime).format('hh:mm A');
     if (tempend === tempstart || tempend < tempstart) {
       Alert.alert('Inaccurate Time Selection');
@@ -187,23 +188,23 @@ export default function Date_Time_Conf() {
 }
 const styles = StyleSheet.create({
   TextInput: {
-    width: responsiveWidth(78),
+    width: responsiveWidth(70),
     backgroundColor: '#242526',
-    padding: 10,
-    borderRadius: 15,
+    padding: 6,
+    borderRadius: 10,
     marginBottom: 10,
     marginHorizontal: 15,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   TextInputTime: {
-    width: responsiveWidth(35),
+    width: responsiveWidth(34),
     backgroundColor: '#242526',
-    padding: 10,
-    borderRadius: 15,
+    padding: 6,
+    borderRadius: 10,
     marginBottom: 10,
     marginTop: 10,
-    marginHorizontal: 15,
-    paddingHorizontal: 20,
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
   },
   Text: {
     color: 'white',

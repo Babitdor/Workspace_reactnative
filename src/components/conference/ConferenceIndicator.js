@@ -61,7 +61,7 @@ export default function ConferenceIndicator(props) {
             style={{
               width: 50,
               height: 50,
-              tintColor: 'rgba(147, 147, 147, 0.53)',
+              tintColor: 'gray',
             }}
             source={require('../../assets/Conference.png')}
           />
@@ -71,7 +71,7 @@ export default function ConferenceIndicator(props) {
               fontWeight: '600',
               fontSize: 12,
             }}>
-            Occupied
+            Unavailable
           </Text>
         </View>
         

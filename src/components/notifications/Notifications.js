@@ -1,39 +1,72 @@
-import {View, Text, Button} from 'react-native';
-import React from 'react';
 import PushNotification from 'react-native-push-notification';
 import moment from 'moment';
-const Notifications = props => {
-  var reminder = moment(`${props.Date} ${props.StartTime}`)
-    .subtract(30, 'm')
-    .toDate();
+export function StartTimeNotifications(SelectDate, MinTime, BookingID) {
+  var reminder = moment(`${SelectDate} ${MinTime}`).subtract(30, 'm').toDate();
 
-  const title = props.Type;
-  const index = props.index;
-  const time = new Date(`${reminder}`);
-  const notifyme = (val, name, index) => {
-    PushNotification.localNotificationSchedule({
-      //... You can use all the options from localNotifications
-      title: `${name} ${index + 1}`,
-      message: `Start Time : ${moment(val, 'HH:mm:ss').format(
-        'LT',
-      )} 30 Mins Left`, // (required)
-      date: val, // in 60 secs
-      allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
-      channelId: '1',
-      /* Android Only Properties */
-      repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
-    });
-  };
+  PushNotification.localNotificationSchedule({
+    title: `Table Booking : ${BookingID}`,
+    message: `Almost Time till your Start Time: ${moment(
+      MinTime,
+      'HH:mm:ss',
+    ).format('LT')}`,
+    date: new Date(`${reminder}`),
+    allowWhileIdle: false,
+    channelId: '1',
+    repeatTime: 1,
+  });
+  return;
+}
 
-  return (
-    <View>
-      <Button
-        title="Set a Reminder"
-        onPress={() => notifyme(time, title, index)}
-        disabled={props.Clicked ? true : false}
-      />
-    </View>
-  );
-};
+export function EndTimeNotifications(SelectDate, MaxTime, BookingID) {
+  var deadline = moment(`${SelectDate} ${MaxTime}`).subtract(20, 'm').toDate();
 
-export default Notifications;
+  PushNotification.localNotificationSchedule({
+    title: `Table Booking : ${BookingID}`,
+    message: `Almost Time till your End Time: ${moment(
+      MaxTime,
+      'HH:mm:ss',
+    ).format('LT')}`,
+    date: new Date(`${deadline}`),
+    allowWhileIdle: false,
+    channelId: '1',
+    repeatTime: 1,
+  });
+  return;
+}
+
+export function StartTimeConferenceNotifications(
+  SelectDate,
+  MinTime,
+  BookingID,
+) {
+  var reminder = moment(`${SelectDate} ${MinTime}`).subtract(30, 'm').toDate();
+
+  PushNotification.localNotificationSchedule({
+    title: `Conference : ${BookingID}`,
+    message: `Almost Time till your Start Time: ${moment(
+      MinTime,
+      'HH:mm:ss',
+    ).format('LT')}`,
+    date: new Date(`${reminder}`),
+    allowWhileIdle: false,
+    channelId: '1',
+    repeatTime: 1,
+  });
+  return;
+}
+
+export function EndTimeConferenceNotifications(SelectDate, MaxTime, BookingID) {
+  var deadline = moment(`${SelectDate} ${MaxTime}`).subtract(20, 'm').toDate();
+  PushNotification.localNotificationSchedule({
+    title: `Conference : ${BookingID}`,
+    message: `Almost Time till your End Time: ${moment(
+      MaxTime,
+      'HH:mm:ss',
+    ).format('LT')}`,
+    date: new Date(`${deadline}`),
+    allowWhileIdle: false,
+    channelId: '1',
+    repeatTime: 1,
+  });
+  return;
+}

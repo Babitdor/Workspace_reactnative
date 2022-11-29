@@ -9,8 +9,8 @@ import {
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ImageSlider from 'react-native-image-slider';
 const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
 export default function TableInfo(props) {
   return (
     <View style={{height: windowHeight}}>
@@ -22,11 +22,10 @@ export default function TableInfo(props) {
         animation="fadeInUpBig"
         style={{
           width: '100%',
-          flex: 2.5,
+          flex: 2,
           height: '100%',
           transform: [{translateY: windowHeight / 4}],
           backgroundColor: 'black',
-          borderRadius: 32,
           padding: 30,
         }}>
         <TableNo title={props.database.title} />
@@ -64,9 +63,18 @@ export default function TableInfo(props) {
             data={props.database.perks}
             renderItem={({item, index}) => {
               return (
-                <View style={{paddingVertical: 8, flexDirection:'row',alignItems:'center'}}>
+                <View
+                  style={{
+                    paddingVertical: 8,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
                   <View>
-                    <Icon name="checkmark-circle-outline" size={30} color={'rgba(137, 252, 233, 1)'}/>
+                    <Icon
+                      name="checkmark-circle-outline"
+                      size={30}
+                      color={'rgba(137, 252, 233, 1)'}
+                    />
                   </View>
                   <View>
                     <Text
@@ -88,12 +96,7 @@ export default function TableInfo(props) {
   );
 }
 
-const TableImage = props => (
-  <ImageBackground
-    source={{uri: props.image}}
-    style={{width: '100%', height: 320, resizeMode: 'contain'}}
-  />
-);
+const TableImage = props => <ImageSlider images={props.image} />;
 
 const TableNo = props => (
   <Text
@@ -133,7 +136,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   text_subtext: {
-    fontSize: 18,
+    fontSize: 17,
     paddingVertical: 10,
     fontWeight: '600',
     color: 'white',

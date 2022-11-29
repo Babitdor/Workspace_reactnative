@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  BackHandler,
-  FlatList,
-} from 'react-native';
+import {View, Text, TouchableOpacity, BackHandler} from 'react-native';
 import React, {useCallback, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
@@ -12,14 +6,13 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import FoodItems from '../components/coffee_convo/FoodItems';
 import Category from '../components/coffee_convo/Category';
 import Cart from '../components/coffee_convo/Cart';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 export default function TableBook() {
-  
   useEffect(() => {
     dispatch({type: 'DESTORY_SESSION'});
-  },[])
-  
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
@@ -35,7 +28,7 @@ export default function TableBook() {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
-    
+
   return (
     <SafeAreaView
       style={{backgroundColor: 'black', height: '100%', width: '100%'}}>

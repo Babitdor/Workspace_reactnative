@@ -10,53 +10,57 @@ import React, {useState, useContext, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Cart from 'react-native-vector-icons/AntDesign';
 import OrderItems from '../tablebook/OrderItems';
-import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../../navigation/AuthProvider';
 import {firebase} from '@react-native-firebase/database';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
-import moment from 'moment';
-import PushNotification from 'react-native-push-notification';
+import {FlatList} from 'react-native';
+import {uploadConferenceDatatoFirestore} from '../../firebase/firestoreapi';
 import urid from 'urid';
+import {
+  EndTimeConferenceNotifications,
+  StartTimeConferenceNotifications,
+} from '../notifications/Notifications';
 const {height} = Dimensions.get('screen');
 
 let Count = 0;
 export default function ConferenceCart(props) {
   const [Tables, setTable] = useState([]);
-  const [BookingID,setBookingID] = useState();
-  const reference = firebase
-    .app()
-    .database(
-      'https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app/',
-    );
+  const [BookingID, setBookingID] = useState();
+  const reference = firebase.app().database();
+  const navigation = useNavigation();
+  const {seatid, tprice} = props.seats;
+  const {
+    MaxTime,
+    MinTime,
+    SelectDate,
+    isChanged,
+    setChanged,
+    user,
+    SelectedSeats,
+  } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase
         .app()
-        .database(
-          'https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app/',
-        )
+        .database()
         .ref('/Data/Tables/')
-        .once('value');
-      setTable(snapshot.val());
+        .on('value', snapshot => {
+          setTable(snapshot.val());
+        });
+      return () => database().ref(`/Data/Tables/`).off('value', snapshot);
     }
     FetchData();
   }, [isChanged]);
 
   useEffect(() => {
-    const id = urid(`0123456789CONFERN`);
-    setBookingID(id)
-  },[])
+    const id = urid(6, `0123456789CONFERN`);
+    setBookingID(id);
+  }, []);
 
-  // const {Date, EndTime, StartTime} = props.Date_Time.Date_Time;
-  const navigation = useNavigation();
-  const {seatid, tprice} = props.seats;
-  const {MaxTime, MinTime, SelectDate} = useContext(AuthContext);
-  const {user, SelectedSeats} = useContext(AuthContext);
-  const dispatch = useDispatch();
-  const {isChanged, setChanged} = useContext(AuthContext);
-  const [modalVisible, setModalVisible] = useState(false);
   const {items} = useSelector(state => state.cartReducer.selectedItems);
   const total =
     items
@@ -87,27 +91,22 @@ export default function ConferenceCart(props) {
     });
     return Count;
   };
-
-  const grayoutseats = SelectedSeats => {
+  const grayoutseats = () => {
     setChanged(isChanged => !isChanged);
-    reference.ref('/Data/Tables/').once('value', snapshot => {
-      const Seat = Object.assign({}, snapshot.val());
-      SelectedSeats.map(item => {
-        for (var i = 0; i < Object.keys(Seat).length; i++) {
-          for (var j = 0; j < Object.keys(Seat[i].seats).length; j++) {
-            if (item.id === Seat[i].seats[j].id) {
-              reference.ref(`/Data/Tables/${i}/seats/${j}`).update({
-                booked: false,
-                empty: false,
-              });
-            }
+    SelectedSeats.map(item => {
+      for (var i = 0; i < Object.keys(Tables).length; i++) {
+        for (var j = 0; j < Object.keys(Tables[i].seats).length; j++) {
+          if (item.id === Tables[i].seats[j].id) {
+            reference.ref(`/Data/Tables/${i}/seats/${j}`).update({
+              booked: false,
+              empty: false,
+            });
           }
         }
-      });
+      }
     });
     return;
   };
-
   const OnPayment = () => {
     dispatch({type: 'DESTORY_SESSION'});
   };
@@ -115,39 +114,20 @@ export default function ConferenceCart(props) {
   const addOrdertoFirebase = () => {
     // AddtoBooked(seatid);
     if (Checking(SelectedSeats) > 0) {
-      const db = firestore()
-        .collection('BookAConference')
-        .doc(user.uid)
-        .collection('Orders');
-      db.add(
-        {
-          Type: 'Conference Booking',
-          email: user.email,
-          items: items,
-          BookingID : BookingID,
-          seatsNo:seatid,
-          Date: SelectDate,
-          StartTime: MinTime,
-          EndTime: MaxTime,
-          total: totalRs,
-          ConferenceTableNo: seatid,
-          createdAt: firestore.FieldValue.serverTimestamp(),
-        },
-        {merge: true},
-      ).then(() => {
-        console.log('Data Uploaded');
-      });
-      var reminder = moment(`${SelectDate} ${MinTime}`).subtract(30, 'm').toDate();
-      PushNotification.localNotificationSchedule({
-        title:`Cofference : ${BookingID}`,
-        message:`30 mins left till Start Time: ${moment(MinTime,'HH:mm:ss').format('LT')}`,
-        date: new Date(`${reminder}`),
-        allowWhileIdle: false, 
-        channelId: '1',
-        repeatTime: 1, 
-      });
-      grayoutseats(SelectedSeats);
+      uploadConferenceDatatoFirestore(
+        BookingID,
+        user,
+        items,
+        SelectDate,
+        MinTime,
+        MaxTime,
+        totalRs,
+        seatid,
+      );
       OnPayment();
+      grayoutseats();
+      StartTimeConferenceNotifications(SelectDate, MinTime, BookingID);
+      EndTimeConferenceNotifications(SelectDate, MaxTime, BookingID);
       setModalVisible(false);
       navigation.navigate('Completed', {totalRs: totalRs});
     } else {
@@ -155,7 +135,6 @@ export default function ConferenceCart(props) {
       navigation.navigate('Home');
     }
   };
-
   const checkoutModalContent = () => {
     return (
       <>
@@ -177,9 +156,15 @@ export default function ConferenceCart(props) {
                 ₹{tprice}
               </Text>
             </View>
-            {items.map((item, index) => (
-              <OrderItems key={index} item={item} />
-            ))}
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={items}
+              renderItem={({item, index}) => {
+                return <OrderItems key={index} item={item} />;
+              }}
+              horizontal={false}
+            />
+
             <View style={styles.subtotalContainer}>
               <Text style={styles.subTotalText}>Subtotal</Text>
               <Text style={styles.subTotalText}>{totalRs}</Text>

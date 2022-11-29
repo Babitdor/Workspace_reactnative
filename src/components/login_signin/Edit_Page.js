@@ -21,12 +21,19 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import {TextInput} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {RadioButton} from 'react-native-paper';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 export default function Edit_Page() {
   const [isDisplayDate, setDateShow] = useState(false);
   const navigation = useNavigation();
   const [displaymode, setMode] = useState('time');
-  const {user, updateIncompleteData, setRefresh, Refresh} = useContext(AuthContext);
+  const {user, updateIncompleteData, setRefresh, Refresh} =
+    useContext(AuthContext);
+  const defaultImage = {uri: user.photoURL};
+  useEffect(() => {
+    const focusHandler = navigation.addListener('focus', () => {});
+    return focusHandler;
+  }, [navigation]);
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
@@ -38,13 +45,16 @@ export default function Edit_Page() {
         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, []),
   );
-
+  console.log(defaultImage);
   const [data, setData] = useState({
     name: user.displayName,
     phoneNo: '',
     date_of_birth: '',
     gender: '',
+    avatar: defaultImage,
   });
+
+  console.log(data.avatar);
   const changeSelectedDate = (_event, selectedDate) => {
     currentDate = moment(selectedDate).format('DD-MM-YYYY');
     setDateShow(false);
@@ -79,16 +89,68 @@ export default function Edit_Page() {
       name: val,
     });
   };
+  const selectImage = async () => {
+    const options = {
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = {uri: response.assets[0].uri};
+        console.log(source);
+        setData({
+          ...data,
+          avatar: source,
+        });
+      }
+    });
+  };
 
-  const Update = (User, Name, DOB, Phone, Gender) => {
-    updateIncompleteData(User, Name, DOB, Phone, Gender);
-    setRefresh(Resfresh => !Refresh);
+  const Update = (User, Name, DOB, Phone, Gender, ProfileIMG) => {
+    updateIncompleteData(User, Name, DOB, Phone, Gender, ProfileIMG);
+    setRefresh(Refresh => !Refresh);
     navigation.navigate('ProfileScreen');
   };
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.text_header}>Register Now</Text>
+      <View style={[styles.header, {alignItems: 'center'}]}>
+        <TouchableOpacity onPress={() => selectImage()}>
+          <View style={{alignSelf: 'center'}}>
+            {data.avatar ? (
+              <Image
+                source={data.avatar}
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 100,
+                  // backgroundColor: 'rgba(137, 252, 233, 1)',
+                }}
+                resizeMode="contain"
+              />
+            ) : (
+              <Image
+                source={require('../../assets/register.png')}
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 100,
+                  backgroundColor: 'rgba(137, 252, 233, 1)',
+                }}
+                resizeMode="contain"
+              />
+            )}
+          </View>
+        </TouchableOpacity>
       </View>
 
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
@@ -117,7 +179,7 @@ export default function Edit_Page() {
                 styles.text_footer,
                 {
                   paddingVertical: 10,
-                  fontSize: responsiveScreenFontSize(2.5),
+                  fontSize: 16,
                   color: 'rgba(137, 252, 233, 1)',
                 },
               ]}>
@@ -199,6 +261,7 @@ export default function Edit_Page() {
                 data.date_of_birth,
                 data.phoneNo,
                 data.gender,
+                data.avatar,
               )
             }
             style={[
@@ -241,7 +304,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   footer: {
-    flex: 4,
+    flex: 3,
     paddingVertical: 35,
     paddingHorizontal: 30,
   },
@@ -253,7 +316,7 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 15,
   },
   action: {
     flexDirection: 'row',
@@ -265,7 +328,7 @@ const styles = StyleSheet.create({
   TextInput: {
     flex: 1,
     marginTop: -12,
-    fontSize: responsiveScreenFontSize(2.5),
+    fontSize: 16,
     paddingLeft: 10,
     color: 'rgba(137, 252, 233, 1)',
   },

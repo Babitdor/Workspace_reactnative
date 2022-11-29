@@ -1,16 +1,13 @@
 import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import Arrowright from 'react-native-vector-icons/AntDesign';
-import moment from 'moment';
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
-  responsiveScreenHeight,
-  responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
-import {useNavigation} from '@react-navigation/native';
+
 const options = [
   {
     id: '1',
@@ -39,7 +36,6 @@ const options = [
 ];
 
 export default function NavOptions(props) {
-  const navigation = useNavigation();
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -50,7 +46,7 @@ export default function NavOptions(props) {
       renderItem={({item}) => (
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate(item.screens, {
+            props.navigation.navigate(item.screens, {
               StartTime: props.StartTime,
               EndTime: props.EndTime,
               Date: props.date,

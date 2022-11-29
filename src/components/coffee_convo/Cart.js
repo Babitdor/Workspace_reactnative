@@ -14,12 +14,14 @@ import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../../navigation/AuthProvider';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
+import {FlatList} from 'react-native-gesture-handler';
+import {uploadCoffeeConvoData} from '../../firebase/firestoreapi';
 import urid from 'urid';
 const {height} = Dimensions.get('screen');
 
 export default function ViewCart() {
   const navigation = useNavigation();
-  const [BookingID,setBookingID] = useState();
+  const [BookingID, setBookingID] = useState();
   const {user} = useContext(AuthContext);
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,32 +35,17 @@ export default function ViewCart() {
     currency: 'INR',
   });
 
-
- useEffect(() => {
-    const id = urid(`0123456789COFEV&`);
-    setBookingID(id)
-  },[])
+  useEffect(() => {
+    const id = urid(6, `0123456789COFEV`);
+    setBookingID(id);
+  }, []);
 
   const OnPayment = () => {
     dispatch({type: 'DESTORY_SESSION'});
   };
   //Function to update & store the firebase cloud store. Note : Integration of payment framework are to be done in here
   const addOrdertoFirebase = () => {
-    const db = firestore();
-    db.collection('CoffeeConvoOrders')
-      .doc(user.uid)
-      .collection('Orders')
-      .add({
-        Type: 'Coffee & Convo',
-        email: user.email,
-        BookingID: BookingID,
-        items: items,
-        total: totalRs,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        console.log('Data Uploaded');
-      });
+    uploadCoffeeConvoData(user, BookingID, items, totalRs);
     OnPayment();
     setModalVisible(false);
     navigation.navigate('Completed', {totalRs: totalRs});
@@ -78,9 +65,15 @@ export default function ViewCart() {
                 borderBottomWidth: 1,
                 borderBottomColor: '#999',
               }}></View>
-            {items.map((item, index) => (
-              <OrderItems key={index} item={item} />
-            ))}
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={items}
+              renderItem={({item, index}) => {
+                return <OrderItems key={index} item={item} />;
+              }}
+              horizontal={false}
+            />
+
             <View style={styles.subtotalContainer}>
               <Text style={styles.subTotalText}>Subtotal</Text>
               <Text style={styles.subTotalText}>{totalRs}</Text>
@@ -91,7 +84,7 @@ export default function ViewCart() {
                   marginTop: 20,
                   backgroundColor: 'rgba(137, 252, 233, 1)',
                   alignItems: 'center',
-                  padding: 13,
+                  padding: 6,
                   borderRadius: 30,
                   width: 300,
                   position: 'relative',

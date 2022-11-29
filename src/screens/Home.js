@@ -1,51 +1,37 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-  Pressable,
-  Alert,
-} from 'react-native';
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize,
-} from 'react-native-responsive-dimensions';
-import React, {useEffect, useId} from 'react';
+import {View, Text, Image, StyleSheet} from 'react-native';
+import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import NavOptions from '../components/home/NavOptions';
-import Settings from 'react-native-vector-icons/Entypo';
 import * as Animatable from 'react-native-animatable';
+
 export default function Home({navigation}) {
   return (
-    <SafeAreaView
-      style={{height: '100%', width: '100%', backgroundColor: 'black'}}>
+    <SafeAreaView style={styles.Safearea}>
       <View style={styles.container}>
-        <Animatable.View animation="fadeInUp" style={styles.header}>
-          <Animatable.View
-            animation="fadeInUp"
-            delay={600}
-            style={{padding: 20, marginBottom: 15}}>
+        <Animatable.View
+          style={styles.header}
+          animation="fadeInUp"
+          delay={600}
+          useNativeDriver>
+          <View style={{padding: 20, marginBottom: 15}}>
             <Image
-              style={{
-                width: 200,
-                height: 150,
-                alignSelf: 'center',
-                // tintColor: 'white',
-                resizeMode: 'contain',
-              }}
+              style={styles.Image}
               source={require('../assets/Workspace.png')}
             />
             <Text
-              style={[styles.Text, {alignSelf: 'center', marginBottom: 20,fontSize:16}]}>
+              style={[
+                styles.Text,
+                {alignSelf: 'center', marginBottom: 20, fontSize: 16},
+              ]}>
               Let's Begin Booking!
             </Text>
-          </Animatable.View>
+          </View>
         </Animatable.View>
 
-        <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+        <Animatable.View
+          animation="fadeInUpBig"
+          style={styles.footer}
+          useNativeDriver>
           <NavOptions navigation={navigation} />
         </Animatable.View>
       </View>
@@ -60,11 +46,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // backgroundColor: '#181818',
   },
   header: {
-    flex: responsiveHeight(0.1),
-    justifyContent: 'flex-end',
+    flex: 1,
+    justifyContent: 'center',
   },
   footer: {
     flex: 2,
@@ -73,5 +58,16 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 40,
     paddingVertical: 20,
     paddingHorizontal: 20,
+  },
+  Image: {
+    width: 200,
+    height: 150,
+    alignSelf: 'center',
+    resizeMode: 'contain',
+  },
+  Safearea: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'black',
   },
 });

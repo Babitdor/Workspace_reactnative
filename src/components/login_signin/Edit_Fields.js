@@ -7,13 +7,14 @@ import {
   Image,
   BackHandler,
 } from 'react-native';
-import {responsiveScreenFontSize} from 'react-native-responsive-dimensions';
-import React, {useState, useContext, useEffect, useCallback} from 'react';
+import {Button} from 'react-native-paper';
+import React, {useState, useContext, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 import User from 'react-native-vector-icons/AntDesign';
 import Phone from 'react-native-vector-icons/AntDesign';
+import IDCARD from 'react-native-vector-icons/AntDesign';
 import Gender from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Cake from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -22,21 +23,43 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import {useNavigation} from '@react-navigation/native';
 import {RadioButton} from 'react-native-paper';
 import {TextInput} from 'react-native-paper';
+import DropDown from 'react-native-paper-dropdown';
 import Edit from 'react-native-vector-icons/AntDesign';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {ScrollView} from 'react-native';
 
 export default function Edit_Field({route}) {
   const Data = route.params.Userdata;
+  const DefaultImage = {uri: route.params.Image};
   const [isDisplayDate, setDateShow] = useState(false);
   const navigation = useNavigation();
   const [displaymode, setMode] = useState('time');
+  const [showDropDown, setShowDropDown] = useState(false);
   const {user, updateIncompleteData, setRefresh, Refresh} =
     useContext(AuthContext);
+
   const [EditHandler, setEditHandler] = useState({
     EditName: true,
     EditDOB: true,
     EditPhoneNo: true,
     EditGender: true,
+    EditID: true,
   });
+
+  const IDList = [
+    {
+      label: 'Adhaar Card',
+      value: 'Adhaar Card',
+    },
+    {
+      label: 'Driving License',
+      value: 'Driving License',
+    },
+    {
+      label: 'Pan Card',
+      value: 'Pan Card',
+    },
+  ];
 
   useFocusEffect(
     useCallback(() => {
@@ -54,7 +77,13 @@ export default function Edit_Field({route}) {
     phoneNo: Data.PhoneNo,
     date_of_birth: Data.Date_of_Birth,
     gender: Data.Gender,
+    avatar: DefaultImage,
+    IdName: Data.Identification ? Data.Identification : 'No Identification',
+    IDImage: '',
   });
+
+  const [IDNAME, setIDNAME] = useState('');
+
   const changeSelectedDate = (_event, selectedDate) => {
     currentDate = moment(selectedDate).format('DD-MM-YYYY');
     setDateShow(false);
@@ -89,15 +118,45 @@ export default function Edit_Field({route}) {
       name: val,
     });
   };
-  const Update = (User, Name, DOB, Phone, Gender) => {
-    updateIncompleteData(User, Name, DOB, Phone, Gender);
-    setRefresh(Resfresh => !Refresh);
-    navigation.navigate('ProfileScreen');
+  const IDNameChange = val => {
+    setData({
+      ...data,
+      IdName: val,
+    });
+  };
+  const Update = async (
+    User,
+    Name,
+    DOB,
+    Phone,
+    Gender,
+    ProfileImage,
+    ID,
+    ID_IMAGE,
+  ) => {
+    updateIncompleteData(
+      User,
+      Name,
+      DOB,
+      Phone,
+      Gender,
+      ProfileImage,
+      ID,
+      ID_IMAGE,
+    );
+    setRefresh(Refresh => !Refresh);
+    navigation.goBack();
   };
   const ChangeNameEditStatus = () => {
     setEditHandler({
       ...EditHandler,
       EditName: !EditHandler.EditName,
+    });
+  };
+  const IDNameEditStatus = () => {
+    setEditHandler({
+      ...EditHandler,
+      EditID: !EditHandler.EditID,
     });
   };
   const ChangeDOBEditStatus = () => {
@@ -118,214 +177,371 @@ export default function Edit_Field({route}) {
       EditGender: !EditHandler.EditGender,
     });
   };
+  const selectImage = async () => {
+    const options = {
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = {uri: response.assets[0].uri};
+        console.log(source);
+        setData({
+          ...data,
+          avatar: source,
+        });
+      }
+    });
+  };
+
+  const selectImageID = async () => {
+    const options = {
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = {uri: response.assets[0].uri};
+        console.log(source);
+        setData({
+          ...data,
+          IDImage: source,
+        });
+      }
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <View style={[styles.header,{alignItems:'center'}]}>
-        <Image source={require('../../assets/UpdateProfile.png')} resizeMode='contain' style={{width:100, height:100}}/>
+      <View style={[styles.header, {alignItems: 'center'}]}>
+        <TouchableOpacity onPress={() => selectImage()}>
+          <View style={{alignSelf: 'center'}}>
+            {data.avatar ? (
+              <Image
+                source={data.avatar}
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 100,
+                  borderWidth: 1,
+                  borderColor: 'rgba(137, 252, 233, 1)',
+                }}
+                resizeMode="contain"
+              />
+            ) : (
+              <Image
+                source={require('../../assets/register.png')}
+                style={{
+                  width: 100,
+                  height: 100,
+                  tintColor: 'white',
+                  borderRadius: 100,
+                  borderWidth: 1,
+                  borderColor: 'rgba(137, 252, 233, 1)',
+                }}
+                resizeMode="contain"
+              />
+            )}
+          </View>
+        </TouchableOpacity>
       </View>
 
-      <Animatable.View style={styles.footer} animation="fadeInUpBig">
-        {/* Name Section */}
-        <Text style={styles.text_footer}>Name</Text>
-        <View style={styles.action}>
-          <User
-            name="user"
-            size={30}
-            color={EditHandler.EditName ? 'white' : 'rgba(137, 252, 233, 1)'}
-          />
-          <TextInput
-            editable={EditHandler.EditName ? false : true}
-            underlineColor="black"
-            activeUnderlineColor="black"
-            textColor={
-              EditHandler.EditName ? 'rgba(137, 252, 233, 1)' : 'white'
-            }
-            style={[styles.TextInput, {borderColor: 'transparent'}]}
-            onKeyPress={false}
-            autoCapitalize="none"
-            value={data.name}
-            onChangeText={val => nameinput(val)}
-          />
-          <View style={{marginHorizontal: 10}}>
-            <TouchableOpacity onPress={ChangeNameEditStatus}>
-              <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
-                <Edit
-                  name="edit"
-                  size={25}
-                  color={
-                    EditHandler.EditName ? 'white' : 'rgba(137, 252, 233, 1)'
-                  }
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Date of Birth Section */}
-        <Text style={[styles.text_footer, {marginTop: 6}]}>Date of Birth</Text>
-        <View style={styles.action}>
-          <Cake
-            name="cake-variant-outline"
-            size={30}
-            color={EditHandler.EditDOB ? 'white' : 'rgba(137, 252, 233, 1)'}
-          />
-          <TouchableOpacity
-            disabled={EditHandler.EditDOB ? true : false}
-            onPress={displayDatepicker}
-            title="Select your Time"
-            style={[styles.TextInput]}>
-            <Text
-              style={[
-                styles.text_footer,
-                {
-                  paddingVertical: 10,
-                  fontSize: 20,
-                  marginLeft: 15,
-                  color: EditHandler.EditDOB
-                    ? 'rgba(137, 252, 233, 1)'
-                    : 'white',
-                },
-              ]}>
-              {data.date_of_birth}
-            </Text>
-          </TouchableOpacity>
-          <View style={{marginHorizontal: 10}}>
-            <TouchableOpacity onPress={ChangeDOBEditStatus}>
-              <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
-                <Edit
-                  name="edit"
-                  size={25}
-                  color={
-                    EditHandler.EditDOB ? 'white' : 'rgba(137, 252, 233, 1)'
-                  }
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-          {isDisplayDate && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              minimumDate={new Date(1960, 12, 31)}
-              value={new Date(data.date_of_birth)}
-              // maximumDate={new Date(2022, 12, 31)}
-              mode={'date'}
-              is24Hour={true}
-              display="spinner"
-              onChange={changeSelectedDate}
+      <Animatable.View
+        style={styles.footer}
+        animation="fadeInUpBig"
+        useNativeDriver>
+        <ScrollView>
+          {/* Name Section */}
+          <Text style={styles.text_footer}>Name</Text>
+          <View style={styles.action}>
+            <User
+              name="user"
+              size={30}
+              color={EditHandler.EditName ? 'white' : 'rgba(137, 252, 233, 1)'}
             />
-          )}
-        </View>
-
-        {/* Phone No Section */}
-        <Text style={[styles.text_footer, {marginTop: 6}]}>Phone No.</Text>
-        <View style={styles.action}>
-          <Phone
-            name="phone"
-            size={30}
-            color={EditHandler.EditPhoneNo ? 'white' : 'rgba(137, 252, 233, 1)'}
-          />
-          <TextInput
-            maxLength={10}
-            underlineColor="black"
-            activeUnderlineColor="black"
-            textColor={
-              EditHandler.EditPhoneNo ? 'rgba(137, 252, 233, 1)' : 'white'
-            }
-            editable={EditHandler.EditPhoneNo ? false : true}
-            value={data.phoneNo}
-            keyboardType="numeric"
-            style={styles.TextInput}
-            onChangeText={val => phonenoChange(val)}
-          />
-          <View style={{marginHorizontal: 10}}>
-            <TouchableOpacity onPress={ChangePhoneEditStatus}>
-              <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
-                <Edit
-                  name="edit"
-                  size={25}
-                  color={
-                    EditHandler.EditPhoneNo ? 'white' : 'rgba(137, 252, 233, 1)'
-                  }
-                />
-              </View>
-            </TouchableOpacity>
+            <TextInput
+              editable={EditHandler.EditName ? false : true}
+              underlineColor="black"
+              activeUnderlineColor="black"
+              textColor={
+                EditHandler.EditName ? 'rgba(137, 252, 233, 1)' : 'white'
+              }
+              style={[styles.TextInput, {borderColor: 'transparent'}]}
+              onKeyPress={false}
+              autoCapitalize="none"
+              value={data.name}
+              onChangeText={val => nameinput(val)}
+            />
+            <View style={{marginHorizontal: 10}}>
+              <TouchableOpacity onPress={ChangeNameEditStatus}>
+                <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
+                  <Edit
+                    name="edit"
+                    size={25}
+                    color={
+                      EditHandler.EditName ? 'white' : 'rgba(137, 252, 233, 1)'
+                    }
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-        {/* Gender */}
-        <Text style={[styles.text_footer, {marginTop: 6}]}>Gender</Text>
-        <View
-          style={[
-            styles.action,
-            {flexDirection: 'row', justifyContent: 'space-between'},
-          ]}>
-          <Gender
-            name={data.gender === 'Male' ? 'male' : 'female'}
-            size={30}
-            color={EditHandler.EditGender ? 'white' : 'rgba(137, 252, 233, 1)'}
-          />
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View>
+          {/* Date of Birth Section */}
+          <Text style={[styles.text_footer, {marginTop: 6}]}>
+            Date of Birth
+          </Text>
+          <View style={styles.action}>
+            <Cake
+              name="cake-variant-outline"
+              size={30}
+              color={EditHandler.EditDOB ? 'white' : 'rgba(137, 252, 233, 1)'}
+            />
+            <TouchableOpacity
+              disabled={EditHandler.EditDOB ? true : false}
+              onPress={displayDatepicker}
+              title="Select your Time"
+              style={[styles.TextInput]}>
               <Text
                 style={[
                   styles.text_footer,
                   {
-                    color: EditHandler.EditGender
+                    paddingVertical: 10,
+                    fontSize: 16,
+                    marginLeft: 15,
+                    color: EditHandler.EditDOB
                       ? 'rgba(137, 252, 233, 1)'
                       : 'white',
                   },
                 ]}>
-                Male
+                {data.date_of_birth}
               </Text>
+            </TouchableOpacity>
+            <View style={{marginHorizontal: 10}}>
+              <TouchableOpacity onPress={ChangeDOBEditStatus}>
+                <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
+                  <Edit
+                    name="edit"
+                    size={25}
+                    color={
+                      EditHandler.EditDOB ? 'white' : 'rgba(137, 252, 233, 1)'
+                    }
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
-            <View>
-              <RadioButton
-                disabled={EditHandler.EditGender ? true : false}
-                color="rgba(137, 252, 233, 1)"
-                value="Male"
-                status={data.gender === 'Male' ? 'checked' : 'unchecked'}
-                onPress={() => setData({...data, gender: 'Male'})}
+            {isDisplayDate && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                minimumDate={new Date(1960, 12, 31)}
+                value={new Date(data.date_of_birth)}
+                // maximumDate={new Date(2022, 12, 31)}
+                mode={'date'}
+                is24Hour={true}
+                display="spinner"
+                onChange={changeSelectedDate}
               />
+            )}
+          </View>
+
+          {/* Phone No Section */}
+          <Text style={[styles.text_footer, {marginTop: 6}]}>Phone No.</Text>
+          <View style={styles.action}>
+            <Phone
+              name="phone"
+              size={30}
+              color={
+                EditHandler.EditPhoneNo ? 'white' : 'rgba(137, 252, 233, 1)'
+              }
+            />
+            <TextInput
+              maxLength={10}
+              underlineColor="black"
+              activeUnderlineColor="black"
+              textColor={
+                EditHandler.EditPhoneNo ? 'rgba(137, 252, 233, 1)' : 'white'
+              }
+              editable={EditHandler.EditPhoneNo ? false : true}
+              value={data.phoneNo}
+              keyboardType="numeric"
+              style={styles.TextInput}
+              onChangeText={val => phonenoChange(val)}
+            />
+            <View style={{marginHorizontal: 10}}>
+              <TouchableOpacity onPress={ChangePhoneEditStatus}>
+                <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
+                  <Edit
+                    name="edit"
+                    size={25}
+                    color={
+                      EditHandler.EditPhoneNo
+                        ? 'white'
+                        : 'rgba(137, 252, 233, 1)'
+                    }
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View>
-              <Text
-                style={[
-                  styles.text_footer,
-                  {
-                    color: EditHandler.EditGender
-                      ? 'rgba(137, 252, 233, 1)'
-                      : 'white',
-                  },
-                ]}>
-                Female
-              </Text>
-            </View>
-            <View>
-              <RadioButton
-                disabled={EditHandler.EditGender ? true : false}
-                color="rgba(137, 252, 233, 1)"
-                value="Female"
-                status={data.gender === 'Female' ? 'checked' : 'unchecked'}
-                onPress={() => setData({...data, gender: 'Female'})}
-              />
-            </View>
-          </View>
-          <View style={{marginHorizontal: 10}}>
-            <TouchableOpacity onPress={ChangeGenderEditStatus}>
-              <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
-                <Edit
-                  name="edit"
-                  size={25}
-                  color={
-                    EditHandler.EditGender ? 'white' : 'rgba(137, 252, 233, 1)'
-                  }
+
+          {/* Gender */}
+          <Text style={[styles.text_footer, {marginTop: 6}]}>Gender</Text>
+          <View
+            style={[
+              styles.action,
+              {flexDirection: 'row', justifyContent: 'space-between'},
+            ]}>
+            <Gender
+              name={data.gender === 'Male' ? 'male' : 'female'}
+              size={30}
+              color={
+                EditHandler.EditGender ? 'white' : 'rgba(137, 252, 233, 1)'
+              }
+            />
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View>
+                <Text
+                  style={[
+                    styles.text_footer,
+                    {
+                      color: EditHandler.EditGender
+                        ? 'rgba(137, 252, 233, 1)'
+                        : 'white',
+                    },
+                  ]}>
+                  Male
+                </Text>
+              </View>
+              <View>
+                <RadioButton
+                  disabled={EditHandler.EditGender ? true : false}
+                  color="rgba(137, 252, 233, 1)"
+                  value="Male"
+                  status={data.gender === 'Male' ? 'checked' : 'unchecked'}
+                  onPress={() => setData({...data, gender: 'Male'})}
                 />
               </View>
-            </TouchableOpacity>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View>
+                <Text
+                  style={[
+                    styles.text_footer,
+                    {
+                      color: EditHandler.EditGender
+                        ? 'rgba(137, 252, 233, 1)'
+                        : 'white',
+                    },
+                  ]}>
+                  Female
+                </Text>
+              </View>
+              <View>
+                <RadioButton
+                  disabled={EditHandler.EditGender ? true : false}
+                  color="rgba(137, 252, 233, 1)"
+                  value="Female"
+                  status={data.gender === 'Female' ? 'checked' : 'unchecked'}
+                  onPress={() => setData({...data, gender: 'Female'})}
+                />
+              </View>
+            </View>
+            <View style={{marginHorizontal: 10}}>
+              <TouchableOpacity onPress={ChangeGenderEditStatus}>
+                <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
+                  <Edit
+                    name="edit"
+                    size={25}
+                    color={
+                      EditHandler.EditGender
+                        ? 'white'
+                        : 'rgba(137, 252, 233, 1)'
+                    }
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+
+          {/* IDENTIFICATION CARD */}
+          <Text style={[styles.text_footer, {marginTop: 6}]}>
+            Identification
+          </Text>
+          <View style={styles.action}>
+            <IDCARD
+              name="idcard"
+              size={30}
+              color={EditHandler.EditID ? 'white' : 'rgba(137, 252, 233, 1)'}
+            />
+
+            <TextInput
+              underlineColor="black"
+              activeUnderlineColor="black"
+              textColor={
+                EditHandler.EditID ? 'rgba(137, 252, 233, 1)' : 'white'
+              }
+              editable={EditHandler.EditID ? false : true}
+              value={data.IdName}
+              style={styles.TextInput}
+              onChangeText={val => IDNameChange(val)}
+            />
+            <View
+              style={{
+                marginHorizontal: 10,
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
+              <View>
+                <Button
+                  disabled={EditHandler.EditID ? true : false}
+                  mode="contained"
+                  buttonColor="rgba(137, 252, 233, 1)"
+                  onPress={() => selectImageID()}>
+                  Upload
+                </Button>
+              </View>
+
+              <View>
+                <TouchableOpacity onPress={IDNameEditStatus}>
+                  <View
+                    style={{
+                      alignItems: 'flex-end',
+                      flexDirection: 'column',
+                      marginLeft: 20,
+                    }}>
+                    <Edit
+                      name="edit"
+                      size={25}
+                      color={
+                        EditHandler.EditID ? 'white' : 'rgba(137, 252, 233, 1)'
+                      }
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
 
         <View style={styles.button}>
           <TouchableOpacity
@@ -336,6 +552,9 @@ export default function Edit_Field({route}) {
                 data.date_of_birth,
                 data.phoneNo,
                 data.gender,
+                data.avatar,
+                data.IdName,
+                data.IDImage,
               )
             }
             style={[
@@ -403,7 +622,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: -12,
     backgroundColor: 'transparent',
-    fontSize: 20,
+    fontSize: 16,
     paddingLeft: 10,
     color: 'rgba(137, 252, 233, 1)',
   },
@@ -421,7 +640,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textSign: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
   },

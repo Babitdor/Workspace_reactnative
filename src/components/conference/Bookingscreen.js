@@ -5,8 +5,9 @@ import {
   Image,
   StyleSheet,
   FlatList,
+  Alert,
 } from 'react-native';
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Loading from '../home/Loading';
 import Cart from 'react-native-vector-icons/AntDesign';
 import {Dimensions} from 'react-native';
@@ -18,15 +19,12 @@ import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
-  responsiveScreenHeight,
-  responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import {AuthContext} from '../../navigation/AuthProvider';
-import Date_Time from '../seating/Date_time';
 import Date_Time_Conf from './Date_Time_Conf';
 import ConferenceIndicator from './ConferenceIndicator';
-
+const {height} = Dimensions.get('screen');
 let seatsprices = 0;
 let selectedseats = [];
 let SeatSelectedStatus = [];
@@ -41,26 +39,40 @@ export default function Bookingscreen(props) {
   const [table6, setTable6] = useState([]);
   const [table7, setTable7] = useState([]);
   const [Conference, setConference] = useState([]);
-  const {SelectedSeats, setSeats} = useContext(AuthContext);
+  const {
+    setSeats,
+    MinTime,
+    MaxTime,
+    SelectDate,
+    setMin,
+    setMax,
+    setSelectDate,
+  } = useContext(AuthContext);
   const {isChanged, setChanged} = useContext(AuthContext);
+
+  useEffect(() => {
+    setMax('');
+    setMin('');
+    setSelectDate('');
+  }, []);
 
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase
         .app()
-        .database(
-          'https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app/',
-        )
+        .database()
         .ref('/Data/Tables/')
-        .once('value');
-      setTable(snapshot.val());
-      setTable1(snapshot.val()[0].seats);
-      setTable2(snapshot.val()[1].seats);
-      setTable4(snapshot.val()[3].seats);
-      setTable5(snapshot.val()[4].seats);
-      setTable6(snapshot.val()[5].seats);
-      setTable7(snapshot.val()[6].seats);
-      setConference(snapshot.val()[7].seats);
+        .on('value', snapshot => {
+          setTable(snapshot.val());
+          setTable1(snapshot.val()[0].seats);
+          setTable2(snapshot.val()[1].seats);
+          setTable4(snapshot.val()[3].seats);
+          setTable5(snapshot.val()[4].seats);
+          setTable6(snapshot.val()[5].seats);
+          setTable7(snapshot.val()[6].seats);
+          setConference(snapshot.val()[7].seats);
+        });
+      return () => database().ref(`/Data/Tables/`).off('value', snapshot);
     }
     FetchData();
   }, [isChanged]);
@@ -101,28 +113,35 @@ export default function Bookingscreen(props) {
   };
 
   const confirmseat = () => {
-    setSeats(SeatSelectedStatus);
-    setChanged(isChanged => !isChanged);
-    navigation.navigate('ConferenceBook', {
-      seatselected: SeatSelectedStatus,
-      seatid: selectedseatsid,
-      tprice: seatsprices,
-      Date_Time: props.data,
-    });
+    if (MinTime !== '' && MaxTime !== '' && SelectDate !== '') {
+      setSeats(SeatSelectedStatus);
+      setChanged(isChanged => !isChanged);
+      navigation.navigate('ConferenceBook', {
+        seatselected: SeatSelectedStatus,
+        seatid: selectedseatsid,
+        tprice: seatsprices,
+      });
+    } else {
+      Alert.alert('No Date or Time Selected');
+      navigation.navigate('Home');
+    }
   };
 
   return (
     <>
       {Table ? (
         <>
-          <Animatable.View animation="fadeInUpBig" delay={400}>
+          <Animatable.View animation="fadeInUpBig" useNativeDriver>
+            {/* Seat Indicators */}
             <ConferenceIndicator />
           </Animatable.View>
           <SafeAreaView style={styles.container}>
             <Animatable.View
+              useNativeDriver
               animation="fadeInUpBig"
               delay={100}
               style={styles.footer}>
+              {/* Seat Layout Container */}
               <View
                 style={{
                   width: '100%',
@@ -131,7 +150,7 @@ export default function Bookingscreen(props) {
                 {/* TABLE A */}
                 <View
                   style={{
-                    top: 200,
+                    top: 160,
                     left: 30,
                     zIndex: 100,
                     alignItems: 'center',
@@ -186,7 +205,7 @@ export default function Bookingscreen(props) {
                 {/* TABLE B */}
                 <View
                   style={{
-                    top: 280,
+                    top: 240,
                     left: 15,
                     zIndex: 100,
                     flex: 1,
@@ -239,7 +258,7 @@ export default function Bookingscreen(props) {
                 <View
                   style={{
                     top: 120,
-                    left: 150,
+                    left: 160,
                     zIndex: 100,
                     flex: 1,
                     alignItems: 'center',
@@ -248,11 +267,12 @@ export default function Bookingscreen(props) {
                   }}>
                   <TouchableOpacity
                     style={{
-                      borderRadius: 5,
+                      borderRadius: 20,
                       borderColor: 'white',
                       borderWidth: 2,
-                      marginBottom: 10,
+                      marginBottom: -16,
                       padding: 8,
+                      zIndex: 999,
                     }}
                     onPress={() => {
                       navigation.navigate('TableDescription', {
@@ -284,7 +304,7 @@ export default function Bookingscreen(props) {
                           {item.empty == false && item.booked == true ? (
                             <Image
                               style={{
-                                width: 180,
+                                width: 150,
                                 height: 100,
                                 tintColor: 'rgba(137, 252, 233, 1)',
                               }}
@@ -293,7 +313,7 @@ export default function Bookingscreen(props) {
                           ) : item.empty == true && item.booked == false ? (
                             <Image
                               style={{
-                                width: 180,
+                                width: 150,
                                 height: 100,
                               }}
                               source={require('../../assets/Conference.png')}
@@ -301,7 +321,7 @@ export default function Bookingscreen(props) {
                           ) : item.empty == false && item.booked == false ? (
                             <Image
                               style={{
-                                width: 180,
+                                width: 150,
                                 height: 100,
                                 tintColor: 'rgba(147, 147, 147, 0.53)',
                               }}
@@ -366,7 +386,7 @@ export default function Bookingscreen(props) {
                 {/* TABLE E */}
                 <View
                   style={{
-                    top: 120,
+                    top: 80,
                     right: 20,
                     zIndex: 100,
                     flex: 1,
@@ -468,7 +488,7 @@ export default function Bookingscreen(props) {
                 {/* Table G */}
                 <View
                   style={{
-                    top: 300,
+                    top: 250,
                     left: 190,
                     zIndex: 100,
                     flex: 1,
@@ -519,211 +539,94 @@ export default function Bookingscreen(props) {
                 </View>
               </View>
 
-              {getAllSeats() && seatsprices ? (
-                <View
-                  style={{
-                    top: '60%',
-                    padding: 10,
-                    zIndex: 9999,
-                    flex: 3,
-                  }}>
-                  <Animatable.View
-                    animation="fadeInUp"
-                    style={{
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      backgroundColor: 'black',
-                      borderRadius: 30,
-                      padding: 15,
-                      margin: -10,
-                      height: '100%',
-                    }}>
-                    <View style={{paddingVertical: 10, zIndex: 9999}}>
-                      {/* Slider Page Goes Here */}
-                      <Date_Time />
-                    </View>
+              {/* Date/Time and Proceed Container */}
+              <View style={styles.BottomContainer}>
+                <Animatable.View
+                  useNativeDriver
+                  animation="fadeInUp"
+                  style={styles.ProceedBtnContainer}>
+                  <View style={{paddingVertical: 10, zIndex: 9999}}>
+                    {/* Date & Time Component for Conference Booking */}
+                    <Date_Time_Conf />
+                  </View>
 
-                    <TouchableOpacity
-                      disabled={getAllSeats() ? false : true}
-                      onPress={() => confirmseat()}
-                      style={{
-                        width: '100%',
-                        backgroundColor: 'rgba(137, 252, 233, 1)',
-                        paddingHorizontal: 15,
-                        borderRadius: 10,
-                        marginHorizontal: 20,
-                      }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}>
+                  {/* Proceed Button*/}
+                  {getAllSeats() && seatsprices ? (
+                    <Animatable.View
+                      animation="fadeInUp"
+                      style={styles.ProceedBtn}>
+                      <TouchableOpacity
+                        disabled={getAllSeats() ? false : true}
+                        onPress={() => confirmseat()}>
                         <View
                           style={{
-                            flexDirection: 'column',
+                            flexDirection: 'row',
                             alignItems: 'center',
-                            flexWrap: 'wrap',
+                            justifyContent: 'space-between',
                           }}>
-                          <View>
-                            <Text style={{color: 'black', padding: 5}}>
-                              Seat Number
-                            </Text>
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              flexWrap: 'wrap',
+                            }}>
+                            <View>
+                              <Text style={{color: 'black', padding: 5}}>
+                                Seat Number
+                              </Text>
+                            </View>
+                            <View>
+                              {getAllSeats() ? (
+                                <Text style={styles.seatidtext}>
+                                  {getAllSeats()}
+                                </Text>
+                              ) : (
+                                <Text
+                                  style={{
+                                    fontSize: 15,
+                                    fontWeight: '200',
+                                    color: 'black',
+                                    padding: 5,
+                                  }}>
+                                  No Seats
+                                </Text>
+                              )}
+                            </View>
                           </View>
-                          <View>
-                            {getAllSeats() ? (
-                              <Text
-                                style={{
-                                  fontSize: responsiveScreenFontSize(2.5),
-                                  color: 'black',
-                                  padding: 5,
-                                  fontSize: 16,
-                                }}>
-                                {getAllSeats()}
-                              </Text>
-                            ) : (
-                              <Text
-                                style={{
-                                  fontSize: 15,
-                                  fontWeight: '200',
-                                  color: 'black',
-                                  padding: 5,
-                                }}>
-                                No Seats
-                              </Text>
-                            )}
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                            }}>
+                            <View>
+                              <Cart
+                                color="black"
+                                name="shoppingcart"
+                                size={30}
+                                style={{marginRight: 20, marginLeft: 20}}
+                              />
+                            </View>
+                            <View>
+                              {seatsprices ? (
+                                <Text style={{color: 'black', fontSize: 20}}>
+                                  {seatsprices.toLocaleString('en-IN', {
+                                    style: 'currency',
+                                    currency: 'INR',
+                                  })}
+                                </Text>
+                              ) : (
+                                <></>
+                              )}
+                            </View>
                           </View>
                         </View>
-                        <View
-                          style={{flexDirection: 'row', alignItems: 'center'}}>
-                          <View>
-                            <Cart
-                              color="black"
-                              name="shoppingcart"
-                              size={30}
-                              style={{marginRight: 20, marginLeft: 20}}
-                            />
-                          </View>
-                          <View>
-                            {seatsprices ? (
-                              <Text style={{color: 'black', fontSize: 20}}>
-                                {seatsprices.toLocaleString('en-IN', {
-                                  style: 'currency',
-                                  currency: 'INR',
-                                })}
-                              </Text>
-                            ) : (
-                              <></>
-                            )}
-                          </View>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </Animatable.View>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    top: '60%',
-                    padding: 10,
-                    zIndex: 9999,
-                    flex: 3,
-                  }}>
-                  <Animatable.View
-                    animation="fadeOutDown"
-                    style={{
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      backgroundColor: 'black',
-                      borderRadius: 30,
-                      padding: 15,
-                      margin: -10,
-                      height: '100%',
-                    }}>
-                    <View style={{paddingVertical: 10, zIndex: 9999}}>
-                      {/* Slider Page Goes Here */}
-                      <Date_Time_Conf />
-                    </View>
-
-                    <TouchableOpacity
-                      disabled={getAllSeats() ? false : true}
-                      // onPress={() => confirmseat()}
-                      style={{
-                        width: '100%',
-                        backgroundColor: 'rgba(137, 252, 233, 1)',
-                        paddingHorizontal: 15,
-                        borderRadius: 10,
-                        marginHorizontal: 20,
-                      }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}>
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            flexWrap: 'wrap',
-                          }}>
-                          <View>
-                            <Text style={{color: 'black', padding: 5}}>
-                              Seat Number
-                            </Text>
-                          </View>
-                          <View>
-                            {getAllSeats() ? (
-                              <Text
-                                style={{
-                                  fontSize: responsiveScreenFontSize(2.5),
-                                  color: 'black',
-                                  padding: 5,
-                                  fontSize: 16,
-                                }}>
-                                {getAllSeats()}
-                              </Text>
-                            ) : (
-                              <Text
-                                style={{
-                                  fontSize: 15,
-                                  fontWeight: '200',
-                                  color: 'black',
-                                  padding: 5,
-                                }}>
-                                No Seats
-                              </Text>
-                            )}
-                          </View>
-                        </View>
-                        <View
-                          style={{flexDirection: 'row', alignItems: 'center'}}>
-                          <View>
-                            <Cart
-                              color="black"
-                              name="shoppingcart"
-                              size={30}
-                              style={{marginRight: 20, marginLeft: 20}}
-                            />
-                          </View>
-                          <View>
-                            {seatsprices ? (
-                              <Text style={{color: 'black', fontSize: 20}}>
-                                {seatsprices.toLocaleString('en-IN', {
-                                  style: 'currency',
-                                  currency: 'INR',
-                                })}
-                              </Text>
-                            ) : (
-                              <></>
-                            )}
-                          </View>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </Animatable.View>
-                </View>
-              )}
+                      </TouchableOpacity>
+                    </Animatable.View>
+                  ) : (
+                    <></>
+                  )}
+                </Animatable.View>
+              </View>
             </Animatable.View>
           </SafeAreaView>
         </>
@@ -734,6 +637,33 @@ export default function Bookingscreen(props) {
   );
 }
 const styles = StyleSheet.create({
+  BottomContainer: {
+    top: height / 2.6,
+    zIndex: 9999,
+    flex: 3,
+  },
+  ProceedBtnContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    borderRadius: 40,
+    paddingHorizontal: 20,
+    marginHorizontal: -10,
+    height: '100%',
+  },
+  seatidtext: {
+    fontSize: responsiveScreenFontSize(2.5),
+    color: 'black',
+    padding: 5,
+    fontSize: 16,
+  },
+  ProceedBtn: {
+    width: '90%',
+    backgroundColor: 'rgba(137, 252, 233, 1)',
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginHorizontal: 10,
+  },
   container: {
     flex: 1,
     width: '100%',

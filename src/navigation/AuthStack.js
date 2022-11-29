@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StatusBar, SafeAreaView} from 'react-native';
+import {StatusBar} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -9,7 +9,6 @@ import SignIn from '../components/login_signin/SignIn';
 import {Easing} from 'react-native-reanimated';
 import LoginMain from '../components/login_signin/LoginMain';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import GoogleSigninDetails from '../components/login_signin/Edit_Page';
 
 export default function AuthStack() {
   const Stack = createStackNavigator();

@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {firebase} from '@react-native-firebase/firestore';
@@ -9,6 +9,7 @@ import {useState} from 'react';
 import Refreshs from 'react-native-vector-icons/EvilIcons';
 import * as Animatable from 'react-native-animatable';
 import {LogBox} from 'react-native';
+
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
@@ -22,9 +23,10 @@ import PurchasesPage from './PurchasesPage';
 import TicketButtons from './TicketButtons';
 
 export default function PurchaseHistory() {
-  const {user, setTicketType, TicketType} = useContext(AuthContext);
+  const {user, TicketType} = useContext(AuthContext);
   const [TableTickets, setTickets] = useState([]);
-  const [Refresh, setRefresh] = useState(true);
+  // const [Refresh, setRefresh] = useState(true);
+
   useEffect(() => {
     async function FetchData() {
       const snapshot = await firebase
@@ -32,11 +34,19 @@ export default function PurchaseHistory() {
         .collection(TicketType)
         .doc(user.uid)
         .collection('Orders')
-        .get();
-      setTickets(snapshot.docs);
+        .onSnapshot(documentSnapshot => {
+          setTickets(documentSnapshot.docs);
+        });
+
+      // OLD UPDATE CODE OBSOLETE
+      // .get()
+      // .then(snapshot => {
+      //   setTickets(snapshot.docs);
+      // });
     }
     FetchData();
-  }, [Refresh, TicketType]);
+  }, [TicketType]); //Refresh
+
   return (
     <SafeAreaView
       style={{
@@ -45,7 +55,9 @@ export default function PurchaseHistory() {
         height: '100%',
         backgroundColor: 'black',
       }}>
-      <View
+
+      {/* OLD UPDATE CODE SYSTEM */}
+      {/* <View
         style={{
           flexDirection: 'row',
           padding: 15,
@@ -59,11 +71,13 @@ export default function PurchaseHistory() {
           style={{padding: 8, borderRadius: 100}}>
           <Refreshs name="refresh" size={35} color={'white'} />
         </TouchableOpacity>
-      </View>
+      </View> */}
+
+
       <View style={styles.container}>
         <View style={styles.header}>
           {TicketType === 'BookATable' ? (
-            <Animatable.View animation="fadeInUp">
+            <Animatable.View animation="fadeInUp" useNativeDriver>
               <Image
                 resizeMode="contain"
                 source={require('../../assets/PageIcons/TableLogo.png')}
@@ -71,7 +85,7 @@ export default function PurchaseHistory() {
               />
             </Animatable.View>
           ) : (
-            <Animatable.View animation="fadeInUp">
+            <Animatable.View animation="fadeInUp" useNativeDriver>
               <Image
                 resizeMode="contain"
                 source={require('../../assets/PageIcons/ConferenceLogo.png')}
@@ -81,7 +95,10 @@ export default function PurchaseHistory() {
           )}
           {/* <Text style={styles.title}>Table & Conference History</Text> */}
         </View>
-        <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+        <Animatable.View
+          animation="fadeInUpBig"
+          style={styles.footer}
+          useNativeDriver>
           <View style={{alignItems: 'center', marginBottom: 20, marginTop: 20}}>
             <TicketButtons />
           </View>

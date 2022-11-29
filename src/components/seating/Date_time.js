@@ -29,7 +29,6 @@ export default function Date_time() {
 
   const StartTime = new Date();
   const EndTime = new Date();
-  const {isChanged, setChanged} = useContext(AuthContext);
   const {setSelectDate, setMin, setMax} = useContext(AuthContext);
   const [date, setDate] = useState(new Date());
   const [displaymode, setMode] = useState('time');
@@ -39,7 +38,6 @@ export default function Date_time() {
 
   const changeStartSelectedTime = (_event, selectedStartTime) => {
     tempstart = moment(selectedStartTime).format('HH:mm:ss');
-    console.log(tempstart);
     currentStartTime = moment(selectedStartTime).format('hh:mm A');
     if (tempstart != tempend || tempstart < tempend) {
       setStartTimeShow(false);
@@ -187,9 +185,9 @@ export default function Date_time() {
 }
 const styles = StyleSheet.create({
   TextInput: {
-    width: responsiveWidth(78),
+    width: responsiveWidth(72),
     backgroundColor: '#242526',
-    padding: 10,
+    padding: 6,
     borderRadius: 15,
     marginBottom: 10,
     marginHorizontal: 15,
@@ -198,12 +196,12 @@ const styles = StyleSheet.create({
   TextInputTime: {
     width: responsiveWidth(35),
     backgroundColor: '#242526',
-    padding: 10,
+    padding: 6,
     borderRadius: 15,
     marginBottom: 10,
     marginTop: 10,
-    marginHorizontal: 15,
-    paddingHorizontal: 20,
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
   },
   Text: {
     color: 'white',

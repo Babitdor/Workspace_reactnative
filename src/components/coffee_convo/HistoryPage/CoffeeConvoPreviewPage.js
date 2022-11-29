@@ -117,10 +117,9 @@ export default function CoffeeConvoPreviewPage({route}) {
               {
                 textAlign: 'center',
                 fontWeight: 'bold',
-                marginHorizontal:8,
-                borderWidth:1,
+                marginHorizontal:16,
+                borderBottomWidth:1,
                 borderColor: 'rgba(137, 252, 233, 1)',
-                borderRadius: 10,
                 padding: 8,
                 color: 'white',
               },

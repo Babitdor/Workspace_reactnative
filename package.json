@@ -19,6 +19,7 @@
     "@react-native-firebase/database": "^15.7.0",
     "@react-native-firebase/firestore": "^15.7.0",
     "@react-native-firebase/messaging": "^15.7.0",
+    "@react-native-firebase/storage": "^15.7.0",
     "@react-native-google-signin/google-signin": "^8.0.1",
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/drawer": "^6.5.0",
@@ -37,9 +38,13 @@
     "react-native-countdown-component": "^2.7.1",
     "react-native-countdown-timer-hooks": "^1.0.3",
     "react-native-gesture-handler": "^2.7.1",
+    "react-native-image-picker": "^4.10.0",
+    "react-native-image-slider": "^2.0.3",
     "react-native-image-slider-box": "^2.0.6",
+    "react-native-image-viewing": "^0.2.2",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-paper": "^5.0.0-rc.9",
+    "react-native-paper-dropdown": "^1.0.7",
     "react-native-push-notification": "^8.1.1",
     "react-native-reanimated": "^2.11.0",
     "react-native-responsive-dimensions": "^3.1.1",
@@ -59,13 +64,22 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@testing-library/react-native": "^11.4.0",
     "babel-jest": "^26.6.3",
+    "enzyme": "^3.11.0",
     "eslint": "^7.32.0",
-    "jest": "^26.6.3",
+    "jest-cli": "^29.3.1",
     "metro-react-native-babel-preset": "0.72.3",
     "react-test-renderer": "18.1.0"
   },
   "jest": {
-    "preset": "react-native"
-  }
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!@react-native|react-native|@react-navigation)"
+    ],
+    "moduleFileExtensions":[
+      "ts","tsx","js","jsx","json","node"
+    ]
+  },
+  "type": "module"
 }

@@ -62,7 +62,11 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image source = {require('../../assets/Waving.png')} resizeMode='contain' style={{width:'30%'}}/>
+        <Image
+          source={require('../../assets/Waving.png')}
+          resizeMode="contain"
+          style={{width: '30%'}}
+        />
       </View>
       <Text style={styles.text_header}>Welcome, Buddy!</Text>
 
@@ -105,6 +109,7 @@ export default function LoginScreen() {
         <View style={[styles.button, {marginTop: 70}]}>
           <TouchableOpacity
             style={styles.signIn}
+            disabled={data.email && data.password ? false : true}
             onPress={() => login(data.email, data.password)}>
             <Text style={styles.textSign}>Log In</Text>
           </TouchableOpacity>
@@ -176,7 +181,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   header: {
-    alignItems:'center',
+    alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 10,

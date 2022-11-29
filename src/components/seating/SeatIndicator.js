@@ -1,16 +1,6 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize,
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from 'react-native-responsive-dimensions';
 export default function SeatIndicator(props) {
-  const navigation = useNavigation();
   return (
     <>
       <View

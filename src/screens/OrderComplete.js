@@ -7,26 +7,21 @@ import {
   StatusBar,
   BackHandler,
 } from 'react-native';
-import React, {useCallback} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Home from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-import * as Animatable from 'react-native-animatable';
 import LottieView from 'lottie-react-native';
 export default function OrderComplete(route) {
   const navigation = useNavigation();
-  useFocusEffect(
-    useCallback(() => {
-      const onBackPress = () => {
-        return true;
-      };
 
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, []),
-  );
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => true,
+    );
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
@@ -42,13 +37,15 @@ export default function OrderComplete(route) {
           }}>
           <View
             style={{backgroundColor: 'white', padding: 8, borderRadius: 50}}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Home')}
+              style={{zIndex: 999}}>
               <Home name="home" size={25} color={'black'} />
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.header}>
-          <Animatable.View animation="bounceIn">
+          <View>
             <LottieView
               style={styles.logo}
               source={require('../animations/Checkmark.json')}
@@ -56,14 +53,14 @@ export default function OrderComplete(route) {
               speed={0.5}
               loop={false}
             />
-          </Animatable.View>
+          </View>
         </View>
 
-        <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+        <View style={styles.footer}>
           <Text style={styles.title}>
             Your Order has been placed for {route.route.params.totalRs}
           </Text>
-        </Animatable.View>
+        </View>
       </View>
     </SafeAreaView>
   );

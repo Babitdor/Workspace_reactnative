@@ -7,11 +7,8 @@ import {
   Image,
 } from 'react-native';
 import {
-  responsiveHeight,
-  responsiveWidth,
   responsiveFontSize,
   responsiveScreenHeight,
-  responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
 import React, {useContext} from 'react';
@@ -30,6 +27,7 @@ export default function StaticGoogleProfile() {
   const {logout} = useContext(AuthContext);
   const {user} = useContext(AuthContext);
   const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View
@@ -53,7 +51,10 @@ export default function StaticGoogleProfile() {
         </View>
       </View>
 
-      <View style={styles.header}>
+      <Animatable.View
+        style={styles.header}
+        animation="fadeInUp"
+        useNativeDriver>
         <Image
           style={{
             width: 80,
@@ -73,9 +74,12 @@ export default function StaticGoogleProfile() {
           }}>
           {user.displayName}
         </Text>
-      </View>
+      </Animatable.View>
 
-      <Animatable.View style={styles.footer} animation="fadeInUpBig">
+      <Animatable.View
+        style={styles.footer}
+        animation="fadeInUpBig"
+        useNativeDriver>
         <View
           style={{
             marginHorizontal: 10,

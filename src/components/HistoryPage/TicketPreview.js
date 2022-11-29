@@ -211,54 +211,47 @@ export default function TicketPreview({route}) {
           </View>
         </View>
 
-        <View
-          style={{
-            borderColor: 'white',
-            marginTop: 10,
-            height: '44%',
-            borderRadius: 20,
-          }}>
-          <View>
-            <Text
-              style={[
-                styles.text,
-                {
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  color: 'white',
-                  marginBottom: 10,
-                  borderWidth: 1,
-                  borderColor: 'rgba(137, 252, 233, 1)',
-                  padding: 6,
-                  margin: 6,
-                  borderRadius: 10,
-                },
-              ]}>
-              Items
-            </Text>
-          </View>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={Ticket._data.items}
-            renderItem={({item, index}) => {
-              return (
-                <View
-                  style={{
-                    padding: 5,
-                    flex: 1,
-                    borderRadius: 10,
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    margin: 10,
-                  }}>
-                  <Items items={item} />
-                  <Divider width={0.2} color="white" />
-                </View>
-              );
-            }}
-            horizontal={false}
-          />
+        <View>
+          <Text
+            style={[
+              styles.text,
+              {
+                textAlign: 'center',
+                fontWeight: 'bold',
+                color: 'white',
+                marginBottom: 10,
+                borderBottomWidth: 1,
+                fontSize: 16,
+                borderColor: 'rgba(137, 252, 233, 1)',
+                padding: 6,
+                margin: 6,
+              },
+            ]}>
+            Items
+          </Text>
         </View>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={Ticket._data.items}
+          renderItem={({item, index}) => {
+            return (
+              <View
+                style={{
+                  padding: 5,
+                  flex: 1,
+                  height: '100%',
+                  borderRadius: 10,
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  margin: 10,
+                }}>
+                <Items items={item} />
+                <Divider width={0.2} color="white" />
+              </View>
+            );
+          }}
+          horizontal={false}
+        />
       </View>
     </SafeAreaView>
   );
@@ -281,9 +274,7 @@ const Items = props => (
       />
     </View>
     <View>
-      <Text style={{fontSize: 18, color: 'white'}}>
-        {props.items.title}
-      </Text>
+      <Text style={{fontSize: 18, color: 'white'}}>{props.items.title}</Text>
     </View>
     <View>
       <Text style={{fontSize: 15, color: 'white'}}>{props.items.price}</Text>

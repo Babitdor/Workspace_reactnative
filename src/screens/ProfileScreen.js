@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {firebase} from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
@@ -10,22 +9,24 @@ import {AuthContext} from '../navigation/AuthProvider';
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const [UserData, setUserData] = useState([]);
-  const {user,Refresh} = useContext(AuthContext);
+  const {user, Refresh} = useContext(AuthContext);
+
   useEffect(() => {
     async function FetchData() {
       const snapshot = await firebase
         .firestore()
         .collection('Users')
         .doc(user.uid)
-        .get();
-      setUserData(snapshot._data);
+        .get()
+        .then(doc => {
+          setUserData(doc.data());
+        });
     }
     FetchData();
   }, [Refresh]);
 
   useEffect(() => {
-    const focusHandler = navigation.addListener('focus', () => {
-    });
+    const focusHandler = navigation.addListener('focus', () => {});
     return focusHandler;
   }, [navigation]);
   {

@@ -10,14 +10,14 @@ import {
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import React, {useState, useContext} from 'react';
+import React from 'react';
 import {Linking, Platform} from 'react-native';
 import Phone from 'react-native-vector-icons/Entypo';
 import Mail from 'react-native-vector-icons/Entypo';
 import Address from 'react-native-vector-icons/Entypo';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {StatusBar} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 export default function WholeHall({navigation}) {
@@ -32,8 +32,8 @@ export default function WholeHall({navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flex:1,}}>
-      <StatusBar translucent backgroundColor={'black'}/>
+    <SafeAreaView style={{flex: 1}}>
+      <StatusBar translucent backgroundColor={'black'} />
       <View
         style={{
           alignItems: 'flex-start',
@@ -67,7 +67,10 @@ export default function WholeHall({navigation}) {
           <Text style={styles.text_header}>Book A Hall</Text>
         </View>
 
-        <Animatable.View style={styles.footer} animation="fadeInUpBig">
+        <Animatable.View
+          style={styles.footer}
+          animation="fadeInUpBig"
+          useNativeDriver>
           <View style={{marginHorizontal: 10}}>
             <Text
               style={[
@@ -93,23 +96,23 @@ export default function WholeHall({navigation}) {
               ]}>
               Call Us
             </Text>
-            <Animatable.View animation='fadeInLeft' delay={500}>
-            <TouchableOpacity
-              onPress={() => {
-                dialCall(9435323223);
-              }}
-              style={styles.btn}>
-              <View style={styles.action}>
-                <View>
-                  <Phone name="phone" size={30} color="black" />
-                </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  dialCall(9435323223);
+                }}
+                style={styles.btn}>
+                <View style={styles.action}>
+                  <View>
+                    <Phone name="phone" size={30} color="black" />
+                  </View>
 
-                <View>
-                  <Text style={styles.TextInput}>(+91) 9435323223</Text>
+                  <View>
+                    <Text style={styles.TextInput}>(+91) 9435323223</Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-            </Animatable.View>
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={{marginHorizontal: 15}}>
@@ -120,23 +123,23 @@ export default function WholeHall({navigation}) {
               ]}>
               Drop A Mail
             </Text>
-            <Animatable.View animation='fadeInLeft' delay={900}><TouchableOpacity
-              onPress={() => {
-                Linking.openURL('mailto:support@example.com');
-              }}
-              style={styles.btn}>
-              <View style={styles.action}>
-                <View>
-                  <Mail name="mail" size={30} color="black" />
-                </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  Linking.openURL('mailto:support@example.com');
+                }}
+                style={styles.btn}>
+                <View style={styles.action}>
+                  <View>
+                    <Mail name="mail" size={30} color="black" />
+                  </View>
 
-                <View>
-                  <Text style={styles.TextInput}>support@example.com</Text>
+                  <View>
+                    <Text style={styles.TextInput}>support@example.com</Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          </Animatable.View>
-          
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={{marginHorizontal: 15, marginTop: 20}}>
@@ -174,8 +177,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     backgroundColor: 'rgba(137, 252, 233, 1)',
-    padding: 8,
-    margin: 3,
+    padding: 5,
+    margin: 4,
     borderRadius: 10,
   },
   header: {
@@ -196,13 +199,14 @@ const styles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
     colorWeight: 'bold',
-    fontSize: 35,
+    fontSize: 32,
   },
   text_footer: {
     color: 'text',
     marginHorizontal: 10,
-    fontSize: 18,
-    color:'white'
+    fontSize: 15,
+    fontWeight: '500',
+    color: 'white',
   },
   action: {
     flexDirection: 'row',
@@ -230,9 +234,9 @@ const styles = StyleSheet.create({
   addText: {
     textAlign: 'justify',
     marginHorizontal: 10,
-    fontSize: 18,
+    fontSize: 16,
     padding: 5,
-    color:'white',
+    color: 'white',
     justifyContent: 'center',
     fontWeight: '400',
   },

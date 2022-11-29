@@ -9,20 +9,20 @@ import {useContext} from 'react';
 import * as Animatable from 'react-native-animatable';
 import {AuthContext} from '../../navigation/AuthProvider';
 export default function FoodItems(props) {
-  const {Category, setCategory} = useContext(AuthContext);
+  const {Category} = useContext(AuthContext);
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase
         .app()
-        .database(
-          'https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app/',
-        )
+        .database()
         .ref(`/Data/Foods/0/${Category}/`)
-        .once('value');
-      setITEMS(snapshot.val());
+        .once('value', snapshot => {
+          setITEMS(snapshot.val());
+        });
     }
     FetchData();
   }, [Category]);
+
   const [items, setITEMS] = useState([]);
   const dispatch = useDispatch();
   const selectItem = (item, checkboxValue) =>

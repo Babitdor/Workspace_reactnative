@@ -1,9 +1,6 @@
 import React from 'react';
 import {StatusBar, Easing} from 'react-native';
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from '@react-navigation/stack';
+import {createStackNavigator,CardStyleInterpolators} from '@react-navigation/stack';
 import Home from '../screens/Home';
 import TableBook from '../screens/TableBook';
 import Seating from '../screens/Seating';

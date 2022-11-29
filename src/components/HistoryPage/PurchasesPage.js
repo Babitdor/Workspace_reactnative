@@ -59,7 +59,6 @@ export default function PurchasesPage(props) {
                         styles.text,
                         {
                           marginLeft: 10,
-                          fontWeight: '100',
                           fontSize: 16,
                           color: 'black',
                         },

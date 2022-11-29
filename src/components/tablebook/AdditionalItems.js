@@ -1,12 +1,22 @@
-import {View, Text, StyleSheet, Image, FlatList, BackHandler} from 'react-native';
-import React, {useRef, useEffect, useState, useCallback} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  BackHandler,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
 import BouncyCheckBox from 'react-native-bouncy-checkbox';
 import {useDispatch, useSelector} from 'react-redux';
-import Animated from 'react-native-reanimated';
-import { useFocusEffect } from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
+import {useFocusEffect} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/AntDesign';
 import {firebase} from '@react-native-firebase/database';
 import Loading from '../home/Loading';
-export default function AdditionalItems(props) {
+export default function AdditionalItems() {
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
@@ -22,17 +32,19 @@ export default function AdditionalItems(props) {
     async function FetchData() {
       var snapshot = await firebase
         .app()
-        .database(
-          'https://workspace-booking-392c3-default-rtdb.asia-southeast1.firebasedatabase.app/',
-        )
+        .database()
         .ref('/Data/Items/')
-        .once('value');
-      setITEMS(snapshot.val());
+        .once('value', snapshot => {
+          setITEMS(snapshot.val());
+          setOldITEMS(snapshot.val());
+        });
     }
     FetchData();
   }, []);
+  const searchRef = useRef('');
+  const [search, setSearch] = useState();
   const [items, setITEMS] = useState([]);
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const [Olditems, setOldITEMS] = useState([]);
   const dispatch = useDispatch();
   const selectItem = (item, checkboxValue) =>
     dispatch({
@@ -51,62 +63,69 @@ export default function AdditionalItems(props) {
   const AVATAR_SIZE = 70;
   const ITEM_SIZE = AVATAR_SIZE + SPACING * 3;
 
+  const onSearch = text => {
+    if (text == '') {
+      setITEMS(Olditems);
+    } else {
+      let tempList = items.filter(item => {
+        return item.title.toLowerCase().indexOf(text.toLowerCase()) > -1;
+      });
+      setITEMS(tempList);
+    }
+  };
   return (
     <>
-      {items ? (
-        <Animated.FlatList
-          showsVerticalScrollIndicator={false}
-          data={items}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {y: scrollY}}}],
-            {useNativeDriver: true},
-          )}
-          keyExtractor={item => item.id}
-          renderItem={({item, index}) => {
-            const inputRange = [
-              -1,
-              0,
-              ITEM_SIZE * index,
-              ITEM_SIZE * (index + 2),
-            ];
-            const opacityinputRange = [
-              -1,
-              0,
-              ITEM_SIZE * index,
-              ITEM_SIZE * (index + 1),
-            ];
-            const scale = scrollY.interpolate({
-              inputRange,
-              outputRange: [1, 1, 1, 0],
-            });
-            const opacity = scrollY.interpolate({
-              inputRange: opacityinputRange,
-              outputRange: [1, 1, 1, 0],
-            });
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          marginHorizontal: 20,
+          marginBottom: 12,
+          borderRadius: 20,
+          paddingHorizontal: 20,
+        }}>
+        <View>
+          <Icon name="search1" color={'black'} size={25} />
+        </View>
 
-            return (
-              <Animated.View
+        <TextInput
+          placeholder="Search item here..."
+          ref={searchRef}
+          value={search}
+          style={{
+            width: '85%',
+            borderRadius: 20,
+            paddingHorizontal: 15,
+          }}
+          onChangeText={txt => {
+            onSearch(txt);
+            setSearch(txt);
+          }}
+        />
+        {search=='' ? null : (
+          <TouchableOpacity
+            onPress={() => {
+              searchRef.current.clear();
+              onSearch('');
+              setSearch('');
+            }}>
+            <Icon name="close" color={'black'} size={25} />
+          </TouchableOpacity>
+        )}
+      </View>
+
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={items}
+        keyExtractor={item => item.id}
+        renderItem={({item, index}) => {
+          return (
+            <>
+              <Animatable.View
                 useNativeDriver
-                animation="fadeInLeft"
-                delay={500}
-                style={{
-                  backgroundColor: '#181818',
-                  padding: 20,
-                  borderRadius: 20,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  margin: 15,
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 5,
-                  },
-                  opacity,
-                  transform: [{scale}],
-                  shadowOpacity: 0.34,
-                  shadowRadius: 6.27,
-                  elevation: 10,
-                }}>
+                animation="fadeInUp"
+                style={styles.items}>
                 <ItemImage items={item} />
                 <ItemTitle items={item} />
                 <BouncyCheckBox
@@ -116,13 +135,11 @@ export default function AdditionalItems(props) {
                   onPress={checkboxValue => selectItem(item, checkboxValue)}
                   isChecked={isIteminCart(item, cartItems)}
                 />
-              </Animated.View>
-            );
-          }}
-        />
-      ) : (
-        <Loading />
-      )}
+              </Animatable.View>
+            </>
+          );
+        }}
+      />
     </>
   );
 }
@@ -130,13 +147,13 @@ export default function AdditionalItems(props) {
 const ItemTitle = props => (
   <View
     style={{
-      width: 200,
+      width: '50%',
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',
     }}>
     <View>
-      <Text style={{fontSize: 20, fontWeight: 'bold', color: '#E4E6EB'}}>
+      <Text style={{fontSize: 18, fontWeight: '600', color: '#E4E6EB'}}>
         {props.items.title}
       </Text>
       <Text style={{fontSize: 15, color: '#E4E6EB'}}>{props.items.price}</Text>
@@ -154,20 +171,20 @@ const ItemImage = props => (
 );
 
 const styles = StyleSheet.create({
-  itemstyle: {
-    backgroundColor: '#242526',
-    padding: 20,
+  items: {
+    backgroundColor: '#181818',
+    padding: 12,
     borderRadius: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 15,
+    margin: 6,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 5,
+      shadowOpacity: 0.34,
+      shadowRadius: 6.27,
+      elevation: 10,
     },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-    elevation: 10,
   },
 });

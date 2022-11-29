@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon, {Icons} from './Icons';
 import Table_ConferenceHistoryStack from './Table_ConferenceHistoryStack';
@@ -20,7 +20,7 @@ const TabArr = [
   },
   {
     route: 'Table_ConferenceHistoryStack',
-    label: 'Table_Conference',
+    label: 'Tickets',
     type: Icons.MaterialCommunityIcons,
     activeIcon: 'ticket',
     inActiveIcon: 'ticket-outline',
@@ -28,7 +28,7 @@ const TabArr = [
   },
   {
     route: 'Coffee&ConvoHistoryStack',
-    label: 'Coffee&convo',
+    label: 'Food',
     type: Icons.Ionicons,
     activeIcon: 'fast-food',
     inActiveIcon: 'fast-food-outline',
@@ -53,9 +53,9 @@ const TabButton = props => {
 
   useEffect(() => {
     if (focused) {
-      viewRef.current.animate({0: {scale: 0.5}, 1: {scale: 1.5}});
+      viewRef.current.animate({0: {scale: 1}, 1: {scale: 1.2}});
     } else {
-      viewRef.current.animate({0: {scale: 1.5}, 1: {scale: 1}});
+      viewRef.current.animate({0: {scale: 1.2}, 1: {scale: 1}});
     }
   }, [focused]);
 
@@ -70,6 +70,13 @@ const TabButton = props => {
           name={focused ? item.activeIcon : item.inActiveIcon}
           color={focused ? 'rgba(137, 252, 233, 1)' : 'white'}
         />
+        <Text
+          style={{
+            color: focused ? 'rgba(137, 252, 233, 1)' : 'white',
+            fontSize: 10,
+          }}>
+          {item.label}
+        </Text>
       </Animatable.View>
     </TouchableOpacity>
   );
@@ -80,11 +87,11 @@ export default function MainStack() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
+        // tabBarShowLabel: true,
         tabBarStyle: {
           backgroundColor: 'black',
           borderTopWidth: 0,
-          height:60,
+          height: 50,
           justifyContent: 'center',
           ...styles.shadow,
         },
@@ -93,6 +100,7 @@ export default function MainStack() {
         return (
           <Tab.Screen
             key={index}
+            label={item.label}
             name={item.route}
             component={item.component}
             options={{

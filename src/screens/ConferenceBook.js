@@ -1,9 +1,8 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import AdditionalItem from '../components/tablebook/AdditionalItems';
-// import items from '../../jsons/additional.json'
 import ConferenceCart from '../components/conference/ConferenceCart';
 export default function ConferenceBook({route, navigation}) {
  
@@ -40,8 +39,6 @@ export default function ConferenceBook({route, navigation}) {
         </TouchableOpacity>
       </View>
       
-  
-      {/* <TableInfo/> */}
       <View style={{padding: 20, alignItems: 'center'}}>
         <Text style={{color: 'white', fontSize: 25, fontWeight: '600'}}>
           Add Ons

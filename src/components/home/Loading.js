@@ -5,10 +5,8 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState, useContext} from 'react';
-import {Platform} from 'react-native';
+import React from 'react';
 import LottieView from 'lottie-react-native';
-import * as Animatable from 'react-native-animatable';
 export default function LoginScreen() {
   return (
     <View style={styles.container}>
@@ -33,7 +31,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     paddingHorizontal: 20,
     paddingBottom: 50,
   },

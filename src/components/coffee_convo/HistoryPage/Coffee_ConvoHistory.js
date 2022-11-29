@@ -2,8 +2,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {firebase} from '@react-native-firebase/firestore';
-import {useEffect} from 'react';
-import {useContext} from 'react';
+import {useEffect, useContext, useCallback} from 'react';
 import {AuthContext} from '../../../navigation/AuthProvider';
 import {useState} from 'react';
 import Refreshs from 'react-native-vector-icons/EvilIcons';
@@ -15,6 +14,8 @@ import {
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import Coffee_Convo_PurchasePage from './Coffee_Convo_PurchasePage';
+import {useFocusEffect} from '@react-navigation/native';
+import {getCoffeeConvoReceipts} from '../../../firebase/firestoreapi';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -22,8 +23,9 @@ LogBox.ignoreLogs([
 
 export default function Coffee_ConvoHistory() {
   const {user, setTicketType, TicketType} = useContext(AuthContext);
-  const [Refresh, setRefresh] = useState(true);
+  // const [Refresh, setRefresh] = useState(true);
   const [CoffeeTicket, setCoffeeTickets] = useState([]);
+
   useEffect(() => {
     async function FetchData() {
       const snapshot = await firebase
@@ -31,11 +33,18 @@ export default function Coffee_ConvoHistory() {
         .collection('CoffeeConvoOrders')
         .doc(user.uid)
         .collection('Orders')
-        .get();
-      setCoffeeTickets(snapshot.docs);
+        .onSnapshot(documentSnapshot => {
+          setCoffeeTickets(documentSnapshot.docs);
+        });
+        
+        // .get()
+        // .then(snapshot => {
+        //   setCoffeeTickets(snapshot.docs);
+        // });
     }
     FetchData();
-  }, [Refresh]);
+  }, []); //Refresh
+
   return (
     <SafeAreaView
       style={{
@@ -44,7 +53,7 @@ export default function Coffee_ConvoHistory() {
         height: '100%',
         backgroundColor: 'black',
       }}>
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           padding: 15,
@@ -58,17 +67,17 @@ export default function Coffee_ConvoHistory() {
           style={{padding: 8, borderRadius: 100}}>
           <Refreshs name="refresh" size={35} color={'white'} />
         </TouchableOpacity>
-      </View>
+      </View> */}
       <View style={styles.container}>
-        <Animatable.View style={styles.header} animation="fadeInUp">
+        <Animatable.View style={styles.header} animation="fadeInUp" useNativeDriver>
           <Image
             source={require('../../../assets/PageIcons/Coffee_Convo.png')}
-            style={{width: 400, height: 500}}
+            style={{width: 400, height: 400}}
             resizeMode="contain"
           />
         </Animatable.View>
 
-        <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+        <Animatable.View animation="fadeInUpBig" style={styles.footer} useNativeDriver>
           <View
             style={{
               flexDirection: 'row',
