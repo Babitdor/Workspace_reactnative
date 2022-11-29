@@ -39,15 +39,15 @@ https://nodejs.org/en/download/
 ```
 
 ### Installing
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
-
+To run the application, find you must clone this repo using 
 ```
-Give the example
+git clone
 ```
-
-And repeat
+Open the root directory and run the follow
+```
+npm instaLL
+```
+This will run all the necessary dependencies required for the application.
 
 ```
 until finished
