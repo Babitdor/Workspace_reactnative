@@ -32,10 +32,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 Node.js should be installed version v16.4.2 or above.
+Android SDK & Android Studios
 
 To install Node.js follow the link below
 ```
 https://nodejs.org/en/download/
+
+https://developer.android.com/studio
 ```
 
 ### Installing
@@ -49,7 +52,13 @@ npm instaLL
 ```
 This will install all the necessary dependencies required for the application.
 
-Once done, you can run the application using the following
+Once done, you can run the application using the following.
+
+Make sure your physical android device is enabled with USB debugging on
+or
+Make sure your virtual android device is setup before running the application.
+
+To check if device is connected to Android SDK, connect android device and open cmd type in 'adb devices'
 
 ```
 npx react-native run-android
