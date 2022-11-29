@@ -47,13 +47,14 @@ Open the root directory and run the follow
 ```
 npm instaLL
 ```
-This will run all the necessary dependencies required for the application.
+This will install all the necessary dependencies required for the application.
+
+Once done, you can run the application using the following
 
 ```
-until finished
+npx react-native run-android
 ```
-
-End with an example of getting some data out of the system or using it for a little demo.
+This will run the application and launch a Metro server along with it.
 
 ## 🎈 Usage <a name="usage"></a>
 Add notes about how to use the system.
