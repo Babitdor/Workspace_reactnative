@@ -31,8 +31,11 @@ The app provides the functionality to book a personal workspace coupled with add
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
 ### Prerequisites
+Node.js should be installed version v16.4.2 or above.
+
+To install Node.js follow the link below
 ```
-Node.js,
+https://nodejs.org/en/download/
 ```
 
 ### Installing
