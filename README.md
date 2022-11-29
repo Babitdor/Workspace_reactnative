@@ -1,5 +1,3 @@
-# Workspace_reactnative
-
 <p align="center">
   <a href="" rel="noopener">
  <img width=200px height=200px src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" alt="Project logo"></a>
