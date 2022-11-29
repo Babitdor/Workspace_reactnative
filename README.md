@@ -41,7 +41,7 @@ https://nodejs.org/en/download/
 ### Installing
 To run the application, find you must clone this repo using 
 ```
-git clone
+git clone https://github.com/Babitdor/Workspace_reactnative.git
 ```
 Open the root directory and run the follow
 ```
