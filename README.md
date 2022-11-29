@@ -17,11 +17,9 @@
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Usage](#usage)
+- [Example](#examples)
 - [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
 - [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
 
 ## 🧐 About <a name = "about"></a>
 The app provides the functionality to book a personal workspace coupled with additional utilities, food orders and more.
@@ -273,7 +271,7 @@ firestore()
     console.log('User updated!');
   });
 ```
-## Project Usage of Firebase API Examples
+## Project Usage of Firebase API Examples <a name ="examples"></a>
 
 ### Realtime Database
 
@@ -359,8 +357,63 @@ This references as follows (Example)
 ```
 For a clear picture of our it should look, the 'json' folder in the directory contains the 'Database.json'.
 
+### Updating Seat Booking Status 
 
+Here 'booked' can be interpreted as available
+Here 'empty' indicates whether the seat is occupied or available
 
+The two parameters determines the seat UI status in the booking screen.
+
+On Selecting and Proceeding on Booking the Seat, the following code, updates the seat status in the database in realtime.
+```
+database()
+    .ref(`/Data/Tables/${i}/seats/${j}`)
+    .update({
+              booked: false,
+              empty: false,
+            })
+```
+
+### Cloud Firestore
+
+#### Storing Ticket Information (ViewCart.js Component)
+On successful booking of a workspace, the app stores the booking information or receipt in Cloud Firestore using the following code.
+* Same Applies to the Conference Booking and Coffee & Convo Option
+```
+firestore()
+    .collection('BookATable')
+    .doc(user.uid)
+    .collection('Orders')
+    .doc(BookingID)
+    .set(
+      {
+        Type: 'Table Booking',
+        BookingID: BookingID,
+        email: user.email,
+        items: items,
+        Date: SelectDate,
+        StartTime: MinTime,
+        EndTime: MaxTime,
+        total: totalRs,
+        seatsNo: seatid,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      },
+      {merge: true},
+    )
+```
+
+#### Reading the Ticket Information (HistoryPage Component)
+This is how the app reads the user's Booked Tickets from Cloud Firestore Database using User UID
+```
+const snapshot = await firebase
+        .firestore()
+        .collection(TicketType)
+        .doc(user.uid)
+        .collection('Orders')
+        .onSnapshot(documentSnapshot => {
+          setTickets(documentSnapshot.docs);
+        });
+```
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 - [Firebase](https://firebase.google.com) - Database
