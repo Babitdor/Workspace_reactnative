@@ -9,7 +9,7 @@
 
 ---
 
-<p align="center"> Few lines describing your project.
+<p align="center"> A workspace booking app for Alt-Space
     <br> 
 </p>
 
