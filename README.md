@@ -488,7 +488,8 @@ try {
 ## ✍️ Authors <a name = "authors"></a>
 - [@Babitdor](https://github.com/Babitdor) - Idea & Initial work
 
-## ⚠️ For futher documentation on Firebase for Client Application, please refer to the following link
+## ⚠️ For futher documentation on Firebase for Client Application,
+### Please refer to the following link
 ```
 https://firebase.google.com/docs/build
 ```
