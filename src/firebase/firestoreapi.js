@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 
-export function uploadDatatoFirestore(
+export async function uploadDatatoFirestore(
   BookingID,
   user,
   items,
@@ -10,30 +10,31 @@ export function uploadDatatoFirestore(
   totalRs,
   seatid,
 ) {
-  const db = firestore()
+  const db = firestore();
+  await db
     .collection('BookATable')
     .doc(user.uid)
     .collection('Orders')
     .doc(BookingID)
-    .set(
-      {
-        Type: 'Table Booking',
-        BookingID: BookingID,
-        email: user.email,
-        items: items,
-        Date: SelectDate,
-        StartTime: MinTime,
-        EndTime: MaxTime,
-        total: totalRs,
-        seatsNo: seatid,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-      },
-      {merge: true},
-    )
-    .then(() => {});
+    .set({
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      Type: 'Table Booking',
+      BookingID: BookingID,
+      email: user.email,
+      items: items,
+      Date: SelectDate,
+      StartTime: MinTime,
+      EndTime: MaxTime,
+      total: totalRs,
+      seatsNo: seatid,
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  return Promise;
 }
 
-export function uploadConferenceDatatoFirestore(
+export async function uploadConferenceDatatoFirestore(
   BookingID,
   user,
   items,
@@ -43,13 +44,15 @@ export function uploadConferenceDatatoFirestore(
   totalRs,
   seatid,
 ) {
-  const db = firestore()
+  const db = firestore();
+  await db
     .collection('BookAConference')
     .doc(user.uid)
     .collection('Orders')
     .doc(BookingID)
     .set(
       {
+        createdAt: firestore.FieldValue.serverTimestamp(),
         Type: 'Conference Booking',
         BookingID: BookingID,
         email: user.email,
@@ -59,26 +62,32 @@ export function uploadConferenceDatatoFirestore(
         EndTime: MaxTime,
         total: totalRs,
         seatsNo: seatid,
-        createdAt: firestore.FieldValue.serverTimestamp(),
       },
       {merge: true},
     )
-    .then(() => {});
+    .catch(e => {
+      console.log(e);
+    });
+  return Promise;
 }
 
-export function uploadCoffeeConvoData(user, BookingID, items, totalRs) {
+export async function uploadCoffeeConvoData(user, BookingID, items, totalRs) {
   const db = firestore();
-  db.collection('CoffeeConvoOrders')
+  await db
+    .collection('CoffeeConvoOrders')
     .doc(user.uid)
     .collection('Orders')
     .doc(BookingID)
     .set({
+      createdAt: firestore.FieldValue.serverTimestamp(),
       Type: 'Coffee & Convo',
       email: user.email,
       BookingID: BookingID,
       items: items,
       total: totalRs,
-      createdAt: firestore.FieldValue.serverTimestamp(),
     })
-    .then(() => {});
+    .catch(e => {
+      console.log(e);
+    });
+  return Promise;
 }

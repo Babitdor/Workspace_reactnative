@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {Text, View, Button} from 'react-native';
 // import PushNotification from 'react-native-push-notification';
 // import moment from 'moment/moment';
-// import notifee, {TimestampTrigger, TriggerType} from '@notifee/react-native';
 
 export default function CustomTimer(props) {
   // var reminder = moment(`${props.date} ${props.time}`).subtract(30, 'm').toDate();

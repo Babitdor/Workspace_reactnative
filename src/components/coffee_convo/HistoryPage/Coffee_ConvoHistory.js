@@ -24,7 +24,7 @@ LogBox.ignoreLogs([
 export default function Coffee_ConvoHistory() {
   const {user, setTicketType, TicketType} = useContext(AuthContext);
   // const [Refresh, setRefresh] = useState(true);
-  const [CoffeeTicket, setCoffeeTickets] = useState([]);
+  const [CoffeeTicket, setCoffeeTickets] = useState();
 
   useEffect(() => {
     async function FetchData() {
@@ -36,11 +36,12 @@ export default function Coffee_ConvoHistory() {
         .onSnapshot(documentSnapshot => {
           setCoffeeTickets(documentSnapshot.docs);
         });
-        
-        // .get()
-        // .then(snapshot => {
-        //   setCoffeeTickets(snapshot.docs);
-        // });
+      return () => snapshot();
+
+      // .get()
+      // .then(snapshot => {
+      //   setCoffeeTickets(snapshot.docs);
+      // });
     }
     FetchData();
   }, []); //Refresh
@@ -69,7 +70,10 @@ export default function Coffee_ConvoHistory() {
         </TouchableOpacity>
       </View> */}
       <View style={styles.container}>
-        <Animatable.View style={styles.header} animation="fadeInUp" useNativeDriver>
+        <Animatable.View
+          style={styles.header}
+          animation="fadeInUp"
+          useNativeDriver>
           <Image
             source={require('../../../assets/PageIcons/Coffee_Convo.png')}
             style={{width: 400, height: 400}}
@@ -77,7 +81,10 @@ export default function Coffee_ConvoHistory() {
           />
         </Animatable.View>
 
-        <Animatable.View animation="fadeInUpBig" style={styles.footer} useNativeDriver>
+        <Animatable.View
+          animation="fadeInUpBig"
+          style={styles.footer}
+          useNativeDriver>
           <View
             style={{
               flexDirection: 'row',
@@ -97,6 +104,7 @@ export default function Coffee_ConvoHistory() {
               </Text>
             </View>
           </View>
+
           <Coffee_Convo_PurchasePage items={CoffeeTicket} />
         </Animatable.View>
       </View>

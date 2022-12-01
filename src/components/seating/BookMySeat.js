@@ -9,6 +9,7 @@ import {
 import React, {useState, useEffect, useContext} from 'react';
 import Loading from '../home/Loading';
 import Cart from 'react-native-vector-icons/AntDesign';
+import Up from 'react-native-vector-icons/AntDesign';
 import {Dimensions} from 'react-native';
 import SeatIndicator from './SeatIndicator';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -39,6 +40,7 @@ function BookMySeat(props) {
   const [table5, setTable5] = useState([]);
   const [table6, setTable6] = useState([]);
   const [table7, setTable7] = useState([]);
+  const [Open, setOpen] = useState(false);
   const {
     setSeats,
     MinTime,
@@ -298,14 +300,13 @@ function BookMySeat(props) {
     <>
       {Table ? (
         <>
-          <Animatable.View animation="fadeInUpBig" useNativeDriver>
+          <Animatable.View animation="fadeInUp" useNativeDriver>
             {/* Seat Indicator Component */}
             <SeatIndicator />
           </Animatable.View>
           <SafeAreaView style={styles.container}>
             <Animatable.View
               animation="fadeInUpBig"
-              delay={100}
               useNativeDriver
               style={styles.footer}>
               {/* Seat Layout Container */}
@@ -869,11 +870,26 @@ function BookMySeat(props) {
               </View>
 
               {/* Date/Time/Proceed Container */}
-              <View style={styles.ProceedBtnContainer}>
+              <View
+                style={
+                  Open
+                    ? styles.ProceedBtnContainerOpen
+                    : styles.ProceedBtnContainer
+                }>
                 <Animatable.View
                   useNativeDriver
                   animation="fadeInUp"
                   style={styles.BottomContainer}>
+                  <TouchableOpacity
+                    style={{padding: 10, marginBottom: 20}}
+                    onPress={() => setOpen(Open => !Open)}>
+                    <Up
+                      size={25}
+                      name={Open ? 'down' : 'up'}
+                      color={Open ? 'white' : 'rgba(137, 252, 233, 1)'}
+                    />
+                  </TouchableOpacity>
+
                   <View style={{paddingVertical: 5, zIndex: 9999}}>
                     {/* Date & Time Component */}
                     <Date_Time />
@@ -969,6 +985,11 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   ProceedBtnContainer: {
+    top: height / 1.55,
+    zIndex: 9999,
+    flex: 3,
+  },
+  ProceedBtnContainerOpen: {
     top: height / 2.4,
     zIndex: 9999,
     flex: 3,

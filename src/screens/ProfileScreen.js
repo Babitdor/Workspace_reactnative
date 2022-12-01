@@ -21,6 +21,7 @@ export default function ProfileScreen() {
         .then(doc => {
           setUserData(doc.data());
         });
+        return () => snapshot();
     }
     FetchData();
   }, [Refresh]);

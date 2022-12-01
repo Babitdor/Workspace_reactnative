@@ -91,13 +91,13 @@ export default function ConferenceCart(props) {
     });
     return Count;
   };
-  const grayoutseats = () => {
+  const grayoutseats = async SelectedSeats => {
     setChanged(isChanged => !isChanged);
-    SelectedSeats.map(item => {
+    SelectedSeats.map(async item => {
       for (var i = 0; i < Object.keys(Tables).length; i++) {
         for (var j = 0; j < Object.keys(Tables[i].seats).length; j++) {
           if (item.id === Tables[i].seats[j].id) {
-            reference.ref(`/Data/Tables/${i}/seats/${j}`).update({
+            await reference.ref(`/Data/Tables/${i}/seats/${j}`).update({
               booked: false,
               empty: false,
             });
@@ -111,10 +111,10 @@ export default function ConferenceCart(props) {
     dispatch({type: 'DESTORY_SESSION'});
   };
   //Function to update & store the firebase cloud store. Note : Integration of payment framework are to be done in here
-  const addOrdertoFirebase = () => {
+  const addOrdertoFirebase = async () => {
     // AddtoBooked(seatid);
     if (Checking(SelectedSeats) > 0) {
-      uploadConferenceDatatoFirestore(
+      await uploadConferenceDatatoFirestore(
         BookingID,
         user,
         items,
@@ -123,13 +123,19 @@ export default function ConferenceCart(props) {
         MaxTime,
         totalRs,
         seatid,
-      );
-      OnPayment();
-      grayoutseats();
-      StartTimeConferenceNotifications(SelectDate, MinTime, BookingID);
-      EndTimeConferenceNotifications(SelectDate, MaxTime, BookingID);
-      setModalVisible(false);
-      navigation.navigate('Completed', {totalRs: totalRs});
+      )
+        .then(() => {
+          OnPayment();
+          grayoutseats(SelectedSeats);
+          StartTimeConferenceNotifications(SelectDate, MinTime, BookingID);
+          EndTimeConferenceNotifications(SelectDate, MaxTime, BookingID);
+          setModalVisible(false);
+          navigation.navigate('Completed', {totalRs: totalRs});
+        })
+        .catch(e => {
+          alert(e);
+          navigation.navigate('Home');
+        });
     } else {
       alert('Seat is Taken');
       navigation.navigate('Home');

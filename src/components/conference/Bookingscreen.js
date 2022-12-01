@@ -10,6 +10,7 @@ import {
 import React, {useState, useEffect, useContext} from 'react';
 import Loading from '../home/Loading';
 import Cart from 'react-native-vector-icons/AntDesign';
+import Up from 'react-native-vector-icons/AntDesign';
 import {Dimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
@@ -39,6 +40,7 @@ export default function Bookingscreen(props) {
   const [table6, setTable6] = useState([]);
   const [table7, setTable7] = useState([]);
   const [Conference, setConference] = useState([]);
+  const [Open, setOpen] = useState(false);
   const {
     setSeats,
     MinTime,
@@ -540,93 +542,107 @@ export default function Bookingscreen(props) {
               </View>
 
               {/* Date/Time and Proceed Container */}
-              <View style={styles.BottomContainer}>
-                <Animatable.View
-                  useNativeDriver
-                  animation="fadeInUp"
-                  style={styles.ProceedBtnContainer}>
-                  <View style={{paddingVertical: 10, zIndex: 9999}}>
-                    {/* Date & Time Component for Conference Booking */}
-                    <Date_Time_Conf />
-                  </View>
 
-                  {/* Proceed Button*/}
-                  {getAllSeats() && seatsprices ? (
-                    <Animatable.View
-                      animation="fadeInUp"
-                      style={styles.ProceedBtn}>
-                      <TouchableOpacity
-                        disabled={getAllSeats() ? false : true}
-                        onPress={() => confirmseat()}>
+              {/* <View style={styles.BottomContainer}> */}
+              <Animatable.View
+                useNativeDriver
+                animation="fadeInUp"
+                style={
+                  Open
+                    ? styles.ProceedBtnContainerOpen
+                    : styles.ProceedBtnContainer
+                }>
+                <TouchableOpacity
+                  style={{padding: 10, marginBottom:20}}
+                  onPress={() => setOpen(Open => !Open)}>
+                  <Up
+                    size={25}
+                    name={Open ? 'down' : 'up'}
+                    color={Open ? 'white' : 'rgba(137, 252, 233, 1)'}
+                  />
+                </TouchableOpacity>
+                <View style={{paddingVertical: 10, zIndex: 9999}}>
+                  {/* Date & Time Component for Conference Booking */}
+                  <Date_Time_Conf />
+                </View>
+
+                {/* Proceed Button*/}
+                {getAllSeats() && seatsprices ? (
+                  <Animatable.View
+                    animation="fadeInUp"
+                    style={styles.ProceedBtn}>
+                    <TouchableOpacity
+                      disabled={getAllSeats() ? false : true}
+                      onPress={() => confirmseat()}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}>
+                        <View
+                          style={{
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            flexWrap: 'wrap',
+                          }}>
+                          <View>
+                            <Text style={{color: 'black', padding: 5}}>
+                              Seat Number
+                            </Text>
+                          </View>
+                          <View>
+                            {getAllSeats() ? (
+                              <Text style={styles.seatidtext}>
+                                {getAllSeats()}
+                              </Text>
+                            ) : (
+                              <Text
+                                style={{
+                                  fontSize: 15,
+                                  fontWeight: '200',
+                                  color: 'black',
+                                  padding: 5,
+                                }}>
+                                No Seats
+                              </Text>
+                            )}
+                          </View>
+                        </View>
                         <View
                           style={{
                             flexDirection: 'row',
                             alignItems: 'center',
-                            justifyContent: 'space-between',
                           }}>
-                          <View
-                            style={{
-                              flexDirection: 'column',
-                              alignItems: 'center',
-                              flexWrap: 'wrap',
-                            }}>
-                            <View>
-                              <Text style={{color: 'black', padding: 5}}>
-                                Seat Number
-                              </Text>
-                            </View>
-                            <View>
-                              {getAllSeats() ? (
-                                <Text style={styles.seatidtext}>
-                                  {getAllSeats()}
-                                </Text>
-                              ) : (
-                                <Text
-                                  style={{
-                                    fontSize: 15,
-                                    fontWeight: '200',
-                                    color: 'black',
-                                    padding: 5,
-                                  }}>
-                                  No Seats
-                                </Text>
-                              )}
-                            </View>
+                          <View>
+                            <Cart
+                              color="black"
+                              name="shoppingcart"
+                              size={30}
+                              style={{marginRight: 20, marginLeft: 20}}
+                            />
                           </View>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                            }}>
-                            <View>
-                              <Cart
-                                color="black"
-                                name="shoppingcart"
-                                size={30}
-                                style={{marginRight: 20, marginLeft: 20}}
-                              />
-                            </View>
-                            <View>
-                              {seatsprices ? (
-                                <Text style={{color: 'black', fontSize: 20}}>
-                                  {seatsprices.toLocaleString('en-IN', {
-                                    style: 'currency',
-                                    currency: 'INR',
-                                  })}
-                                </Text>
-                              ) : (
-                                <></>
-                              )}
-                            </View>
+                          <View>
+                            {seatsprices ? (
+                              <Text style={{color: 'black', fontSize: 20}}>
+                                {seatsprices.toLocaleString('en-IN', {
+                                  style: 'currency',
+                                  currency: 'INR',
+                                })}
+                              </Text>
+                            ) : (
+                              <></>
+                            )}
                           </View>
                         </View>
-                      </TouchableOpacity>
-                    </Animatable.View>
-                  ) : (
-                    <></>
-                  )}
-                </Animatable.View>
-              </View>
+                      </View>
+                    </TouchableOpacity>
+                  </Animatable.View>
+                ) : (
+                  <></>
+                )}
+              </Animatable.View>
+              {/* </View> */}
             </Animatable.View>
           </SafeAreaView>
         </>
@@ -637,20 +653,42 @@ export default function Bookingscreen(props) {
   );
 }
 const styles = StyleSheet.create({
-  BottomContainer: {
-    top: height / 2.6,
+  // BottomContainer: {
+  //   top: height / 2.6,
+  //   zIndex: 9999,
+  //   flex: 3,
+  // },
+  ProceedBtnContainer: {
+    top: height / 1.6,
     zIndex: 9999,
     flex: 3,
-  },
-  ProceedBtnContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: 'black',
     borderRadius: 40,
     paddingHorizontal: 20,
     marginHorizontal: -10,
-    height: '100%',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
+  ProceedBtnContainerOpen: {
+    top: height / 2.4,
+    zIndex: 9999,
+    flex: 3,
+    flexDirection: 'column',
+    borderRadius: 40,
+    paddingHorizontal: 20,
+    marginHorizontal: -10,
+    backgroundColor: 'black',
+    alignItems: 'center',
+  },
+  // ProceedBtnContainer: {
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   backgroundColor: 'black',
+  //   borderRadius: 40,
+  //   paddingHorizontal: 20,
+  //   marginHorizontal: -10,
+  //   height: '100%',
+  // },
   seatidtext: {
     fontSize: responsiveScreenFontSize(2.5),
     color: 'black',

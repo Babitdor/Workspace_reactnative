@@ -24,8 +24,7 @@ import TicketButtons from './TicketButtons';
 
 export default function PurchaseHistory() {
   const {user, TicketType} = useContext(AuthContext);
-  const [TableTickets, setTickets] = useState([]);
-  // const [Refresh, setRefresh] = useState(true);
+  const [TableTickets, setTickets] = useState();
 
   useEffect(() => {
     async function FetchData() {
@@ -37,12 +36,7 @@ export default function PurchaseHistory() {
         .onSnapshot(documentSnapshot => {
           setTickets(documentSnapshot.docs);
         });
-
-      // OLD UPDATE CODE OBSOLETE
-      // .get()
-      // .then(snapshot => {
-      //   setTickets(snapshot.docs);
-      // });
+      return () => snapshot();
     }
     FetchData();
   }, [TicketType]); //Refresh
@@ -55,25 +49,6 @@ export default function PurchaseHistory() {
         height: '100%',
         backgroundColor: 'black',
       }}>
-
-      {/* OLD UPDATE CODE SYSTEM */}
-      {/* <View
-        style={{
-          flexDirection: 'row',
-          padding: 15,
-          zIndex: 100,
-          justifyContent: 'flex-end',
-        }}>
-        <TouchableOpacity
-          onPress={() => {
-            setRefresh(Refresh => !Refresh);
-          }}
-          style={{padding: 8, borderRadius: 100}}>
-          <Refreshs name="refresh" size={35} color={'white'} />
-        </TouchableOpacity>
-      </View> */}
-
-
       <View style={styles.container}>
         <View style={styles.header}>
           {TicketType === 'BookATable' ? (

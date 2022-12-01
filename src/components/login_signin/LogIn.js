@@ -19,7 +19,7 @@ import Lock from 'react-native-vector-icons/AntDesign';
 import Check from 'react-native-vector-icons/AntDesign';
 import Eye from 'react-native-vector-icons/Entypo';
 import {AuthContext} from '../../navigation/AuthProvider';
-import {TextInput} from 'react-native-gesture-handler';
+import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 
 export default function LoginScreen() {
@@ -71,103 +71,105 @@ export default function LoginScreen() {
       <Text style={styles.text_header}>Welcome, Buddy!</Text>
 
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
-        <View>
-          <Text style={styles.text_footer}>Email</Text>
-          <View style={styles.action}>
-            <User name="user" size={30} color="white" />
-            <TextInput
-              style={styles.TextInput}
-              autoCapitalize="none"
-              onChangeText={val => textInputChange(val)}
-            />
-            {data.check_textInputChange ? (
-              <Animatable.View animation="bounceIn">
-                <Check name="checkcircleo" size={25} />
-              </Animatable.View>
-            ) : null}
-          </View>
-          <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
+        <ScrollView>
+          <View>
+            <Text style={styles.text_footer}>Email</Text>
+            <View style={styles.action}>
+              <User name="user" size={30} color="white" />
+              <TextInput
+                style={styles.TextInput}
+                autoCapitalize="none"
+                onChangeText={val => textInputChange(val)}
+              />
+              {data.check_textInputChange ? (
+                <Animatable.View animation="bounceIn">
+                  <Check name="checkcircleo" size={25} />
+                </Animatable.View>
+              ) : null}
+            </View>
+            <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
 
-          <View style={styles.action}>
-            <Lock name="lock" size={30} color="white" />
-            <TextInput
-              style={styles.TextInput}
-              autoCapitalize="none"
-              secureTextEntry={data.secureTextEntry ? true : false}
-              onChangeText={val => handlePasswordChange(val)}
-            />
-            <TouchableOpacity onPress={updateSecureTextEntry}>
-              {data.secureTextEntry ? (
-                <Eye name="eye-with-line" size={25} color="white" />
-              ) : (
-                <Eye name="eye" size={25} color="white" />
-              )}
+            <View style={styles.action}>
+              <Lock name="lock" size={30} color="white" />
+              <TextInput
+                style={styles.TextInput}
+                autoCapitalize="none"
+                secureTextEntry={data.secureTextEntry ? true : false}
+                onChangeText={val => handlePasswordChange(val)}
+              />
+              <TouchableOpacity onPress={updateSecureTextEntry}>
+                {data.secureTextEntry ? (
+                  <Eye name="eye-with-line" size={25} color="white" />
+                ) : (
+                  <Eye name="eye" size={25} color="white" />
+                )}
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={[styles.button, {marginTop: 70}]}>
+            <TouchableOpacity
+              style={styles.signIn}
+              disabled={data.email && data.password ? false : true}
+              onPress={() => login(data.email, data.password)}>
+              <Text style={styles.textSign}>Log In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{marginTop: 20, marginBottom: 20}}
+              onPress={() => navigation.navigate('SignIn')}>
+              <Text
+                style={[
+                  styles.textSign,
+                  {color: 'white', fontSize: 16, fontWeight: 'bold'},
+                ]}>
+                No Account ? Create Now
+              </Text>
+            </TouchableOpacity>
+            <View style={{alignSelf: 'center', padding: 10}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2),
+                  fontWeight: '600',
+                  color: 'white',
+                  fontSize: 20,
+                }}>
+                OR
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              style={[
+                styles.signIn,
+                {
+                  marginTop: 10,
+                  padding: 0,
+                  backgroundColor: 'white',
+                },
+              ]}
+              onPress={() => googleLogin()}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <View>
+                  <Image
+                    style={{width: 50, height: 50}}
+                    source={{
+                      uri: 'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png',
+                    }}
+                  />
+                </View>
+                <View>
+                  <Text style={[styles.textSign, {color: 'black'}]}>
+                    Sign in with Google
+                  </Text>
+                </View>
+              </View>
             </TouchableOpacity>
           </View>
-        </View>
-
-        <View style={[styles.button, {marginTop: 70}]}>
-          <TouchableOpacity
-            style={styles.signIn}
-            disabled={data.email && data.password ? false : true}
-            onPress={() => login(data.email, data.password)}>
-            <Text style={styles.textSign}>Log In</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{marginTop: 20, marginBottom: 20}}
-            onPress={() => navigation.navigate('SignIn')}>
-            <Text
-              style={[
-                styles.textSign,
-                {color: 'white', fontSize: 16, fontWeight: 'bold'},
-              ]}>
-              No Account ? Create Now
-            </Text>
-          </TouchableOpacity>
-          <View style={{alignSelf: 'center', padding: 10}}>
-            <Text
-              style={{
-                fontSize: responsiveFontSize(2),
-                fontWeight: '600',
-                color: 'white',
-                fontSize: 20,
-              }}>
-              OR
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            style={[
-              styles.signIn,
-              {
-                marginTop: 10,
-                padding: 0,
-                backgroundColor: 'white',
-              },
-            ]}
-            onPress={() => googleLogin()}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <View>
-                <Image
-                  style={{width: 50, height: 50}}
-                  source={{
-                    uri: 'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png',
-                  }}
-                />
-              </View>
-              <View>
-                <Text style={[styles.textSign, {color: 'black'}]}>
-                  Sign in with Google
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
+        </ScrollView>
       </Animatable.View>
     </View>
   );

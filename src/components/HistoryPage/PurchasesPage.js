@@ -35,8 +35,8 @@ export default function PurchasesPage(props) {
                   style={{
                     backgroundColor: 'rgba(137, 252, 233, 1)',
                     flexDirection: 'row',
-                    borderTopLeftRadius:10,
-                    borderTopRightRadius:10,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
                     padding: 10,
                     alignItems: 'center',
                   }}>
@@ -47,7 +47,12 @@ export default function PurchasesPage(props) {
                     <Text
                       style={[
                         styles.text,
-                        {marginLeft: 10, color: 'black', fontSize: 16,fontWeight:'bold'},
+                        {
+                          marginLeft: 10,
+                          color: 'black',
+                          fontSize: 16,
+                          fontWeight: 'bold',
+                        },
                       ]}>
                       {item._data.Type}:
                     </Text>
@@ -74,7 +79,7 @@ export default function PurchasesPage(props) {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     marginTop: 10,
-                    marginHorizontal:10,
+                    marginHorizontal: 10,
                     marginBottom: 10,
                   }}>
                   <View style={{flexDirection: 'column', alignItems: 'center'}}>
@@ -84,7 +89,9 @@ export default function PurchasesPage(props) {
                     <View>
                       <Text
                         style={[styles.text, {marginLeft: 8, fontSize: 14}]}>
-                        {moment(item._data.Date).format('DD/MM/YYYY')}
+                        {item._data.Date
+                          ? moment(item._data.Date).format('DD/MM/YYYY')
+                          : Loading}
                       </Text>
                     </View>
                   </View>

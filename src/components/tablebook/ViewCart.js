@@ -5,43 +5,38 @@ import {
   Modal,
   StyleSheet,
   Dimensions,
-  Alert,
 } from 'react-native';
 import React, {useState, useContext, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Cart from 'react-native-vector-icons/AntDesign';
-import OrderItems from './OrderItems';
+import OrderItems from '../tablebook/OrderItems';
 import {AuthContext} from '../../navigation/AuthProvider';
 import {firebase} from '@react-native-firebase/database';
 import * as Animatable from 'react-native-animatable';
-import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
-import urid from 'urid';
-import {uploadDatatoFirestore} from '../../firebase/firestoreapi';
 import {FlatList} from 'react-native';
+import {uploadDatatoFirestore} from '../../firebase/firestoreapi';
+
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
+
+import urid from 'urid';
 import {
-  StartTimeNotifications,
   EndTimeNotifications,
+  StartTimeNotifications,
 } from '../notifications/Notifications';
-
 const {height} = Dimensions.get('screen');
-let Count = 0;
 
-export default function ViewCart(props) {
+let Count = 0;
+export default function ConferenceCart(props) {
   const [Tables, setTable] = useState([]);
   const [BookingID, setBookingID] = useState();
   const reference = firebase.app().database();
   const navigation = useNavigation();
   const {seatid, tprice} = props.seats;
-  const {
-    MaxTime,
-    MinTime,
-    SelectDate,
-    user,
-    SelectedSeats,
-    isChanged,
-    setChanged,
-  } = useContext(AuthContext);
+  const {MaxTime, MinTime, SelectDate, setChanged, user, SelectedSeats} =
+    useContext(AuthContext);
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -57,10 +52,10 @@ export default function ViewCart(props) {
       return () => database().ref(`/Data/Tables/`).off('value', snapshot);
     }
     FetchData();
-  }, [isChanged]);
+  }, []);
 
   useEffect(() => {
-    const id = urid(6, `0123456789TALEBOKING`);
+    const id = urid(6, `0123456789ABCDE`);
     setBookingID(id);
   }, []);
 
@@ -94,13 +89,14 @@ export default function ViewCart(props) {
     });
     return Count;
   };
-  const grayoutseats = () => {
-    setChanged(isChanged => !isChanged);
-    SelectedSeats.map(item => {
+
+  // (Using Object.keys and Selected Seat to grayoutseats)
+  const grayoutseats = async SelectedSeats => {
+    await SelectedSeats.map(async item => {
       for (var i = 0; i < Object.keys(Tables).length; i++) {
         for (var j = 0; j < Object.keys(Tables[i].seats).length; j++) {
           if (item.id === Tables[i].seats[j].id) {
-            reference.ref(`/Data/Tables/${i}/seats/${j}`).update({
+            await reference.ref(`/Data/Tables/${i}/seats/${j}`).update({
               booked: false,
               empty: false,
             });
@@ -108,34 +104,17 @@ export default function ViewCart(props) {
         }
       }
     });
-    return;
   };
-  // const grayoutseats = seat => {
-  //   reference.ref('/Data/Tables/').once('value', snapshot => {
-  //     snapshot.forEach(userSnapshot => {
-  //       userSnapshot.child('seats').forEach(Snapshot => {
-  //         if (Snapshot.child('id').val() === seat) {
-  //           var DataLink = Snapshot.ref
-  //             .toString()
-  //             .replace(reference.ref().toString(), '');
-  //           reference.ref(`${DataLink}`).update({
-  //             booked: false,
-  //             empty: false,
-  //           });
-  //           return;
-  //         }
-  //       });
-  //     });
-  //   });
-  // };
+
   const OnPayment = () => {
     dispatch({type: 'DESTORY_SESSION'});
+    return;
   };
   //Function to update & store the firebase cloud store. Note : Integration of payment framework are to be done in here
-  const addOrdertoFirebase = () => {
+  const addOrdertoFirebase = async () => {
     // AddtoBooked(seatid);
     if (Checking(SelectedSeats) > 0) {
-      uploadDatatoFirestore(
+      await uploadDatatoFirestore(
         BookingID,
         user,
         items,
@@ -144,23 +123,29 @@ export default function ViewCart(props) {
         MaxTime,
         totalRs,
         seatid,
-        SelectedSeats,
-      );
-      OnPayment();
-      grayoutseats();
-      StartTimeNotifications(SelectDate, MinTime, BookingID);
-      EndTimeNotifications(SelectDate, MaxTime, BookingID);
-      setModalVisible(false);
-      navigation.navigate('Completed', {totalRs: totalRs});
+      )
+        .then(() => {
+          OnPayment();
+          grayoutseats(SelectedSeats);
+          // GrayOutSeats(SelectedSeats, Tables);
+          StartTimeNotifications(SelectDate, MinTime, BookingID);
+          EndTimeNotifications(SelectDate, MaxTime, BookingID);
+          setModalVisible(false);
+          navigation.navigate('Completed', {totalRs: totalRs});
+        })
+        .catch(e => {
+          alert(e);
+          navigation.navigate('Home');
+        });
     } else {
-      Alert.alert('Seat is Taken');
+      alert('Seat is Taken');
       navigation.navigate('Home');
     }
   };
   const checkoutModalContent = () => {
     return (
       <>
-        <Animatable.View style={styles.modalContainer} animation="fadeInUpBig">
+        <View style={styles.modalContainer}>
           <View style={styles.modalCheckoutContainer}>
             <Text style={styles.tablename}>Checkout</Text>
             <View
@@ -178,7 +163,6 @@ export default function ViewCart(props) {
                 ₹{tprice}
               </Text>
             </View>
-
             <FlatList
               showsVerticalScrollIndicator={false}
               data={items}
@@ -198,20 +182,20 @@ export default function ViewCart(props) {
                   marginTop: 20,
                   backgroundColor: 'rgba(137, 252, 233, 1)',
                   alignItems: 'center',
-                  padding: 5,
+                  padding: 13,
                   borderRadius: 30,
                   width: 300,
                   position: 'relative',
                 }}
-                onPress={() => addOrdertoFirebase()}>
+                onPress={addOrdertoFirebase}>
                 <Text style={{color: 'black', fontSize: 20}}>Pay</Text>
                 <Text style={{color: 'black', fontSize: 18, marginTop: 5}}>
-                  {total ? totalRs : ''}
+                  {total ? totalRs : Loading}
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
-        </Animatable.View>
+        </View>
       </>
     );
   };
@@ -220,6 +204,7 @@ export default function ViewCart(props) {
       <Modal
         visible={modalVisible}
         transparent={true}
+        animationType={'fade'}
         statusBarTranslucent
         onRequestClose={() => setModalVisible(false)}>
         {checkoutModalContent()}
@@ -238,7 +223,7 @@ export default function ViewCart(props) {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              padding: 10,
+              padding: 13,
               width: '100%',
               position: 'relative',
             }}
@@ -275,7 +260,7 @@ const styles = StyleSheet.create({
     margin: 0,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    height: height * 0.9,
+    height: height * 0.7,
     borderWidth: 1,
   },
   tablename: {

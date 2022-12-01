@@ -16,7 +16,7 @@ export default function FoodItems(props) {
         .app()
         .database()
         .ref(`/Data/Foods/0/${Category}/`)
-        .once('value', snapshot => {
+        .on('value', snapshot => {
           setITEMS(snapshot.val());
         });
     }

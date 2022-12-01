@@ -150,9 +150,12 @@ export const AuthProvider = ({children}) => {
         },
         logout: async () => {
           try {
-            await auth().signOut();
-            await GoogleSignin.revokeAccess();
-            setUser(null);
+            await auth()
+              .signOut()
+              .then(async () => {
+                await GoogleSignin.revokeAccess();
+                setUser(null);
+              });
           } catch (e) {
             console.log(e);
           }
@@ -196,7 +199,7 @@ export const AuthProvider = ({children}) => {
                   console.log(uri);
                   uploadUri =
                     Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-                  Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+                  // Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
                   const task1 = await storage()
                     .ref('Profile/Identification/' + user.uid)
                     .putFile(uploadUri)
