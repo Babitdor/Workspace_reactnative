@@ -361,9 +361,23 @@ For a clear picture of how it should look, the 'json' folder in the directory co
 Here 'booked' can be interpreted as available
 Here 'empty' indicates whether the seat is occupied or available
 
+A seat that is active and available for booking, 
+will have the following parameters
+```
+{ booked: 'false', empty: 'true' }
+```
+A seat that is selected by user but not booked yet, during the select screen will have the following parameters :
+```
+{ booked: 'true', empty: 'false' }
+```
+A seat that is booked and grayout after successful booking will have the following parameters :
+```
+{ booked: 'false', empty: 'false' }
+```
 The two parameters determines the seat UI status in the booking screen.
 
 On Selecting and Proceeding on Booking the Seat, the following code, updates the seat status in the database in realtime.
+#### (This code can be found in the ViewCart.js & ConferenceCart.js Component)
 ```
 database()
     .ref(`/Data/Tables/${i}/seats/${j}`)
