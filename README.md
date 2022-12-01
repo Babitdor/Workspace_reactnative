@@ -17,6 +17,7 @@
 - [Usage](#usage)
 - [Example](#examples)
 - [Built Using](#built_using)
+- [Integration](#integration)
 - [Authors](#authors)
 
 ## 🧐 About <a name = "about"></a>
@@ -476,6 +477,27 @@ try {
 - [NodeJs](https://nodejs.org/en/) - Server Environment
 - [React Redux](https://react-redux.js.org) - State Management
 
+## ⛏️ Integration <a name = "integration"></a>
+### Note
+#### Payment Gateway
+* In the path 'src/components/tablebook' folder, and look for ViewCart.js
+* To integrate payment gateway, this is the js Component to look for.
+* function 'addtoFirebase()' can include a function to call PaymentGateway
+* All the necessary parameters are provided to integrate the payment, like payment total, seatid etc.
+
 ## ✍️ Authors <a name = "authors"></a>
 - [@Babitdor](https://github.com/Babitdor) - Idea & Initial work
+
+## ⚠️ For futher documentation on Firebase for Client Application, please refer to the following link
+```
+https://firebase.google.com/docs/build
+```
+Here, it is with provided documentation related to Authetication, Realtime Database, Firestore etc. which would prove useful for development of Client Web Application using Firebase Web SDK.
+
+### To setup Firebase Web SDK, please follow the link below
+```
+https://firebase.google.com/docs/web/setup
+```
+
+
 
