@@ -361,6 +361,8 @@ For a clear picture of how it should look, the 'json' folder in the directory co
 Here 'booked' can be interpreted as available
 Here 'empty' indicates whether the seat is occupied or available
 
+#### (Seat Logic can be found in the BookingScreen.js & BookMySeat.js components found in conference & seating folders respectively)
+
 A seat that is active and available for booking, 
 will have the following parameters
 ```
