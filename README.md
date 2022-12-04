@@ -1,7 +1,8 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" alt="Project logo"></a>
+ <img width=200px height=200px src="https://user-images.githubusercontent.com/57758789/205506608-7e9e3f10-3844-4675-87f6-100ad92bf06f.png" alt="Project logo"></a>
 </p>
+
 
 <h3 align="center">Alt-Space Workspace App</h3>
 
