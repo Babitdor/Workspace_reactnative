@@ -27,7 +27,7 @@ export default function Edit_Page() {
   const [isDisplayDate, setDateShow] = useState(false);
   const navigation = useNavigation();
   const [displaymode, setMode] = useState('time');
-  const {user, updateIncompleteData, setRefresh, Refresh} =
+  const {user, googleProfileData, setRefresh, Refresh, isDarkMode} =
     useContext(AuthContext);
   const defaultImage = {uri: user.photoURL};
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Edit_Page() {
         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, []),
   );
-  console.log(defaultImage);
+  // console.log(defaultImage);
   const [data, setData] = useState({
     name: user.displayName,
     phoneNo: '',
@@ -54,7 +54,6 @@ export default function Edit_Page() {
     avatar: defaultImage,
   });
 
-  console.log(data.avatar);
   const changeSelectedDate = (_event, selectedDate) => {
     currentDate = moment(selectedDate).format('DD-MM-YYYY');
     setDateShow(false);
@@ -106,8 +105,7 @@ export default function Edit_Page() {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: response.assets[0].uri};
-        console.log(source);
+        const source = response.assets[0].uri;
         setData({
           ...data,
           avatar: source,
@@ -117,12 +115,16 @@ export default function Edit_Page() {
   };
 
   const Update = (User, Name, DOB, Phone, Gender, ProfileIMG) => {
-    updateIncompleteData(User, Name, DOB, Phone, Gender, ProfileIMG);
+    googleProfileData(User, Name, DOB, Phone, Gender, ProfileIMG);
     setRefresh(Refresh => !Refresh);
     navigation.navigate('ProfileScreen');
   };
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: isDarkMode ? 'black' : 'white'},
+      ]}>
       <View style={[styles.header, {alignItems: 'center'}]}>
         <TouchableOpacity onPress={() => selectImage()}>
           <View style={{alignSelf: 'center'}}>
@@ -155,21 +157,38 @@ export default function Edit_Page() {
 
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
         {/* Name Section */}
-        <Text style={styles.text_footer}>Name</Text>
+        <Text
+          style={[styles.text_footer, {color: isDarkMode ? 'white' : 'black'}]}>
+          Name
+        </Text>
         <View style={styles.action}>
-          <User name="user" size={30} color="white" />
+          <User name="user" size={30} color={isDarkMode ? 'white' : 'black'} />
           <TextInput
-            style={styles.TextInput}
+            style={[
+              styles.TextInput,
+              {color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'gray'},
+            ]}
             autoCapitalize="none"
+            cursorColor={'cyan'}
             value={data.name}
             onChangeText={val => nameinput(val)}
           />
         </View>
 
         {/* Date of Birth Section */}
-        <Text style={[styles.text_footer, {marginTop: 6}]}>Date of Birth</Text>
+        <Text
+          style={[
+            styles.text_footer,
+            {marginTop: 6, color: isDarkMode ? 'white' : 'black'},
+          ]}>
+          Date of Birth
+        </Text>
         <View style={styles.action}>
-          <Cake name="cake-variant-outline" size={30} color="white" />
+          <Cake
+            name="cake-variant-outline"
+            size={30}
+            color={isDarkMode ? 'white' : 'black'}
+          />
           <TouchableOpacity
             onPress={displayDatepicker}
             title="Select your Time"
@@ -180,7 +199,7 @@ export default function Edit_Page() {
                 {
                   paddingVertical: 10,
                   fontSize: 16,
-                  color: 'rgba(137, 252, 233, 1)',
+                  color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'gray',
                 },
               ]}>
               {data.date_of_birth}
@@ -200,19 +219,44 @@ export default function Edit_Page() {
         </View>
 
         {/* Phone No Section */}
-        <Text style={[styles.text_footer, {marginTop: 6}]}>Phone No.</Text>
+        <Text
+          style={[
+            styles.text_footer,
+            {
+              marginTop: 6,
+              color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black',
+            },
+          ]}>
+          Phone No.
+        </Text>
         <View style={styles.action}>
-          <Phone name="phone" size={30} color="white" />
+          <Phone
+            name="phone"
+            size={30}
+            color={isDarkMode ? 'white' : 'black'}
+          />
           <TextInput
             maxLength={10}
             keyboardType="numeric"
-            style={styles.TextInput}
+            style={[
+              styles.TextInput,
+              {color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'gray'},
+            ]}
             onChangeText={val => phonenoChange(val)}
           />
         </View>
 
         {/* Gender */}
-        <Text style={[styles.text_footer, {marginTop: 6}]}>Gender</Text>
+        <Text
+          style={[
+            styles.text_footer,
+            {
+              marginTop: 6,
+              color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black',
+            },
+          ]}>
+          Gender
+        </Text>
         <View
           style={[
             styles.action,
@@ -221,11 +265,17 @@ export default function Edit_Page() {
           <Gender
             name={data.gender === 'Male' ? 'male' : 'female'}
             size={30}
-            color="white"
+            color={isDarkMode ? 'white' : 'black'}
           />
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View>
-              <Text style={styles.text_footer}>Male</Text>
+              <Text
+                style={[
+                  styles.text_footer,
+                  {color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                Male
+              </Text>
             </View>
             <View>
               <RadioButton
@@ -238,7 +288,13 @@ export default function Edit_Page() {
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View>
-              <Text style={styles.text_footer}>Female</Text>
+              <Text
+                style={[
+                  styles.text_footer,
+                  {color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                Female
+              </Text>
             </View>
             <View>
               <RadioButton
@@ -252,7 +308,7 @@ export default function Edit_Page() {
         </View>
 
         {/* Email Section */}
-        <View style={styles.button}>
+        <View style={[styles.button]}>
           <TouchableOpacity
             onPress={() =>
               Update(
@@ -268,7 +324,7 @@ export default function Edit_Page() {
               styles.signIn,
               {
                 marginTop: 10,
-                backgroundColor: 'white',
+                backgroundColor: isDarkMode ? 'white' : 'black',
               },
             ]}>
             <View
@@ -278,7 +334,11 @@ export default function Edit_Page() {
                 justifyContent: 'space-between',
               }}>
               <View>
-                <Text style={[styles.textSign, {color: 'black'}]}>
+                <Text
+                  style={[
+                    styles.textSign,
+                    {color: isDarkMode ? 'black' : 'white'},
+                  ]}>
                   Update Profile
                 </Text>
               </View>

@@ -10,7 +10,7 @@ import {
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Linking, Platform} from 'react-native';
 import Phone from 'react-native-vector-icons/Entypo';
 import Mail from 'react-native-vector-icons/Entypo';
@@ -19,8 +19,10 @@ import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StatusBar} from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import {AuthContext} from '../navigation/AuthProvider';
 
 export default function WholeHall({navigation}) {
+  const {isDarkMode} = useContext(AuthContext);
   const dialCall = number => {
     let phoneNumber = '';
     if (Platform.OS === 'android') {
@@ -33,7 +35,7 @@ export default function WholeHall({navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <StatusBar translucent backgroundColor={'black'} />
+      <StatusBar translucent backgroundColor={isDarkMode ? 'black' : 'white'} />
       <View
         style={{
           alignItems: 'flex-start',
@@ -47,12 +49,13 @@ export default function WholeHall({navigation}) {
           <ArrowLeft
             name="arrowleft"
             size={25}
-            color={'white'}
+            color={isDarkMode ? 'white' : 'black'}
             style={{
               alignSelf: 'center',
               zIndex: 3,
               borderRadius: 50,
               padding: 8,
+              backgroundColor: isDarkMode ? 'black' : 'white',
               shadowColor: 'black',
               shadowOpacity: 0.2,
               shadowOffset: {width: -2, height: 4},
@@ -62,28 +65,53 @@ export default function WholeHall({navigation}) {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: isDarkMode ? 'black' : 'white'},
+        ]}>
         <View style={styles.header}>
-          <Text style={styles.text_header}>Book A Hall</Text>
+          <Text
+            style={[
+              styles.text_header,
+              {color: isDarkMode ? 'white' : 'black'},
+            ]}>
+            Book A Hall
+          </Text>
         </View>
 
         <Animatable.View
-          style={styles.footer}
+          style={[
+            styles.footer,
+            {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+          ]}
           animation="fadeInUpBig"
           useNativeDriver>
           <View style={{marginHorizontal: 10}}>
             <Text
               style={[
                 styles.addText,
-                {fontWeight: 'bold', fontSize: 25, color: 'white'},
+                {
+                  fontWeight: 'bold',
+                  fontSize: 25,
+                  color: isDarkMode ? 'white' : 'black',
+                },
               ]}>
               Notice
             </Text>
-            <Text style={[styles.addText, {fontSize: 17}]}>
+            <Text
+              style={[
+                styles.addText,
+                {fontSize: 17, color: isDarkMode ? 'white' : 'black'},
+              ]}>
               For Booking a Hall, we highly recommend booking hours in advanced
               along with all the requirements needed over phone call.
             </Text>
-            <Text style={[styles.addText, {marginBottom: 10}]}>
+            <Text
+              style={[
+                styles.addText,
+                {marginBottom: 10, color: isDarkMode ? 'white' : 'black'},
+              ]}>
               Office Hours : 9AM to 8PM
             </Text>
           </View>
@@ -92,7 +120,11 @@ export default function WholeHall({navigation}) {
             <Text
               style={[
                 styles.text_footer,
-                {marginBottom: 5, fontWeight: 'bold'},
+                {
+                  marginBottom: 5,
+                  fontWeight: 'bold',
+                  color: isDarkMode ? 'white' : 'black',
+                },
               ]}>
               Call Us
             </Text>
@@ -119,7 +151,12 @@ export default function WholeHall({navigation}) {
             <Text
               style={[
                 styles.text_footer,
-                {marginBottom: 5, marginTop: 10, fontWeight: 'bold'},
+                {
+                  marginBottom: 5,
+                  marginTop: 10,
+                  fontWeight: 'bold',
+                  color: isDarkMode ? 'white' : 'black',
+                },
               ]}>
               Drop A Mail
             </Text>
@@ -145,17 +182,29 @@ export default function WholeHall({navigation}) {
           <View style={{marginHorizontal: 15, marginTop: 20}}>
             <View style={{alignItems: 'center', flexDirection: 'row'}}>
               <View>
-                <Address name="address" size={35} color="white" />
+                <Address
+                  name="address"
+                  size={35}
+                  color={isDarkMode ? 'white' : 'black'}
+                />
               </View>
               <View>
-                <Text style={[styles.text_footer, {fontWeight: 'bold'}]}>
+                <Text
+                  style={[
+                    styles.text_footer,
+                    {fontWeight: 'bold', color: isDarkMode ? 'white' : 'black'},
+                  ]}>
                   Address
                 </Text>
               </View>
             </View>
             <View style={styles.action}>
               <View style={{flexDirection: 'column'}}>
-                <Text style={[styles.addText, {fontSize: 16}]}>
+                <Text
+                  style={[
+                    styles.addText,
+                    {fontSize: 16, color: isDarkMode ? 'white' : 'black'},
+                  ]}>
                   190, Shahid Bhagat Singh Colon Next To Gurudwara, J.B Nagar,
                   Andheri Mumbai, Maharashtra - 400059{' '}
                 </Text>

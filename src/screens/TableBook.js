@@ -5,16 +5,23 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import AdditionalItem from '../components/tablebook/AdditionalItems';
 import ViewCart from '../components/tablebook/ViewCart';
+import {useContext} from 'react';
+import {AuthContext} from '../navigation/AuthProvider';
 export default function TableBook({route, navigation}) {
   const dispatch = useDispatch();
   const goBack = () => {
     dispatch({type: 'DESTORY_SESSION'});
     navigation.goBack();
   };
+  const {isDarkMode} = useContext(AuthContext);
 
   return (
     <SafeAreaView
-      style={{backgroundColor: 'black', height: '100%', width: '100%'}}>
+      style={{
+        backgroundColor: isDarkMode ? 'black' : 'white',
+        height: '100%',
+        width: '100%',
+      }}>
       <View
         style={{
           alignItems: 'flex-start',
@@ -28,10 +35,11 @@ export default function TableBook({route, navigation}) {
           <ArrowLeft
             name="arrowleft"
             size={26}
-            color={'white'}
+            color={isDarkMode ? 'white' : 'black'}
             style={{
               alignSelf: 'center',
               zIndex: 3,
+              backgroundColor: isDarkMode ? 'black' : 'white',
               borderRadius: 50,
               padding: 8,
               shadowColor: 'black',
@@ -45,7 +53,12 @@ export default function TableBook({route, navigation}) {
       </View>
 
       <View style={{padding: 20, alignItems: 'center'}}>
-        <Text style={{color: 'white', fontSize: 25, fontWeight: '600'}}>
+        <Text
+          style={{
+            color: isDarkMode ? 'white' : 'black',
+            fontSize: 25,
+            fontWeight: '600',
+          }}>
           Add Ons
         </Text>
       </View>

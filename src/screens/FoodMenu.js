@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, BackHandler} from 'react-native';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -7,6 +7,7 @@ import FoodItems from '../components/coffee_convo/FoodItems';
 import Category from '../components/coffee_convo/Category';
 import Cart from '../components/coffee_convo/Cart';
 import {useDispatch} from 'react-redux';
+import {AuthContext} from '../navigation/AuthProvider';
 
 export default function TableBook() {
   useEffect(() => {
@@ -28,10 +29,14 @@ export default function TableBook() {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const {isDarkMode} = useContext(AuthContext);
   return (
     <SafeAreaView
-      style={{backgroundColor: 'black', height: '100%', width: '100%'}}>
+      style={{
+        backgroundColor: isDarkMode ? 'black' : 'white',
+        height: '100%',
+        width: '100%',
+      }}>
       <View
         style={{
           alignItems: 'flex-start',
@@ -45,12 +50,13 @@ export default function TableBook() {
           <ArrowLeft
             name="arrowleft"
             size={25}
-            color={'white'}
+            color={isDarkMode?'white':'black'}
             style={{
               alignSelf: 'center',
               zIndex: 3,
               borderRadius: 50,
               padding: 8,
+              backgroundColor:isDarkMode?'black':'white',
               shadowColor: 'black',
               shadowOpacity: 0.2,
               shadowOffset: {width: -2, height: 4},
@@ -65,7 +71,7 @@ export default function TableBook() {
       <View style={{padding: 20, alignItems: 'center'}}>
         <Text
           style={{
-            color: 'white',
+            color: isDarkMode ? 'white' : 'black',
             fontSize: 25,
             fontWeight: '600',
             padding: 8,

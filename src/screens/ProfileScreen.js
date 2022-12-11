@@ -9,7 +9,7 @@ import {AuthContext} from '../navigation/AuthProvider';
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const [UserData, setUserData] = useState([]);
-  const {user, Refresh} = useContext(AuthContext);
+  const {user, Refresh, isDarkMode} = useContext(AuthContext);
 
   useEffect(() => {
     async function FetchData() {
@@ -17,11 +17,10 @@ export default function ProfileScreen() {
         .firestore()
         .collection('Users')
         .doc(user.uid)
-        .get()
-        .then(doc => {
-          setUserData(doc.data());
+        .onSnapshot(documentSnapshot => {
+          setUserData(documentSnapshot.data());
         });
-        return () => snapshot();
+      return () => snapshot();
     }
     FetchData();
   }, [Refresh]);
@@ -33,7 +32,11 @@ export default function ProfileScreen() {
   {
     return (
       <SafeAreaView
-        style={{width: '100%', height: '100%', backgroundColor: 'black'}}>
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: isDarkMode ? 'black' : 'white',
+        }}>
         {UserData ? <Profile UserData={UserData} /> : <StaticGoogleProfile />}
       </SafeAreaView>
     );

@@ -24,7 +24,7 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
-  const {login, googleLogin} = useContext(AuthContext);
+  const {login, googleLogin, isDarkMode} = useContext(AuthContext);
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -60,7 +60,11 @@ export default function LoginScreen() {
     });
   };
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: isDarkMode ? 'black' : 'white'},
+      ]}>
       <View style={styles.header}>
         <Image
           source={require('../../assets/Waving.png')}
@@ -68,29 +72,62 @@ export default function LoginScreen() {
           style={{width: '30%'}}
         />
       </View>
-      <Text style={styles.text_header}>Welcome, Buddy!</Text>
+      <Text
+        style={[styles.text_header, {color: isDarkMode ? 'white' : 'black'}]}>
+        Welcome, Buddy!
+      </Text>
 
-      <Animatable.View style={styles.footer} animation="fadeInUpBig">
+      <Animatable.View style={[styles.footer]} animation="fadeInUpBig">
         <ScrollView>
           <View>
-            <Text style={styles.text_footer}>Email</Text>
+            <Text
+              style={[
+                styles.text_footer,
+                {color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'},
+              ]}>
+              Email
+            </Text>
             <View style={styles.action}>
-              <User name="user" size={30} color="white" />
+              <User
+                name="user"
+                size={30}
+                color={isDarkMode ? 'white' : 'black'}
+              />
               <TextInput
-                style={styles.TextInput}
+                style={[
+                  styles.TextInput,
+                  {color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'},
+                ]}
                 autoCapitalize="none"
                 onChangeText={val => textInputChange(val)}
               />
               {data.check_textInputChange ? (
                 <Animatable.View animation="bounceIn">
-                  <Check name="checkcircleo" size={25} />
+                  <Check
+                    name="checkcircleo"
+                    size={25}
+                    color={isDarkMode ? 'white' : 'black'}
+                  />
                 </Animatable.View>
               ) : null}
             </View>
-            <Text style={[styles.text_footer, {marginTop: 35}]}>Password</Text>
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  marginTop: 35,
+                  color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black',
+                },
+              ]}>
+              Password
+            </Text>
 
             <View style={styles.action}>
-              <Lock name="lock" size={30} color="white" />
+              <Lock
+                name="lock"
+                size={30}
+                color={isDarkMode ? 'white' : 'black'}
+              />
               <TextInput
                 style={styles.TextInput}
                 autoCapitalize="none"
@@ -99,9 +136,17 @@ export default function LoginScreen() {
               />
               <TouchableOpacity onPress={updateSecureTextEntry}>
                 {data.secureTextEntry ? (
-                  <Eye name="eye-with-line" size={25} color="white" />
+                  <Eye
+                    name="eye-with-line"
+                    size={25}
+                    color={isDarkMode ? 'white' : 'black'}
+                  />
                 ) : (
-                  <Eye name="eye" size={25} color="white" />
+                  <Eye
+                    name="eye"
+                    size={25}
+                    color={isDarkMode ? 'white' : 'black'}
+                  />
                 )}
               </TouchableOpacity>
             </View>
@@ -120,7 +165,11 @@ export default function LoginScreen() {
               <Text
                 style={[
                   styles.textSign,
-                  {color: 'white', fontSize: 16, fontWeight: 'bold'},
+                  {
+                    color: isDarkMode ? 'white' : 'black',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  },
                 ]}>
                 No Account ? Create Now
               </Text>
@@ -130,7 +179,7 @@ export default function LoginScreen() {
                 style={{
                   fontSize: responsiveFontSize(2),
                   fontWeight: '600',
-                  color: 'white',
+                  color: isDarkMode ? 'white' : 'black',
                   fontSize: 20,
                 }}>
                 OR
@@ -143,7 +192,7 @@ export default function LoginScreen() {
                 {
                   marginTop: 10,
                   padding: 0,
-                  backgroundColor: 'white',
+                  backgroundColor: isDarkMode ? 'white' : 'black',
                 },
               ]}
               onPress={() => googleLogin()}>
@@ -162,7 +211,11 @@ export default function LoginScreen() {
                   />
                 </View>
                 <View>
-                  <Text style={[styles.textSign, {color: 'black'}]}>
+                  <Text
+                    style={[
+                      styles.textSign,
+                      {color: isDarkMode ? 'black' : 'white'},
+                    ]}>
                     Sign in with Google
                   </Text>
                 </View>

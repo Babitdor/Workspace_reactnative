@@ -9,6 +9,7 @@ import SignIn from '../components/login_signin/SignIn';
 import {Easing} from 'react-native-reanimated';
 import LoginMain from '../components/login_signin/LoginMain';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {useColorScheme} from 'react-native';
 
 export default function AuthStack() {
   const Stack = createStackNavigator();
@@ -55,10 +56,15 @@ export default function AuthStack() {
         '551630299891-pptuml96itvobr88ignr0882ivj513sm.apps.googleusercontent.com',
     });
   }, []);
+  const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <>
-      <StatusBar translucent backgroundColor="transparent" />
+      <StatusBar
+        translucent
+        backgroundColor={isDarkMode ? 'black' : 'white'}
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+      />
       <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Screen
           name="IntroLog"

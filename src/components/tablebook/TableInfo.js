@@ -6,12 +6,14 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImageSlider from 'react-native-image-slider';
+import { AuthContext } from '../../navigation/AuthProvider';
 const windowHeight = Dimensions.get('window').height;
 export default function TableInfo(props) {
+  const {isDarkMode} = useContext(AuthContext);
   return (
     <View style={{height: windowHeight}}>
       <Animatable.View style={{flex: 1}} animation="fadeInUp">
@@ -25,11 +27,11 @@ export default function TableInfo(props) {
           flex: 2,
           height: '100%',
           transform: [{translateY: windowHeight / 4}],
-          backgroundColor: 'black',
+          backgroundColor: isDarkMode?'black':'white',
           padding: 30,
         }}>
-        <TableNo title={props.database.title} />
-        <TableDescription description={props.database.description} />
+        <TableNo title={props.database.title} DarkMode={isDarkMode} />
+        <TableDescription description={props.database.description} DarkMode={isDarkMode}/>
         <View
           style={[
             styles.header,
@@ -58,7 +60,7 @@ export default function TableInfo(props) {
             <Text style={styles.text_header}>Perks & Bonus</Text>
           </View>
         </View>
-        <View style={{backgroundColor: 'black', padding: 10}}>
+        <View style={{backgroundColor: isDarkMode?'black':'#EEEEEE', padding: 10}}>
           <FlatList
             data={props.database.perks}
             renderItem={({item, index}) => {
@@ -73,7 +75,7 @@ export default function TableInfo(props) {
                     <Icon
                       name="checkmark-circle-outline"
                       size={30}
-                      color={'rgba(137, 252, 233, 1)'}
+                      color={isDarkMode? 'rgba(137, 252, 233, 1)':'gray'}
                     />
                   </View>
                   <View>
@@ -81,7 +83,7 @@ export default function TableInfo(props) {
                       key={index}
                       style={[
                         styles.text_subtext,
-                        {color: 'rgba(137, 252, 233, 1)'},
+                        {color: isDarkMode? 'rgba(137, 252, 233, 1)':'gray'},
                       ]}>
                       {item}
                     </Text>
@@ -104,7 +106,7 @@ const TableNo = props => (
       fontSize: 25,
       fontWeight: '600',
       marginTop: 10,
-      color: 'white',
+      color: props.DarkMode?'white':'black',
       marginHorizontal: 15,
     }}>
     {props.title}
@@ -115,7 +117,7 @@ const TableDescription = props => (
   <Text
     style={[
       styles.text_subtext,
-      {padding: 10, color: 'rgba(137, 252, 233, 1)'},
+      {color: props.DarkMode? 'rgba(137, 252, 233, 1)':'gray'},
     ]}>
     {props.description}
   </Text>

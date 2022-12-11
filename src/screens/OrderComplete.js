@@ -12,9 +12,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Home from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
+import {useContext} from 'react';
+import {AuthContext} from '../navigation/AuthProvider';
 export default function OrderComplete(route) {
   const navigation = useNavigation();
-
+  const {isDarkMode} = useContext(AuthContext);
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -24,9 +26,14 @@ export default function OrderComplete(route) {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
+    <SafeAreaView
+      style={{flex: 1, backgroundColor: isDarkMode ? 'black' : 'white'}}>
       <StatusBar translucent />
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: isDarkMode ? 'black' : 'white'},
+        ]}>
         <View
           style={{
             flexDirection: 'row',
@@ -36,11 +43,23 @@ export default function OrderComplete(route) {
             justifyContent: 'space-between',
           }}>
           <View
-            style={{backgroundColor: 'white', padding: 8, borderRadius: 50}}>
+            style={{
+              padding: 8,
+              borderRadius: 50,
+              backgroundColor: isDarkMode ? 'black' : 'white',
+              shadowOpacity: 0.6,
+              shadowOffset: {width: -2, height: 4},
+              shadowRadius: 3,
+              elevation: 3,
+            }}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Home')}
               style={{zIndex: 999}}>
-              <Home name="home" size={25} color={'black'} />
+              <Home
+                name="home"
+                size={25}
+                color={isDarkMode ? 'white' : 'black'}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -55,8 +74,13 @@ export default function OrderComplete(route) {
           </View>
         </View>
 
-        <View style={styles.footer}>
-          <Text style={styles.title}>
+        <View
+          style={[
+            styles.footer,
+            {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+          ]}>
+          <Text
+            style={[styles.title, {color: isDarkMode ? '#EEEEEE' : '#181818'}]}>
             Your Order has been placed for {route.route.params.totalRs}
           </Text>
         </View>
@@ -79,7 +103,6 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 3,
-    backgroundColor: '#181818',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 50,

@@ -1,6 +1,9 @@
 import React from 'react';
-import {StatusBar, Easing} from 'react-native';
-import {createStackNavigator,CardStyleInterpolators} from '@react-navigation/stack';
+import {StatusBar, Easing, useColorScheme} from 'react-native';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import Home from '../screens/Home';
 import TableBook from '../screens/TableBook';
 import Seating from '../screens/Seating';
@@ -54,9 +57,14 @@ export default function AppStack() {
       presentaion: 'modal',
     },
   });
+  const isDarkMode = useColorScheme() === 'dark';
   return (
     <>
-      <StatusBar translucent backgroundColor="transparent" />
+      <StatusBar
+        translucent
+        backgroundColor={isDarkMode ? 'black' : 'white'}
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+      />
       <ReduxProvider store={store}>
         <Stack.Navigator screenOptions={screenOptions}>
           <Stack.Screen

@@ -50,7 +50,7 @@ function BookMySeat(props) {
     setMax,
     setSelectDate,
   } = useContext(AuthContext);
-  const {isChanged, setChanged} = useContext(AuthContext);
+  const {isChanged, setChanged, isDarkMode} = useContext(AuthContext);
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase
@@ -304,11 +304,18 @@ function BookMySeat(props) {
             {/* Seat Indicator Component */}
             <SeatIndicator />
           </Animatable.View>
-          <SafeAreaView style={styles.container}>
+          <SafeAreaView
+            style={[
+              styles.container,
+              {backgroundColor: isDarkMode ? 'black' : 'white'},
+            ]}>
             <Animatable.View
               animation="fadeInUpBig"
               useNativeDriver
-              style={styles.footer}>
+              style={[
+                styles.footer,
+                {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+              ]}>
               {/* Seat Layout Container */}
               <View
                 style={{
@@ -328,7 +335,7 @@ function BookMySeat(props) {
                   <TouchableOpacity
                     style={{
                       borderRadius: 30,
-                      borderColor: 'white',
+                      borderColor: isDarkMode ? 'white' : 'black',
                       borderWidth: 2,
                       padding: 6,
                     }}
@@ -337,7 +344,11 @@ function BookMySeat(props) {
                         Table: props.database[0],
                       });
                     }}>
-                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: isDarkMode ? 'white' : 'black',
+                      }}>
                       Table A
                     </Text>
                   </TouchableOpacity>
@@ -410,7 +421,7 @@ function BookMySeat(props) {
                   <TouchableOpacity
                     style={{
                       borderRadius: 30,
-                      borderColor: 'white',
+                      borderColor: isDarkMode ? 'white' : 'black',
                       borderWidth: 2,
                       padding: 6,
                     }}
@@ -419,7 +430,11 @@ function BookMySeat(props) {
                         Table: props.database[1],
                       });
                     }}>
-                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: isDarkMode ? 'white' : 'black',
+                      }}>
                       Table B
                     </Text>
                   </TouchableOpacity>
@@ -489,7 +504,7 @@ function BookMySeat(props) {
                   <TouchableOpacity
                     style={{
                       borderRadius: 30,
-                      borderColor: 'white',
+                      borderColor: isDarkMode ? 'white' : 'black',
                       borderWidth: 2,
                       marginBottom: -30,
                       padding: 6,
@@ -499,7 +514,11 @@ function BookMySeat(props) {
                         Table: props.database[2],
                       });
                     }}>
-                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: isDarkMode ? 'white' : 'black',
+                      }}>
                       Table C
                     </Text>
                   </TouchableOpacity>
@@ -575,7 +594,7 @@ function BookMySeat(props) {
                   <TouchableOpacity
                     style={{
                       borderRadius: 30,
-                      borderColor: 'white',
+                      borderColor: isDarkMode ? 'white' : 'black',
                       borderWidth: 2,
                       padding: 6,
                     }}
@@ -584,7 +603,11 @@ function BookMySeat(props) {
                         Table: props.database[3],
                       });
                     }}>
-                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: isDarkMode ? 'white' : 'black',
+                      }}>
                       Table D
                     </Text>
                   </TouchableOpacity>
@@ -652,7 +675,7 @@ function BookMySeat(props) {
                   <TouchableOpacity
                     style={{
                       borderRadius: 30,
-                      borderColor: 'white',
+                      borderColor: isDarkMode ? 'white' : 'black',
                       borderWidth: 2,
                       padding: 6,
                       marginBottom: 10,
@@ -662,7 +685,11 @@ function BookMySeat(props) {
                         Table: props.database[4],
                       });
                     }}>
-                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: isDarkMode ? 'white' : 'black',
+                      }}>
                       Table E
                     </Text>
                   </TouchableOpacity>
@@ -731,7 +758,7 @@ function BookMySeat(props) {
                   <TouchableOpacity
                     style={{
                       borderRadius: 30,
-                      borderColor: 'white',
+                      borderColor: isDarkMode ? 'white' : 'black',
                       borderWidth: 2,
                       padding: 6,
                       marginBottom: 10,
@@ -741,7 +768,11 @@ function BookMySeat(props) {
                         Table: props.database[5],
                       });
                     }}>
-                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: isDarkMode ? 'white' : 'black',
+                      }}>
                       Table F
                     </Text>
                   </TouchableOpacity>
@@ -813,7 +844,7 @@ function BookMySeat(props) {
                   <TouchableOpacity
                     style={{
                       borderRadius: 30,
-                      borderColor: 'white',
+                      borderColor: isDarkMode ? 'white' : 'black',
                       borderWidth: 2,
                       padding: 6,
                     }}
@@ -822,7 +853,11 @@ function BookMySeat(props) {
                         Table: props.database[6],
                       });
                     }}>
-                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: isDarkMode ? 'white' : 'black',
+                      }}>
                       Table G
                     </Text>
                   </TouchableOpacity>
@@ -879,14 +914,25 @@ function BookMySeat(props) {
                 <Animatable.View
                   useNativeDriver
                   animation="fadeInUp"
-                  style={styles.BottomContainer}>
+                  style={[
+                    styles.BottomContainer,
+                    {backgroundColor: isDarkMode ? 'black' : 'white'},
+                  ]}>
                   <TouchableOpacity
                     style={{padding: 10, marginBottom: 20}}
                     onPress={() => setOpen(Open => !Open)}>
                     <Up
                       size={25}
                       name={Open ? 'down' : 'up'}
-                      color={Open ? 'white' : 'rgba(137, 252, 233, 1)'}
+                      color={
+                        isDarkMode
+                          ? Open
+                            ? 'white'
+                            : 'rgba(137, 252, 233, 1)'
+                          : Open
+                          ? 'black'
+                          : 'rgba(137, 252, 233, 1)'
+                      }
                     />
                   </TouchableOpacity>
 
@@ -978,19 +1024,22 @@ const styles = StyleSheet.create({
   BottomContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: 'black',
     borderRadius: 40,
+    shadowOpacity: 0.6,
+    shadowOffset: {width: -2, height: -4},
+    shadowRadius: 3,
+    elevation: 3,
     paddingHorizontal: 20,
     marginHorizontal: -10,
     height: '100%',
   },
   ProceedBtnContainer: {
-    top: height / 1.55,
+    top: height / 1.6,
     zIndex: 9999,
     flex: 3,
   },
   ProceedBtnContainerOpen: {
-    top: height / 2.4,
+    top: height / 2.55,
     zIndex: 9999,
     flex: 3,
   },
@@ -1016,14 +1065,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    backgroundColor: 'black',
   },
   header: {
     position: 'relative',
   },
   footer: {
     flex: 1,
-    backgroundColor: '#181818',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },

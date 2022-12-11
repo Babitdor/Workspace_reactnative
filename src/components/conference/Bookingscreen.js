@@ -50,7 +50,7 @@ export default function Bookingscreen(props) {
     setMax,
     setSelectDate,
   } = useContext(AuthContext);
-  const {isChanged, setChanged} = useContext(AuthContext);
+  const {isChanged, setChanged, isDarkMode} = useContext(AuthContext);
 
   useEffect(() => {
     setMax('');
@@ -137,12 +137,19 @@ export default function Bookingscreen(props) {
             {/* Seat Indicators */}
             <ConferenceIndicator />
           </Animatable.View>
-          <SafeAreaView style={styles.container}>
+          <SafeAreaView
+            style={[
+              styles.container,
+              {backgroundColor: isDarkMode ? 'black' : 'white'},
+            ]}>
             <Animatable.View
               useNativeDriver
               animation="fadeInUpBig"
               delay={100}
-              style={styles.footer}>
+              style={[
+                styles.footer,
+                {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+              ]}>
               {/* Seat Layout Container */}
               <View
                 style={{
@@ -270,7 +277,7 @@ export default function Bookingscreen(props) {
                   <TouchableOpacity
                     style={{
                       borderRadius: 20,
-                      borderColor: 'white',
+                      borderColor: isDarkMode ? 'white' : 'black',
                       borderWidth: 2,
                       marginBottom: -16,
                       padding: 8,
@@ -281,7 +288,11 @@ export default function Bookingscreen(props) {
                         Table: props.database[7],
                       });
                     }}>
-                    <Text style={{fontWeight: 'bold', color: 'white'}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: isDarkMode ? 'white' : 'black',
+                      }}>
                       Conference
                     </Text>
                   </TouchableOpacity>
@@ -549,16 +560,30 @@ export default function Bookingscreen(props) {
                 animation="fadeInUp"
                 style={
                   Open
-                    ? styles.ProceedBtnContainerOpen
-                    : styles.ProceedBtnContainer
+                    ? [
+                        styles.ProceedBtnContainerOpen,
+                        {backgroundColor: isDarkMode ? 'black' : 'white'},
+                      ]
+                    : [
+                        styles.ProceedBtnContainer,
+                        {backgroundColor: isDarkMode ? 'black' : 'white'},
+                      ]
                 }>
                 <TouchableOpacity
-                  style={{padding: 10, marginBottom:20}}
+                  style={{padding: 10, marginBottom: 20}}
                   onPress={() => setOpen(Open => !Open)}>
                   <Up
                     size={25}
                     name={Open ? 'down' : 'up'}
-                    color={Open ? 'white' : 'rgba(137, 252, 233, 1)'}
+                    color={
+                      isDarkMode
+                        ? Open
+                          ? 'white'
+                          : 'rgba(137, 252, 233, 1)'
+                        : Open
+                        ? 'black'
+                        : 'rgba(137, 252, 233, 1)'
+                    }
                   />
                 </TouchableOpacity>
                 <View style={{paddingVertical: 10, zIndex: 9999}}>
@@ -659,7 +684,7 @@ const styles = StyleSheet.create({
   //   flex: 3,
   // },
   ProceedBtnContainer: {
-    top: height / 1.6,
+    top: height / 1.7,
     zIndex: 9999,
     flex: 3,
     borderRadius: 40,
@@ -670,7 +695,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   ProceedBtnContainerOpen: {
-    top: height / 2.4,
+    top: height / 2.8,
     zIndex: 9999,
     flex: 3,
     flexDirection: 'column',

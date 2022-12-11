@@ -22,7 +22,7 @@ const {height} = Dimensions.get('screen');
 export default function ViewCart() {
   const navigation = useNavigation();
   const [BookingID, setBookingID] = useState();
-  const {user} = useContext(AuthContext);
+  const {user,isDarkMode} = useContext(AuthContext);
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const {items} = useSelector(state => state.cartReducer.selectedItems);
@@ -55,8 +55,8 @@ export default function ViewCart() {
     return (
       <>
         <Animatable.View style={styles.modalContainer} animation="fadeInUpBig">
-          <View style={styles.modalCheckoutContainer}>
-            <Text style={styles.tablename}>Checkout</Text>
+          <View style={[styles.modalCheckoutContainer,{backgroundColor:isDarkMode?'#181818':'#EEEEEE'}]}>
+            <Text style={[styles.tablename,{color:isDarkMode?'white':'black'}]}>Checkout</Text>
             <View
               style={{
                 flexDirection: 'row',
@@ -75,8 +75,8 @@ export default function ViewCart() {
             />
 
             <View style={styles.subtotalContainer}>
-              <Text style={styles.subTotalText}>Subtotal</Text>
-              <Text style={styles.subTotalText}>{totalRs}</Text>
+              <Text style={[styles.subTotalText,{color:isDarkMode?'white':'black'}]}>Subtotal</Text>
+              <Text style={[styles.subTotalText,{color:isDarkMode?'white':'black'}]}>{totalRs}</Text>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <TouchableOpacity

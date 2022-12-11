@@ -6,9 +6,12 @@ import Bookingscreen from '../components/conference/Bookingscreen';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 import {firebase} from '@react-native-firebase/database';
+import { useContext } from 'react';
+import { AuthContext } from '../navigation/AuthProvider';
 export default function Conference() {
   const [Data, SetDatabase] = useState();
   const navigation = useNavigation();
+  const {isDarkMode} = useContext(AuthContext);
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase
@@ -25,7 +28,7 @@ export default function Conference() {
   return (
     <>
       {Data ? (
-        <SafeAreaView style={{backgroundColor: 'black', flex: 1}}>
+        <SafeAreaView style={{backgroundColor: isDarkMode?'black':'white', flex: 1}}>
           <StatusBar translucent />
           <View
             style={{
@@ -40,10 +43,10 @@ export default function Conference() {
                 <ArrowLeft
                   name="arrowleft"
                   size={25}
-                  color={'white'}
+                  color={isDarkMode?'white':'black'}
                   style={{
                     alignSelf: 'center',
-                    borderWidth: 0.5,
+                    backgroundColor:isDarkMode?'black':'white',
                     zIndex: 100,
                     borderRadius: 50,
                     padding: 8,
@@ -54,7 +57,7 @@ export default function Conference() {
             <Animatable.View animation="fadeInUp" delay={400}>
               <Text
                 style={{
-                  color: 'white',
+                  color: isDarkMode?'white':'black',
                   textAlign: 'center',
                   fontSize: 25,
                   fontWeight: 'bold',

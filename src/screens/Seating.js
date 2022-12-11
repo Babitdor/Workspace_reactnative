@@ -1,12 +1,14 @@
 import {View, TouchableOpacity, Text, BackHandler} from 'react-native';
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BookMySeat from '../components/seating/BookMySeat';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import {firebase} from '@react-native-firebase/database';
 import * as Animatable from 'react-native-animatable';
+import {AuthContext} from '../navigation/AuthProvider';
 export default function Seating({route, navigation}) {
   const [Data, SetDatabase] = useState();
+  const {isDarkMode} = useContext(AuthContext);
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase
@@ -26,7 +28,11 @@ export default function Seating({route, navigation}) {
     <>
       {Data ? (
         <SafeAreaView
-          style={{width: '100%', height: '100%', backgroundColor: 'black'}}>
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: isDarkMode ? 'black' : 'white',
+          }}>
           <View
             style={{
               alignItems: 'center',
@@ -40,11 +46,15 @@ export default function Seating({route, navigation}) {
                 <ArrowLeft
                   name="arrowleft"
                   size={25}
-                  color={'white'}
+                  color={isDarkMode ? 'white' : 'black'}
                   style={{
                     alignSelf: 'center',
-                    borderWidth: 0.5,
                     zIndex: 100,
+                    backgroundColor: isDarkMode ? 'black' : 'white',
+                    shadowOpacity: 0.6,
+                    shadowOffset: {width: -2, height: 4},
+                    shadowRadius: 3,
+                    elevation: 3,
                     borderRadius: 50,
                     padding: 8,
                   }}
@@ -54,7 +64,7 @@ export default function Seating({route, navigation}) {
             <Animatable.View animation="fadeInUp" delay={400}>
               <Text
                 style={{
-                  color: 'white',
+                  color: isDarkMode ? 'white' : 'black',
                   textAlign: 'center',
                   fontSize: 25,
                   fontWeight: 'bold',
@@ -76,7 +86,11 @@ export default function Seating({route, navigation}) {
         </SafeAreaView>
       ) : (
         <SafeAreaView
-          style={{width: '100%', height: '100%', backgroundColor: 'black'}}
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: isDarkMode ? 'black' : 'white',
+          }}
         />
       )}
     </>

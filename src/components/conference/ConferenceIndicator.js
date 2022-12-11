@@ -18,6 +18,8 @@ export default function ConferenceIndicator(props) {
           flexDirection: 'row',
           justifyContent: 'space-around',
           alignItems:'center',
+          backgroundColor:'#EEEEEE',
+          padding:8,
           paddingHorizontal:10
         }}>
         <View style={{flexDirection: 'column', alignItems: 'center'}}>

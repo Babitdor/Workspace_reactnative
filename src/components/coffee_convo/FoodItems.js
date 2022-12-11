@@ -9,7 +9,7 @@ import {useContext} from 'react';
 import * as Animatable from 'react-native-animatable';
 import {AuthContext} from '../../navigation/AuthProvider';
 export default function FoodItems(props) {
-  const {Category} = useContext(AuthContext);
+  const {Category,isDarkMode} = useContext(AuthContext);
   useEffect(() => {
     async function FetchData() {
       var snapshot = await firebase
@@ -51,7 +51,7 @@ export default function FoodItems(props) {
                 useNativeDriver
                 animation="fadeInUp"
                 // delay={500}
-                style={styles.itemstyle}>
+                style={[styles.itemstyle,{backgroundColor:isDarkMode?'#181818':'#EEEEEE'}]}>
                 <ItemImage items={item} />
                 <View
                   style={{
@@ -60,7 +60,7 @@ export default function FoodItems(props) {
                     justifyContent: 'space-between',
                     marginTop: 15,
                   }}>
-                  <ItemTitle items={item} />
+                  <ItemTitle items={item} DarkMode={isDarkMode}/>
                 </View>
                 <View style={{alignItems: 'flex-end', marginBottom: 5}}>
                   <BouncyCheckBox
@@ -85,10 +85,10 @@ export default function FoodItems(props) {
 
 const ItemTitle = props => (
   <View>
-    <Text style={{fontSize: 15, fontWeight: 'bold', color: '#E4E6EB'}}>
+    <Text style={{fontSize: 15, fontWeight: 'bold', color: props.DarkMode?'#E4E6EB':'black'}}>
       {props.items.title}
     </Text>
-    <Text style={{fontSize: 13, fontWeight: 'bold', color: '#E4E6EB'}}>
+    <Text style={{fontSize: 13, fontWeight: 'bold', color: props.DarkMode?'#E4E6EB':'black'}}>
       {props.items.price}
     </Text>
   </View>

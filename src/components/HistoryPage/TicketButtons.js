@@ -18,7 +18,7 @@ const Buttons = [
 ];
 
 export default function TicketButtons(props) {
-  const {setTicketType} = useContext(AuthContext);
+  const {setTicketType,isDarkMode} = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('Table Booking');
   const HeaderButton = props => (
     <TouchableOpacity key={props.id} onPress={() => ChoosingCategory(props)}>
@@ -48,7 +48,7 @@ export default function TicketButtons(props) {
         <View>
           <Text
             style={{
-              color: props.activeTab === props.title ? 'rgba(137, 252, 233, 1)' : 'white',
+              color: isDarkMode ? props.activeTab === props.title ? 'rgba(137, 252, 233, 1)' : 'white':props.activeTab === props.title ? 'black' : 'gray',
               marginLeft: 2,
               fontSize: 16,
               fontWeight: props.activeTab === props.title ? 'bold' : '100',

@@ -1,6 +1,8 @@
 import {View, Text, Image} from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../navigation/AuthProvider';
 export default function SeatIndicator(props) {
+  const {isDarkMode} = useContext(AuthContext)
   return (
     <>
       <View
@@ -8,6 +10,8 @@ export default function SeatIndicator(props) {
           flexDirection: 'row',
           justifyContent: 'space-around',
           alignItems:'center',
+          backgroundColor: isDarkMode? 'black':'#EEEEEE',
+          padding:8,
           paddingHorizontal:10
         }}>
         <View style={{flexDirection: 'column', alignItems: 'center'}}>

@@ -1,4 +1,4 @@
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, useColorScheme} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon, {Icons} from './Icons';
 import Table_ConferenceHistoryStack from './Table_ConferenceHistoryStack';
@@ -50,6 +50,7 @@ const TabButton = props => {
   const {item, onPress, accessibilityState} = props;
   const focused = accessibilityState.selected;
   const viewRef = useRef(null);
+  const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
     if (focused) {
@@ -68,11 +69,25 @@ const TabButton = props => {
         <Icon
           type={item.type}
           name={focused ? item.activeIcon : item.inActiveIcon}
-          color={focused ? 'rgba(137, 252, 233, 1)' : 'white'}
+          color={
+            isDarkMode
+              ? focused
+                ? 'rgba(137, 252, 233, 1)'
+                : 'white'
+              : focused
+              ? 'black'
+              : 'gray'
+          }
         />
         <Text
           style={{
-            color: focused ? 'rgba(137, 252, 233, 1)' : 'white',
+            color: isDarkMode
+              ? focused
+                ? 'rgba(137, 252, 233, 1)'
+                : 'white'
+              : focused
+              ? 'black'
+              : 'gray',
             fontSize: 10,
           }}>
           {item.label}
@@ -83,13 +98,15 @@ const TabButton = props => {
 };
 
 export default function MainStack() {
+  const isDarkMode = useColorScheme() === 'dark';
+
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         // tabBarShowLabel: true,
         tabBarStyle: {
-          backgroundColor: 'black',
+          backgroundColor: isDarkMode ? 'black' : 'white',
           borderTopWidth: 0,
           height: 50,
           justifyContent: 'center',

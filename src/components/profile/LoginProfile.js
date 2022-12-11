@@ -24,15 +24,14 @@ import ImageView from 'react-native-image-viewing';
 import {Button} from 'react-native-paper';
 
 export default function LoginScreen(props) {
-  const {logout} = useContext(AuthContext);
+  const {logout, isDarkMode} = useContext(AuthContext);
   const {user, setRefresh, Refresh} = useContext(AuthContext);
   const UserData = props.UserData;
   const navigation = useNavigation();
   const [ProfileImage, setProfile] = useState('');
   const [IDIMAGE, setIDIMAGE] = useState('');
   const [visible, setIsVisible] = useState(false);
-  const image = [{uri: IDIMAGE}];
-
+  const image = [{uri: UserData.ID_PIC}];
   useFocusEffect(
     useCallback(() => {
       setRefresh(Refresh => !Refresh);
@@ -44,14 +43,6 @@ export default function LoginScreen(props) {
     async function ImageData() {
       try {
         let url = await storage()
-          .ref('Profile/')
-          .child(user.uid)
-          .getDownloadURL(url)
-          .then(x => {
-            setProfile(x);
-          });
-
-        url = await storage()
           .ref('Profile/Identification/')
           .child(user.uid)
           .getDownloadURL(url)
@@ -67,10 +58,15 @@ export default function LoginScreen(props) {
 
   return (
     <>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: isDarkMode ? 'black' : 'white'},
+        ]}>
         <ImageView
-          images={IDIMAGE ? image : ''}
+          images={UserData.ID_PIC ? image : ''}
           imageIndex={0}
+          presentationStyle={'overFullScreen'}
           visible={visible}
           onRequestClose={() => setIsVisible(false)}
         />
@@ -92,7 +88,11 @@ export default function LoginScreen(props) {
               onPress={() => {
                 setRefresh(Refresh => !Refresh);
               }}>
-              <Refreshs name="refresh" size={35} color={'white'} />
+              <Refreshs
+                name="refresh"
+                size={35}
+                color={isDarkMode ? 'white' : 'black'}
+              />
             </TouchableOpacity>
           </View>
           <View>
@@ -101,25 +101,27 @@ export default function LoginScreen(props) {
                 <Signout
                   name="exit-outline"
                   size={responsiveScreenFontSize(2.5)}
-                  color={'#B3B3B3'}
+                  color={isDarkMode ? '#B3B3B3' : 'black'}
                 />
-                <Text style={{color: 'white'}}>Sign Out</Text>
+                <Text style={{color: isDarkMode ? 'white' : 'black'}}>
+                  Sign Out
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styles.header}>
-          {ProfileImage ? (
+          {UserData.Profile_PIC ? (
             <Image
               style={{
-                width: 80,
-                height: 80,
+                width: 120,
+                height: 120,
                 borderRadius: 100,
               }}
-              resizeMode="contain"
+              resizeMode="cover"
               source={{
-                uri: ProfileImage,
+                uri: UserData.Profile_PIC,
               }}
             />
           ) : (
@@ -140,7 +142,7 @@ export default function LoginScreen(props) {
           <Text
             style={{
               fontSize: responsiveScreenFontSize(2),
-              color: 'white',
+              color: isDarkMode ? 'white' : 'black',
               marginTop: 20,
             }}>
             {UserData.Name}
@@ -148,7 +150,10 @@ export default function LoginScreen(props) {
         </View>
 
         <Animatable.View
-          style={styles.footer}
+          style={[
+            styles.footer,
+            {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+          ]}
           animation="fadeInUpBig"
           useNativeDriver>
           <View style={{marginHorizontal: 10}}>
@@ -160,24 +165,40 @@ export default function LoginScreen(props) {
                 })
               }>
               <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
-                <Edit name="edit" size={30} color={'white'} />
+                <Edit
+                  name="edit"
+                  size={30}
+                  color={isDarkMode ? 'white' : 'black'}
+                />
               </View>
             </TouchableOpacity>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.card}>
               <View>
-                <User name="user" size={25} color={'rgba(137, 252, 233, 1)'} />
+                <User
+                  name="user"
+                  size={25}
+                  color={isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'}
+                />
               </View>
 
               <View style={styles.aligment}>
                 <View>
-                  <Text style={[styles.text_header, {marginLeft: 8}]}>
+                  <Text
+                    style={[
+                      styles.text_header,
+                      {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     Name
                   </Text>
                 </View>
                 <View>
-                  <Text style={[styles.text_footer, {marginLeft: 15}]}>
+                  <Text
+                    style={[
+                      styles.text_footer,
+                      {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     {UserData.Name}
                   </Text>
                 </View>
@@ -185,15 +206,27 @@ export default function LoginScreen(props) {
             </View>
 
             <View style={styles.card}>
-              <Email name="mail" size={25} color={'rgba(137, 252, 233, 1)'} />
+              <Email
+                name="mail"
+                size={25}
+                color={isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'}
+              />
               <View style={styles.aligment}>
                 <View>
-                  <Text style={[styles.text_header, {marginLeft: 8}]}>
+                  <Text
+                    style={[
+                      styles.text_header,
+                      {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     Email
                   </Text>
                 </View>
                 <View>
-                  <Text style={[styles.text_footer, {marginLeft: 15}]}>
+                  <Text
+                    style={[
+                      styles.text_footer,
+                      {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     {user.email}
                   </Text>
                 </View>
@@ -204,16 +237,24 @@ export default function LoginScreen(props) {
               <Phone
                 name="phone"
                 size={responsiveScreenFontSize(2.5)}
-                color={'rgba(137, 252, 233, 1)'}
+                color={isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'}
               />
               <View style={styles.aligment}>
                 <View>
-                  <Text style={[styles.text_header, {marginLeft: 8}]}>
+                  <Text
+                    style={[
+                      styles.text_header,
+                      {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     Phone
                   </Text>
                 </View>
                 <View>
-                  <Text style={[styles.text_footer, {marginLeft: 15}]}>
+                  <Text
+                    style={[
+                      styles.text_footer,
+                      {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     {UserData.PhoneNo}
                   </Text>
                 </View>
@@ -228,16 +269,24 @@ export default function LoginScreen(props) {
               <Cake
                 name="cake"
                 size={responsiveScreenFontSize(2.5)}
-                color={'rgba(137, 252, 233, 1)'}
+                color={isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'}
               />
               <View style={styles.aligment}>
                 <View>
-                  <Text style={[styles.text_header, {marginLeft: 8}]}>
+                  <Text
+                    style={[
+                      styles.text_header,
+                      {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     Date of Birth
                   </Text>
                 </View>
                 <View>
-                  <Text style={[styles.text_footer, {marginLeft: 15}]}>
+                  <Text
+                    style={[
+                      styles.text_footer,
+                      {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     {UserData.Date_of_Birth}
                   </Text>
                 </View>
@@ -254,16 +303,24 @@ export default function LoginScreen(props) {
                     : 'male'
                 }
                 size={responsiveScreenFontSize(2.5)}
-                color={'rgba(137, 252, 233, 1)'}
+                color={isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'}
               />
               <View style={styles.aligment}>
                 <View>
-                  <Text style={[styles.text_header, {marginLeft: 8}]}>
+                  <Text
+                    style={[
+                      styles.text_header,
+                      {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     Gender
                   </Text>
                 </View>
                 <View>
-                  <Text style={[styles.text_footer, {marginLeft: 15}]}>
+                  <Text
+                    style={[
+                      styles.text_footer,
+                      {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
                     {UserData.Gender}
                   </Text>
                 </View>
@@ -281,22 +338,40 @@ export default function LoginScreen(props) {
                   <IDCARD
                     name="idcard"
                     size={responsiveScreenFontSize(2.5)}
-                    color={'rgba(137, 252, 233, 1)'}
+                    color={isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'}
                   />
                 </View>
                 <View style={styles.aligment}>
                   <View>
-                    <Text style={[styles.text_header, {marginLeft: 8}]}>
+                    <Text
+                      style={[
+                        styles.text_header,
+                        {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                      ]}>
                       Indentification
                     </Text>
                   </View>
                   <View>
                     {UserData.Identification ? (
-                      <Text style={[styles.text_header, {marginLeft: 8}]}>
+                      <Text
+                        style={[
+                          styles.text_header,
+                          {
+                            marginLeft: 8,
+                            color: isDarkMode ? 'white' : 'black',
+                          },
+                        ]}>
                         {UserData.Identification}
                       </Text>
                     ) : (
-                      <Text style={[styles.text_header, {marginLeft: 8}]}>
+                      <Text
+                        style={[
+                          styles.text_header,
+                          {
+                            marginLeft: 8,
+                            color: isDarkMode ? 'white' : 'black',
+                          },
+                        ]}>
                         No Indentification
                       </Text>
                     )}
@@ -305,8 +380,10 @@ export default function LoginScreen(props) {
                 <View>
                   <Button
                     mode="contained"
-                    textColor="black"
-                    buttonColor="rgba(137, 252, 233, 1)"
+                    textColor={isDarkMode ? 'black' : 'white'}
+                    buttonColor={
+                      isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'
+                    }
                     onPress={() => setIsVisible(true)}>
                     Preview
                   </Button>

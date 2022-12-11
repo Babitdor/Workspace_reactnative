@@ -23,7 +23,7 @@ import PurchasesPage from './PurchasesPage';
 import TicketButtons from './TicketButtons';
 
 export default function PurchaseHistory() {
-  const {user, TicketType} = useContext(AuthContext);
+  const {user, TicketType, isDarkMode} = useContext(AuthContext);
   const [TableTickets, setTickets] = useState();
 
   useEffect(() => {
@@ -47,9 +47,13 @@ export default function PurchaseHistory() {
         flex: 1,
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: isDarkMode ? 'black' : 'white',
       }}>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: isDarkMode ? 'black' : 'white'},
+        ]}>
         <View style={styles.header}>
           {TicketType === 'BookATable' ? (
             <Animatable.View animation="fadeInUp" useNativeDriver>
@@ -72,7 +76,10 @@ export default function PurchaseHistory() {
         </View>
         <Animatable.View
           animation="fadeInUpBig"
-          style={styles.footer}
+          style={[
+            styles.footer,
+            {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+          ]}
           useNativeDriver>
           <View style={{alignItems: 'center', marginBottom: 20, marginTop: 20}}>
             <TicketButtons />

@@ -1,14 +1,16 @@
 import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import Ticket from 'react-native-vector-icons/Entypo';
 import Calendar from 'react-native-vector-icons/Entypo';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 import CustomTimer from '../timer/CustomTimer';
 import moment from 'moment';
+import { AuthContext } from '../../navigation/AuthProvider';
 
 export default function PurchasesPage(props) {
   const navigation = useNavigation();
+  const {isDarkMode} = useContext(AuthContext);
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -18,7 +20,7 @@ export default function PurchasesPage(props) {
           <Animatable.View
             useNativeDriver
             animation="fadeInUp"
-            style={styles.itemstyle}>
+            style={[styles.itemstyle,{backgroundColor:isDarkMode?'black':'#EEEEEE'}]}>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Ticket', {
@@ -84,11 +86,11 @@ export default function PurchasesPage(props) {
                   }}>
                   <View style={{flexDirection: 'column', alignItems: 'center'}}>
                     <View>
-                      <Calendar name="calendar" size={25} color="white" />
+                      <Calendar name="calendar" size={25} color={isDarkMode?"white":'black'} />
                     </View>
                     <View>
                       <Text
-                        style={[styles.text, {marginLeft: 8, fontSize: 14}]}>
+                        style={[styles.text, {marginLeft: 8, fontSize: 14,color:isDarkMode?"white":'black'}]}>
                         {item._data.Date
                           ? moment(item._data.Date).format('DD/MM/YYYY')
                           : Loading}

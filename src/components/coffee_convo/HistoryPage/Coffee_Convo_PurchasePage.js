@@ -1,14 +1,15 @@
 import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import Food from 'react-native-vector-icons/Ionicons';
 import Calendar from 'react-native-vector-icons/Entypo';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 import Loading from '../../home/Loading';
 import moment from 'moment';
+import {AuthContext} from '../../../navigation/AuthProvider';
 export default function Coffee_Convo_PurchasePage(props) {
   const navigation = useNavigation();
-
+  const {isDarkMode} = useContext(AuthContext);
   return (
     <>
       {props.items ? (
@@ -22,7 +23,7 @@ export default function Coffee_Convo_PurchasePage(props) {
                   useNativeDriver
                   animation="fadeInUp"
                   // delay={500}
-                  style={styles.itemstyle}>
+                  style={[styles.itemstyle,{backgroundColor:isDarkMode?'black':'white'}]}>
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate('CoffeeConvoTicket', {
@@ -92,6 +93,7 @@ export default function Coffee_Convo_PurchasePage(props) {
                                   marginLeft: 10,
                                   fontWeight: 'bold',
                                   fontSize: 18,
+                                  color:isDarkMode?'white':'black'
                                 },
                               ]}>
                               {item._data.Type}
@@ -105,11 +107,11 @@ export default function Coffee_Convo_PurchasePage(props) {
                             alignItems: 'center',
                           }}>
                           <View>
-                            <Calendar name="calendar" size={25} color="white" />
+                            <Calendar name="calendar" size={25} color={isDarkMode?"white":'black'} />
                           </View>
                           <View>
                             {item ? (
-                              <Text style={[styles.text, {fontSize: 16}]}>
+                              <Text style={[styles.text, {fontSize: 16,color:isDarkMode?'white':'black'}]}>
                                 {moment(
                                   new Date(item._data.createdAt.seconds * 1000),
                                 ).format('DD/MM/YYYY')}

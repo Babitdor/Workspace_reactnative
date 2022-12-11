@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Text, View, Button} from 'react-native';
+import {AuthContext} from '../../navigation/AuthProvider';
 // import PushNotification from 'react-native-push-notification';
 // import moment from 'moment/moment';
 
 export default function CustomTimer(props) {
+  const {isDarkMode} = useContext(AuthContext);
   // var reminder = moment(`${props.date} ${props.time}`).subtract(30, 'm').toDate();
   const calculateTimeLeft = value => {
     const difference = +new Date(`${value.date} ${value.time}`) - +new Date();
     let timeLeft = {};
-    
+
     if (difference > 0) {
       timeLeft = {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -19,7 +21,7 @@ export default function CustomTimer(props) {
     }
     return timeLeft;
   };
- 
+
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(props));
 
   useEffect(() => {
@@ -58,7 +60,6 @@ export default function CustomTimer(props) {
             borderWidth: 1,
             borderColor: 'rgba(137, 252, 233, 1)',
           }}>
-          
           <View>
             <View style={{alignItems: 'center', padding: 10}}>
               <View>
@@ -112,7 +113,13 @@ export default function CustomTimer(props) {
           </View>
         </View>
       ) : (
-        <Text style={{color: 'cyan', textAlign: 'center', fontSize: 20,marginHorizontal:15}}>
+        <Text
+          style={{
+            color: isDarkMode ? 'cyan' : 'black',
+            textAlign: 'center',
+            fontSize: 20,
+            marginHorizontal: 15,
+          }}>
           Ticket Finished
         </Text>
       )}

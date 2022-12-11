@@ -36,7 +36,7 @@ export default function SignIn1() {
   const [isDisplayDate, setDateShow] = useState(false);
   const navigation = useNavigation();
   const [displaymode, setMode] = useState('time');
-  const {register} = useContext(AuthContext);
+  const {register, isDarkMode} = useContext(AuthContext);
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -144,8 +144,7 @@ export default function SignIn1() {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: response.assets[0].uri};
-        console.log(source);
+        const source = response.assets[0].uri;
         setData({
           ...data,
           avatar: source,
@@ -155,7 +154,11 @@ export default function SignIn1() {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: isDarkMode ? 'black' : 'white'},
+      ]}>
       <View style={[styles.header, {alignItems: 'center'}]}>
         <TouchableOpacity onPress={() => selectImage()}>
           <Animatable.View
@@ -163,14 +166,14 @@ export default function SignIn1() {
             animation="fadeInUp">
             {data.avatar ? (
               <Image
-                source={data.avatar}
+                source={{uri: data.avatar}}
+                resizeMode="cover"
                 style={{
                   width: 80,
                   height: 80,
                   borderRadius: 100,
                   // backgroundColor: 'rgba(137, 252, 233, 1)',
                 }}
-                resizeMode="contain"
               />
             ) : (
               <Image
@@ -179,7 +182,7 @@ export default function SignIn1() {
                   width: 80,
                   height: 80,
                   borderColor: 'rgba(137, 252, 233, 1)',
-                  tintColor: 'white',
+                  tintColor: isDarkMode ? 'white' : 'black',
                   // backgroundColor: 'rgba(137, 252, 233, 1)',
                 }}
                 resizeMode="contain"
@@ -193,22 +196,34 @@ export default function SignIn1() {
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
         <ScrollView>
           {/* Name Section */}
-          <Text style={styles.text_footer}>Name</Text>
+          <Text
+            style={[
+              styles.text_footer,
+              {
+                color: isDarkMode ? 'white' : 'black',
+              },
+            ]}>
+            Name
+          </Text>
           <View style={styles.action}>
-            <User name="user" size={30} color="white" />
+            <User
+              name="user"
+              size={30}
+              color={isDarkMode ? 'white' : 'black'}
+            />
             <TextInput
-              style={styles.TextInput}
+              style={[styles.TextInput,{color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}]}
               autoCapitalize="none"
               onChangeText={val => nameinput(val)}
             />
           </View>
 
           {/* Date of Birth Section */}
-          <Text style={[styles.text_footer, {marginTop: 6}]}>
+          <Text style={[styles.text_footer, {marginTop: 6,color: isDarkMode ? 'white' : 'black',}]}>
             Date of Birth
           </Text>
           <View style={styles.action}>
-            <Cake name="cake-variant-outline" size={30} color="white" />
+            <Cake name="cake-variant-outline" size={30} color={isDarkMode ? 'white' : 'black'} />
             <TouchableOpacity
               onPress={displayDatepicker}
               title="Select your Time"
@@ -219,7 +234,7 @@ export default function SignIn1() {
                   {
                     paddingVertical: 10,
                     fontSize: responsiveScreenFontSize(2.5),
-                    color: 'rgba(137, 252, 233, 1)',
+                    color: isDarkMode?'rgba(137, 252, 233, 1)':'black',
                   },
                 ]}>
                 {data.date_of_birth}
@@ -239,19 +254,19 @@ export default function SignIn1() {
           </View>
 
           {/* Phone No Section */}
-          <Text style={[styles.text_footer, {marginTop: 6}]}>Phone No.</Text>
+          <Text style={[styles.text_footer, {marginTop: 6,color: isDarkMode ? 'white' : 'black',}]}>Phone No.</Text>
           <View style={styles.action}>
-            <Phone name="phone" size={30} color="white" />
+            <Phone name="phone" size={30} color={isDarkMode ? 'white' : 'black'}/>
             <TextInput
               maxLength={10}
               keyboardType="numeric"
-              style={styles.TextInput}
+              style={[styles.TextInput,{color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}]}
               onChangeText={val => phonenoChange(val)}
             />
           </View>
 
           {/* Gender */}
-          <Text style={[styles.text_footer, {marginTop: 6}]}>Gender</Text>
+          <Text style={[styles.text_footer, {marginTop: 6,color: isDarkMode ? 'white' : 'black',}]}>Gender</Text>
           <View
             style={[
               styles.action,
@@ -260,11 +275,11 @@ export default function SignIn1() {
             <Gender
               name={data.gender === 'Male' ? 'male' : 'female'}
               size={30}
-              color="white"
+              color={isDarkMode ? 'white' : 'black'}
             />
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View>
-                <Text style={styles.text_footer}>Male</Text>
+                <Text style={[styles.text_footer,{color: isDarkMode ? 'white' : 'black',}]}>Male</Text>
               </View>
               <View>
                 <RadioButton
@@ -277,7 +292,7 @@ export default function SignIn1() {
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View>
-                <Text style={styles.text_footer}>Female</Text>
+                <Text style={[styles.text_footer,{color: isDarkMode ? 'white' : 'black',}]}>Female</Text>
               </View>
               <View>
                 <RadioButton
@@ -291,57 +306,57 @@ export default function SignIn1() {
           </View>
 
           {/* Email Section */}
-          <Text style={[styles.text_footer, {marginTop: 10}]}>Email</Text>
+          <Text style={[styles.text_footer, {marginTop: 10,color: isDarkMode ? 'white' : 'black',}]}>Email</Text>
           <View style={styles.action}>
-            <User name="mail" size={30} color="white" />
+            <User name="mail" size={30} color={isDarkMode ? 'white' : 'black'} />
             <TextInput
-              style={styles.TextInput}
+              style={[styles.TextInput,{color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}]}
               autoCapitalize="none"
               onChangeText={val => emailInputChange(val)}
             />
             {data.check_textInputChange ? (
               <Animatable.View animation="bounceIn">
-                <Check name="checkcircleo" size={25} />
+                <Check name="checkcircleo" size={25} color={isDarkMode?'white':'black'}/>
               </Animatable.View>
             ) : null}
           </View>
 
           {/* Password Section */}
-          <Text style={[styles.text_footer, {marginTop: 10}]}>Password</Text>
+          <Text style={[styles.text_footer, {marginTop: 10,color: isDarkMode ? 'white' : 'black',}]}>Password</Text>
           <View style={styles.action}>
-            <Lock name="lock" size={30} color="white" />
+            <Lock name="lock" size={30} color={isDarkMode ? 'white' : 'black'} />
             <TextInput
-              style={styles.TextInput}
+              style={[styles.TextInput,{color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}]}
               autoCapitalize="none"
               secureTextEntry={data.secureTextEntry ? true : false}
               onChangeText={val => handlePasswordChange(val)}
             />
             <TouchableOpacity onPress={updateSecureTextEntry}>
               {data.secureTextEntry ? (
-                <Eye name="eye-with-line" size={25} color="white" />
+                <Eye name="eye-with-line" size={25} color={isDarkMode ? 'white' : 'black'} />
               ) : (
-                <Eye name="eye" size={25} color="white" />
+                <Eye name="eye" size={25} color={isDarkMode ? 'white' : 'black'} />
               )}
             </TouchableOpacity>
           </View>
 
           {/* Confirm Password Section */}
-          <Text style={[styles.text_footer, {marginTop: 10}]}>
+          <Text style={[styles.text_footer, {marginTop: 10,color: isDarkMode ? 'white' : 'black',}]}>
             Confirm Password
           </Text>
           <View style={styles.action}>
-            <Lock name="lock" size={30} color="white" />
+            <Lock name="lock" size={30} color={isDarkMode ? 'white' : 'black'} />
             <TextInput
-              style={styles.TextInput}
+              style={[styles.TextInput,{color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}]}
               autoCapitalize="none"
               secureTextEntry={data.confirm_secureTextEntry ? true : false}
               onChangeText={val => handleConfirmPasswordChange(val)}
             />
             <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
               {data.confirm_secureTextEntry ? (
-                <Eye name="eye-with-line" size={25} color="white" />
+                <Eye name="eye-with-line" size={25} color={isDarkMode ? 'white' : 'black'} />
               ) : (
-                <Eye name="eye" size={25} color="white" />
+                <Eye name="eye" size={25} color={isDarkMode ? 'white' : 'black'} />
               )}
             </TouchableOpacity>
           </View>

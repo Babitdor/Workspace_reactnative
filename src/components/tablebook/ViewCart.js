@@ -35,8 +35,15 @@ export default function ConferenceCart(props) {
   const reference = firebase.app().database();
   const navigation = useNavigation();
   const {seatid, tprice} = props.seats;
-  const {MaxTime, MinTime, SelectDate, setChanged, user, SelectedSeats} =
-    useContext(AuthContext);
+  const {
+    MaxTime,
+    MinTime,
+    SelectDate,
+    setChanged,
+    user,
+    SelectedSeats,
+    isDarkMode,
+  } = useContext(AuthContext);
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -146,8 +153,18 @@ export default function ConferenceCart(props) {
     return (
       <>
         <View style={styles.modalContainer}>
-          <View style={styles.modalCheckoutContainer}>
-            <Text style={styles.tablename}>Checkout</Text>
+          <View
+            style={[
+              styles.modalCheckoutContainer,
+              {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+            ]}>
+            <Text
+              style={[
+                styles.tablename,
+                {color: isDarkMode ? 'white' : 'black'},
+              ]}>
+              Checkout
+            </Text>
             <View
               style={{
                 flexDirection: 'row',
@@ -156,7 +173,12 @@ export default function ConferenceCart(props) {
                 borderBottomWidth: 1,
                 borderBottomColor: '#999',
               }}>
-              <Text style={{fontWeight: '600', fontSize: 16, color: 'white'}}>
+              <Text
+                style={{
+                  fontWeight: '600',
+                  fontSize: 16,
+                  color: isDarkMode ? 'white' : 'black',
+                }}>
                 Seat : {seatid + ''}
               </Text>
               <Text style={{opacity: 0.7, fontSize: 16, color: 'white'}}>
@@ -173,8 +195,8 @@ export default function ConferenceCart(props) {
             />
 
             <View style={styles.subtotalContainer}>
-              <Text style={styles.subTotalText}>Subtotal</Text>
-              <Text style={styles.subTotalText}>{totalRs}</Text>
+              <Text style={[styles.subTotalText,{ color: isDarkMode?'white':'black'}]}>Subtotal</Text>
+              <Text style={[styles.subTotalText,{ color: isDarkMode?'white':'black'}]}>{totalRs}</Text>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <TouchableOpacity
@@ -255,7 +277,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   modalCheckoutContainer: {
-    backgroundColor: '#181818',
     padding: 16,
     margin: 0,
     borderTopLeftRadius: 20,

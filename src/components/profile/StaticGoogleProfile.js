@@ -25,11 +25,15 @@ import Gender from 'react-native-vector-icons/Ionicons';
 
 export default function StaticGoogleProfile() {
   const {logout} = useContext(AuthContext);
-  const {user} = useContext(AuthContext);
+  const {user, isDarkMode} = useContext(AuthContext);
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: isDarkMode ? 'black' : 'white'},
+      ]}>
       <View
         style={{
           flexDirection: 'row',
@@ -43,9 +47,11 @@ export default function StaticGoogleProfile() {
               <Signout
                 name="exit-outline"
                 size={responsiveScreenFontSize(2.5)}
-                color={'#B3B3B3'}
+                color={isDarkMode ? '#B3B3B3' : 'black'}
               />
-              <Text style={{color: 'white'}}>Sign Out</Text>
+              <Text style={{color: isDarkMode ? 'white' : 'black'}}>
+                Sign Out
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -69,7 +75,7 @@ export default function StaticGoogleProfile() {
         <Text
           style={{
             fontSize: responsiveScreenFontSize(2),
-            color: 'white',
+            color: isDarkMode ? 'white' : 'black',
             marginTop: 20,
           }}>
           {user.displayName}
@@ -77,20 +83,27 @@ export default function StaticGoogleProfile() {
       </Animatable.View>
 
       <Animatable.View
-        style={styles.footer}
+        style={[
+          styles.footer,
+          {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+        ]}
         animation="fadeInUpBig"
         useNativeDriver>
         <View
           style={{
             marginHorizontal: 10,
-            backgroundColor: 'rgba(137, 252, 233, 1)',
+            backgroundColor: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black',
             borderRadius: 10,
           }}>
           <TouchableOpacity onPress={() => navigation.navigate('EditPage')}>
             <View
               style={{alignItems: 'center', flexDirection: 'row', padding: 10}}>
               <View>
-                <Edit name="edit" size={30} color={'black'} />
+                <Edit
+                  name="edit"
+                  size={30}
+                  color={isDarkMode ? 'black' : 'white'}
+                />
               </View>
               <View>
                 <Text
@@ -98,7 +111,7 @@ export default function StaticGoogleProfile() {
                     styles.text_footer,
                     {
                       marginTop: 5,
-                      color: 'black',
+                      color: isDarkMode ? 'black' : 'white',
                       fontWeight: 'bold',
                       marginLeft: 10,
                     },
@@ -115,15 +128,29 @@ export default function StaticGoogleProfile() {
           delay={100}
           style={styles.card}>
           <View>
-            <User name="user" size={25} color={'rgba(137, 252, 233, 1)'} />
+            <User
+              name="user"
+              size={25}
+              color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}
+            />
           </View>
 
           <View style={styles.aligment}>
             <View>
-              <Text style={[styles.text_header, {marginLeft: 8}]}>Name</Text>
+              <Text
+                style={[
+                  styles.text_header,
+                  {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                Name
+              </Text>
             </View>
             <View>
-              <Text style={[styles.text_footer, {marginLeft: 15}]}>
+              <Text
+                style={[
+                  styles.text_footer,
+                  {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                ]}>
                 {user.displayName}
               </Text>
             </View>
@@ -136,13 +163,27 @@ export default function StaticGoogleProfile() {
           animation="fadeInLeft"
           delay={500}
           style={styles.card}>
-          <Email name="mail" size={25} color={'rgba(137, 252, 233, 1)'} />
+          <Email
+            name="mail"
+            size={25}
+            color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}
+          />
           <View style={styles.aligment}>
             <View>
-              <Text style={[styles.text_header, {marginLeft: 8}]}>Email</Text>
+              <Text
+                style={[
+                  styles.text_header,
+                  {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                Email
+              </Text>
             </View>
             <View>
-              <Text style={[styles.text_footer, {marginLeft: 15}]}>
+              <Text
+                style={[
+                  styles.text_footer,
+                  {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                ]}>
                 {user.email}
               </Text>
             </View>
@@ -157,14 +198,26 @@ export default function StaticGoogleProfile() {
           <Phone
             name="phone"
             size={responsiveScreenFontSize(2.5)}
-            color={'rgba(137, 252, 233, 1)'}
+            color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}
           />
           <View style={styles.aligment}>
             <View>
-              <Text style={[styles.text_header, {marginLeft: 8}]}>Phone</Text>
+              <Text
+                style={[
+                  styles.text_header,
+                  {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                Phone
+              </Text>
             </View>
             <View>
-              <Text style={[styles.text_footer, {marginLeft: 15}]}>N/A</Text>
+              <Text
+                style={[
+                  styles.text_footer,
+                  {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                N/A
+              </Text>
             </View>
           </View>
         </Animatable.View>
@@ -177,16 +230,26 @@ export default function StaticGoogleProfile() {
           <Cake
             name="cake"
             size={responsiveScreenFontSize(2.5)}
-            color={'rgba(137, 252, 233, 1)'}
+            color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}
           />
           <View style={styles.aligment}>
             <View>
-              <Text style={[styles.text_header, {marginLeft: 8}]}>
+              <Text
+                style={[
+                  styles.text_header,
+                  {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                ]}>
                 Date of Birth
               </Text>
             </View>
             <View>
-              <Text style={[styles.text_footer, {marginLeft: 15}]}>N/A</Text>
+              <Text
+                style={[
+                  styles.text_footer,
+                  {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                N/A
+              </Text>
             </View>
           </View>
         </Animatable.View>
@@ -199,14 +262,26 @@ export default function StaticGoogleProfile() {
           <Gender
             name={'female'}
             size={responsiveScreenFontSize(2.5)}
-            color={'rgba(137, 252, 233, 1)'}
+            color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'black'}
           />
           <View style={styles.aligment}>
             <View>
-              <Text style={[styles.text_header, {marginLeft: 8}]}>Gender</Text>
+              <Text
+                style={[
+                  styles.text_header,
+                  {marginLeft: 8, color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                Gender
+              </Text>
             </View>
             <View>
-              <Text style={[styles.text_footer, {marginLeft: 15}]}>N/A</Text>
+              <Text
+                style={[
+                  styles.text_footer,
+                  {marginLeft: 15, color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                N/A
+              </Text>
             </View>
           </View>
         </Animatable.View>

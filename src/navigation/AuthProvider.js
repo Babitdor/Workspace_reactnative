@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {Alert} from 'react-native';
+import {Alert, useColorScheme} from 'react-native';
 export const AuthContext = createContext();
 import {LogBox} from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
@@ -20,6 +20,7 @@ export const AuthProvider = ({children}) => {
   const [SelectDate, setSelectDate] = useState('');
   const [TicketType, setTicketType] = useState('BookATable');
   const [Refresh, setRefresh] = useState(true);
+  const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <AuthContext.Provider
@@ -32,6 +33,7 @@ export const AuthProvider = ({children}) => {
         Category,
         SelectDate,
         user,
+        isDarkMode,
         isChanged,
         SelectedSeats,
         setCategory,
@@ -106,18 +108,27 @@ export const AuthProvider = ({children}) => {
                     Gender: gender,
                     PhoneNo: phone,
                     createdAt: firestore.FieldValue.serverTimestamp(),
+                    ID_PIC:
+                      'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=',
                   },
                   {merge: true},
-                ).then(() => {
+                ).then(async () => {
                   console.log('Data Uploaded');
-                  const {uri} = profile;
-                  const uploadUri =
-                    Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-                  console.log(uploadUri);
-                  const task = storage()
-                    .ref('Profile/' + res.user.uid)
-                    .putFile(uploadUri)
-                    .then(snapshot => console.log('uploaded'));
+                  console.log(profile);
+                  const task = storage().ref('Profile/').child(res.user.uid);
+
+                  await task
+                    .putFile(profile)
+                    .then(snapshot => console.log('Profile Uploaded'));
+
+                  const URL = await task.getDownloadURL(URL).then(data => {
+                    db.set(
+                      {
+                        Profile_PIC: data,
+                      },
+                      {merge: true},
+                    );
+                  });
                 });
               })
               .catch(error => {
@@ -185,39 +196,119 @@ export const AuthProvider = ({children}) => {
               {merge: true},
             ).then(() => {
               async function ImageData() {
-                try {
-                  let {uri} = ProfileImage;
-                  let uploadUri =
-                    Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-                  const task = await storage()
-                    .ref('Profile/' + user.uid)
-                    .putFile(uploadUri)
-                    .then(() => console.log('Information Updated'))
-                    .catch(error => console.log('storage/unknown'));
+                if (!ProfileImage.includes('https://')) {
+                  try {
+                    const taskProfile = await storage()
+                      .ref('Profile/')
+                      .child(user.uid);
 
-                  uri = ID_IMAGE.uri;
-                  console.log(uri);
-                  uploadUri =
-                    Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-                  // Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-                  const task1 = await storage()
-                    .ref('Profile/Identification/' + user.uid)
-                    .putFile(uploadUri)
-                    .then(() => console.log('ID is Updated'))
-                    .catch(error => console.log('storage/unknown'));
+                    await taskProfile
+                      .putFile(ProfileImage)
+                      .then(() => console.log('Profile Image Uploaded'));
+
+                    const Profile_URL = await taskProfile
+                      .getDownloadURL(Profile_URL)
+                      .then(data => {
+                        db.set(
+                          {
+                            Profile_PIC: data,
+                          },
+                          {merge: true},
+                        );
+                      });
+                  } catch (err) {
+                    console.log(err);
+                  }
+                } else {
+                  console.log('NO NEW IMAGE');
+                }
+              }
+
+              async function IDData() {
+                if (!ID_IMAGE.includes('https://')) {
+                  try {
+                    const taskID = await storage()
+                      .ref('Profile/Identification/')
+                      .child(user.uid);
+
+                    await taskID
+                      .putFile(ID_IMAGE)
+                      .then(() => console.log('ID is Updated'));
+
+                    const ID_URL = await taskID
+                      .getDownloadURL(ID_URL)
+                      .then(data => {
+                        db.set(
+                          {
+                            ID_PIC: data,
+                          },
+                          {merge: true},
+                        );
+                      });
+                  } catch (err) {
+                    console.log(err);
+                  }
+                } else {
+                  console.log('NO NEW ID IMAGE');
+                }
+              }
+              ImageData();
+              IDData();
+            });
+          } catch (e) {
+            console.log(e);
+          }
+        },
+        googleProfileData: async (
+          user,
+          Name,
+          DateofBirth,
+          PhoneNo,
+          Gender,
+          ProfileImage,
+        ) => {
+          try {
+            const db = firestore().collection('Users').doc(user.uid);
+            db.set(
+              {
+                Name: Name,
+                Date_of_Birth: DateofBirth,
+                PhoneNo: PhoneNo,
+                Gender: Gender,
+                email: user.email,
+                Profile_PIC: user.photoURL,
+                CreatedAt: firestore.FieldValue.serverTimestamp(),
+                Identification: 'No Identification',
+                ID_PIC:
+                  'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=',
+              },
+              {merge: true},
+            ).then(() => {
+              async function ImageData() {
+                try {
+                  const taskProfile = await storage()
+                    .ref('Profile/')
+                    .child(user.uid);
+
+                  await taskProfile
+                    .putFile(ProfileImage)
+                    .then(() => console.log('Profile Image Uploaded'));
+
+                  const Profile_URL = await taskProfile
+                    .getDownloadURL(Profile_URL)
+                    .then(data => {
+                      db.set(
+                        {
+                          Profile_PIC: data,
+                        },
+                        {merge: true},
+                      );
+                    });
                 } catch (err) {
                   console.log(err);
                 }
               }
               ImageData();
-              // console.log('Data Uploaded');
-              // const {uri} = ProfileImage;
-              // const uploadUri =
-              //   Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-              // const task = storage()
-              //   .ref('Profile/' + user.uid)
-              //   .putFile(uploadUri)
-              //   .then(() => console.log('Information Updated'));
             });
           } catch (e) {
             console.log(e);

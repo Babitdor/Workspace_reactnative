@@ -8,7 +8,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useContext,
+} from 'react';
 import BouncyCheckBox from 'react-native-bouncy-checkbox';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Animatable from 'react-native-animatable';
@@ -16,6 +22,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {firebase} from '@react-native-firebase/database';
 import Loading from '../home/Loading';
+import {AuthContext} from '../../navigation/AuthProvider';
 export default function AdditionalItems() {
   useFocusEffect(
     useCallback(() => {
@@ -73,26 +80,32 @@ export default function AdditionalItems() {
       setITEMS(tempList);
     }
   };
+  const {isDarkMode} = useContext(AuthContext);
   return (
     <>
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          backgroundColor: 'white',
+          backgroundColor: isDarkMode ? 'white' : '#181818',
           marginHorizontal: 20,
           marginBottom: 12,
           borderRadius: 20,
           paddingHorizontal: 20,
         }}>
         <View>
-          <Icon name="search1" color={'black'} size={25} />
+          <Icon
+            name="search1"
+            color={isDarkMode ? 'black' : 'white'}
+            size={25}
+          />
         </View>
 
         <TextInput
           placeholder="Search item here..."
           ref={searchRef}
           value={search}
+          placeholderTextColor={isDarkMode ? 'black' : 'white'}
           style={{
             width: '85%',
             borderRadius: 20,
@@ -103,14 +116,18 @@ export default function AdditionalItems() {
             setSearch(txt);
           }}
         />
-        {search=='' ? null : (
+        {search == '' ? null : (
           <TouchableOpacity
             onPress={() => {
               searchRef.current.clear();
               onSearch('');
               setSearch('');
             }}>
-            <Icon name="close" color={'black'} size={25} />
+            <Icon
+              name="close"
+              color={isDarkMode ? 'black' : 'white'}
+              size={25}
+            />
           </TouchableOpacity>
         )}
       </View>
@@ -125,9 +142,12 @@ export default function AdditionalItems() {
               <Animatable.View
                 useNativeDriver
                 animation="fadeInUp"
-                style={styles.items}>
+                style={[
+                  styles.items,
+                  {backgroundColor: isDarkMode ? '#181818' : 'white'},
+                ]}>
                 <ItemImage items={item} />
-                <ItemTitle items={item} />
+                <ItemTitle items={item} DarkMode={isDarkMode}/>
                 <BouncyCheckBox
                   fillColor="rgba(98, 190, 175, 1)"
                   size={30}
@@ -153,10 +173,10 @@ const ItemTitle = props => (
       alignItems: 'center',
     }}>
     <View>
-      <Text style={{fontSize: 18, fontWeight: '600', color: '#E4E6EB'}}>
+      <Text style={{fontSize: 18, fontWeight: '600', color: props.DarkMode?'#E4E6EB':'black'}}>
         {props.items.title}
       </Text>
-      <Text style={{fontSize: 15, color: '#E4E6EB'}}>{props.items.price}</Text>
+      <Text style={{fontSize: 15, color: props.DarkMode?'#E4E6EB':'black'}}>{props.items.price}</Text>
     </View>
   </View>
 );
@@ -172,7 +192,6 @@ const ItemImage = props => (
 
 const styles = StyleSheet.create({
   items: {
-    backgroundColor: '#181818',
     padding: 12,
     borderRadius: 20,
     flexDirection: 'row',

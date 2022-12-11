@@ -34,8 +34,7 @@ export default function Edit_Field({route}) {
   const [isDisplayDate, setDateShow] = useState(false);
   const navigation = useNavigation();
   const [displaymode, setMode] = useState('time');
-  const [showDropDown, setShowDropDown] = useState(false);
-  const {user, updateIncompleteData, setRefresh, Refresh} =
+  const {user, updateIncompleteData, setRefresh, Refresh, isDarkMode} =
     useContext(AuthContext);
 
   const [EditHandler, setEditHandler] = useState({
@@ -45,21 +44,6 @@ export default function Edit_Field({route}) {
     EditGender: true,
     EditID: true,
   });
-
-  const IDList = [
-    {
-      label: 'Adhaar Card',
-      value: 'Adhaar Card',
-    },
-    {
-      label: 'Driving License',
-      value: 'Driving License',
-    },
-    {
-      label: 'Pan Card',
-      value: 'Pan Card',
-    },
-  ];
 
   useFocusEffect(
     useCallback(() => {
@@ -77,12 +61,11 @@ export default function Edit_Field({route}) {
     phoneNo: Data.PhoneNo,
     date_of_birth: Data.Date_of_Birth,
     gender: Data.Gender,
-    avatar: DefaultImage,
+    avatar: Data.Profile_PIC,
     IdName: Data.Identification ? Data.Identification : 'No Identification',
-    IDImage: '',
+    IDImage:
+      'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=',
   });
-
-  const [IDNAME, setIDNAME] = useState('');
 
   const changeSelectedDate = (_event, selectedDate) => {
     currentDate = moment(selectedDate).format('DD-MM-YYYY');
@@ -194,8 +177,7 @@ export default function Edit_Field({route}) {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: response.assets[0].uri};
-        console.log(source);
+        const source = response.assets[0].uri;
         setData({
           ...data,
           avatar: source,
@@ -221,7 +203,7 @@ export default function Edit_Field({route}) {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: response.assets[0].uri};
+        const source = response.assets[0].uri;
         console.log(source);
         setData({
           ...data,
@@ -232,21 +214,27 @@ export default function Edit_Field({route}) {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: isDarkMode ? 'black' : 'white'},
+      ]}>
       <View style={[styles.header, {alignItems: 'center'}]}>
         <TouchableOpacity onPress={() => selectImage()}>
           <View style={{alignSelf: 'center'}}>
             {data.avatar ? (
               <Image
-                source={data.avatar}
+                source={{uri: data.avatar}}
+                resizeMode="cover"
                 style={{
-                  width: 100,
-                  height: 100,
+                  width: 120,
+                  height: 120,
                   borderRadius: 100,
-                  borderWidth: 1,
-                  borderColor: 'rgba(137, 252, 233, 1)',
+                  borderWidth: 2,
+                  borderColor: isDarkMode
+                    ? 'rgba(137, 252, 233, 1)'
+                    : '#008B8B',
                 }}
-                resizeMode="contain"
               />
             ) : (
               <Image
@@ -256,8 +244,10 @@ export default function Edit_Field({route}) {
                   height: 100,
                   tintColor: 'white',
                   borderRadius: 100,
-                  borderWidth: 1,
-                  borderColor: 'rgba(137, 252, 233, 1)',
+                  borderWidth: 2,
+                  borderColor: isDarkMode
+                    ? 'rgba(137, 252, 233, 1)'
+                    : '#008B8B',
                 }}
                 resizeMode="contain"
               />
@@ -270,23 +260,43 @@ export default function Edit_Field({route}) {
         style={styles.footer}
         animation="fadeInUpBig"
         useNativeDriver>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* Name Section */}
-          <Text style={styles.text_footer}>Name</Text>
+          <Text
+            style={[
+              styles.text_footer,
+              {color: isDarkMode ? 'white' : 'black'},
+            ]}>
+            Name
+          </Text>
           <View style={styles.action}>
             <User
               name="user"
               size={30}
-              color={EditHandler.EditName ? 'white' : 'rgba(137, 252, 233, 1)'}
+              color={
+                isDarkMode
+                  ? EditHandler.EditName
+                    ? 'white'
+                    : 'rgba(137, 252, 233, 1)'
+                  : EditHandler.EditName
+                  ? 'black'
+                  : '#008B8B'
+              }
             />
             <TextInput
               editable={EditHandler.EditName ? false : true}
-              underlineColor="black"
+              underlineColor={isDarkMode ? 'black' : 'white'}
               activeUnderlineColor="black"
               textColor={
-                EditHandler.EditName ? 'rgba(137, 252, 233, 1)' : 'white'
+                isDarkMode
+                  ? EditHandler.EditName
+                    ? 'white'
+                    : 'rgba(137, 252, 233, 1)'
+                  : EditHandler.EditName
+                  ? 'black'
+                  : '#008B8B'
               }
-              style={[styles.TextInput, {borderColor: 'transparent'}]}
+              style={[styles.TextInput, {borderColor: 'white'}]}
               onKeyPress={false}
               autoCapitalize="none"
               value={data.name}
@@ -299,7 +309,13 @@ export default function Edit_Field({route}) {
                     name="edit"
                     size={25}
                     color={
-                      EditHandler.EditName ? 'white' : 'rgba(137, 252, 233, 1)'
+                      isDarkMode
+                        ? EditHandler.EditName
+                          ? 'white'
+                          : 'rgba(137, 252, 233, 1)'
+                        : EditHandler.EditName
+                        ? 'black'
+                        : '#008B8B'
                     }
                   />
                 </View>
@@ -308,14 +324,26 @@ export default function Edit_Field({route}) {
           </View>
 
           {/* Date of Birth Section */}
-          <Text style={[styles.text_footer, {marginTop: 6}]}>
+          <Text
+            style={[
+              styles.text_footer,
+              {marginTop: 6, color: isDarkMode ? 'white' : 'black'},
+            ]}>
             Date of Birth
           </Text>
           <View style={styles.action}>
             <Cake
               name="cake-variant-outline"
               size={30}
-              color={EditHandler.EditDOB ? 'white' : 'rgba(137, 252, 233, 1)'}
+              color={
+                isDarkMode
+                  ? EditHandler.EditDOB
+                    ? 'white'
+                    : 'rgba(137, 252, 233, 1)'
+                  : EditHandler.EditDOB
+                  ? 'black'
+                  : '#008B8B'
+              }
             />
             <TouchableOpacity
               disabled={EditHandler.EditDOB ? true : false}
@@ -329,9 +357,13 @@ export default function Edit_Field({route}) {
                     paddingVertical: 10,
                     fontSize: 16,
                     marginLeft: 15,
-                    color: EditHandler.EditDOB
-                      ? 'rgba(137, 252, 233, 1)'
-                      : 'white',
+                    color: isDarkMode
+                      ? EditHandler.EditDOB
+                        ? 'white'
+                        : 'rgba(137, 252, 233, 1)'
+                      : EditHandler.EditDOB
+                      ? 'black'
+                      : '#008B8B',
                   },
                 ]}>
                 {data.date_of_birth}
@@ -344,7 +376,13 @@ export default function Edit_Field({route}) {
                     name="edit"
                     size={25}
                     color={
-                      EditHandler.EditDOB ? 'white' : 'rgba(137, 252, 233, 1)'
+                      isDarkMode
+                        ? EditHandler.EditDOB
+                          ? 'white'
+                          : 'rgba(137, 252, 233, 1)'
+                        : EditHandler.EditDOB
+                        ? 'black'
+                        : '#008B8B'
                     }
                   />
                 </View>
@@ -365,21 +403,39 @@ export default function Edit_Field({route}) {
           </View>
 
           {/* Phone No Section */}
-          <Text style={[styles.text_footer, {marginTop: 6}]}>Phone No.</Text>
+          <Text
+            style={[
+              styles.text_footer,
+              {marginTop: 6, color: isDarkMode ? 'white' : 'black'},
+            ]}>
+            Phone No.
+          </Text>
           <View style={styles.action}>
             <Phone
               name="phone"
               size={30}
               color={
-                EditHandler.EditPhoneNo ? 'white' : 'rgba(137, 252, 233, 1)'
+                isDarkMode
+                  ? EditHandler.EditPhoneNo
+                    ? 'white'
+                    : 'rgba(137, 252, 233, 1)'
+                  : EditHandler.EditPhoneNo
+                  ? 'black'
+                  : '#008B8B'
               }
             />
             <TextInput
               maxLength={10}
-              underlineColor="black"
+              underlineColor={isDarkMode ? 'black' : 'white'}
               activeUnderlineColor="black"
               textColor={
-                EditHandler.EditPhoneNo ? 'rgba(137, 252, 233, 1)' : 'white'
+                isDarkMode
+                  ? EditHandler.EditPhoneNo
+                    ? 'white'
+                    : 'rgba(137, 252, 233, 1)'
+                  : EditHandler.EditPhoneNo
+                  ? 'black'
+                  : '#008B8B'
               }
               editable={EditHandler.EditPhoneNo ? false : true}
               value={data.phoneNo}
@@ -394,9 +450,13 @@ export default function Edit_Field({route}) {
                     name="edit"
                     size={25}
                     color={
-                      EditHandler.EditPhoneNo
-                        ? 'white'
-                        : 'rgba(137, 252, 233, 1)'
+                      isDarkMode
+                        ? EditHandler.EditPhoneNo
+                          ? 'white'
+                          : 'rgba(137, 252, 233, 1)'
+                        : EditHandler.EditPhoneNo
+                        ? 'black'
+                        : '#008B8B'
                     }
                   />
                 </View>
@@ -405,7 +465,13 @@ export default function Edit_Field({route}) {
           </View>
 
           {/* Gender */}
-          <Text style={[styles.text_footer, {marginTop: 6}]}>Gender</Text>
+          <Text
+            style={[
+              styles.text_footer,
+              {marginTop: 6, color: isDarkMode ? 'white' : 'black'},
+            ]}>
+            Gender
+          </Text>
           <View
             style={[
               styles.action,
@@ -415,7 +481,13 @@ export default function Edit_Field({route}) {
               name={data.gender === 'Male' ? 'male' : 'female'}
               size={30}
               color={
-                EditHandler.EditGender ? 'white' : 'rgba(137, 252, 233, 1)'
+                isDarkMode
+                  ? EditHandler.EditGender
+                    ? 'white'
+                    : 'rgba(137, 252, 233, 1)'
+                  : EditHandler.EditGender
+                  ? 'black'
+                  : '#008B8B'
               }
             />
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -424,9 +496,13 @@ export default function Edit_Field({route}) {
                   style={[
                     styles.text_footer,
                     {
-                      color: EditHandler.EditGender
-                        ? 'rgba(137, 252, 233, 1)'
-                        : 'white',
+                      color: isDarkMode
+                        ? EditHandler.EditGender
+                          ? 'white'
+                          : 'rgba(137, 252, 233, 1)'
+                        : EditHandler.EditGender
+                        ? 'black'
+                        : '#008B8B',
                     },
                   ]}>
                   Male
@@ -435,7 +511,7 @@ export default function Edit_Field({route}) {
               <View>
                 <RadioButton
                   disabled={EditHandler.EditGender ? true : false}
-                  color="rgba(137, 252, 233, 1)"
+                  color={isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'}
                   value="Male"
                   status={data.gender === 'Male' ? 'checked' : 'unchecked'}
                   onPress={() => setData({...data, gender: 'Male'})}
@@ -448,9 +524,13 @@ export default function Edit_Field({route}) {
                   style={[
                     styles.text_footer,
                     {
-                      color: EditHandler.EditGender
-                        ? 'rgba(137, 252, 233, 1)'
-                        : 'white',
+                      color: isDarkMode
+                        ? EditHandler.EditGender
+                          ? 'white'
+                          : 'rgba(137, 252, 233, 1)'
+                        : EditHandler.EditGender
+                        ? 'black'
+                        : '#008B8B',
                     },
                   ]}>
                   Female
@@ -459,7 +539,7 @@ export default function Edit_Field({route}) {
               <View>
                 <RadioButton
                   disabled={EditHandler.EditGender ? true : false}
-                  color="rgba(137, 252, 233, 1)"
+                  color={isDarkMode ? 'rgba(137, 252, 233, 1)' : '#008B8B'}
                   value="Female"
                   status={data.gender === 'Female' ? 'checked' : 'unchecked'}
                   onPress={() => setData({...data, gender: 'Female'})}
@@ -473,9 +553,13 @@ export default function Edit_Field({route}) {
                     name="edit"
                     size={25}
                     color={
-                      EditHandler.EditGender
-                        ? 'white'
-                        : 'rgba(137, 252, 233, 1)'
+                      isDarkMode
+                        ? EditHandler.EditGender
+                          ? 'white'
+                          : 'rgba(137, 252, 233, 1)'
+                        : EditHandler.EditGender
+                        ? 'black'
+                        : '#008B8B'
                     }
                   />
                 </View>
@@ -484,21 +568,21 @@ export default function Edit_Field({route}) {
           </View>
 
           {/* IDENTIFICATION CARD */}
-          <Text style={[styles.text_footer, {marginTop: 6}]}>
+          <Text style={[styles.text_footer, {marginTop: 6,color:isDarkMode?'white':'black'}]}>
             Identification
           </Text>
           <View style={styles.action}>
             <IDCARD
               name="idcard"
               size={30}
-              color={EditHandler.EditID ? 'white' : 'rgba(137, 252, 233, 1)'}
+              color={isDarkMode?EditHandler.EditID ? 'white' : 'rgba(137, 252, 233, 1)':EditHandler.EditID ? 'black' : '#008B8B'}
             />
 
             <TextInput
-              underlineColor="black"
+              underlineColor={isDarkMode?"black":'white'}
               activeUnderlineColor="black"
               textColor={
-                EditHandler.EditID ? 'rgba(137, 252, 233, 1)' : 'white'
+                isDarkMode ? EditHandler.EditID ? 'rgba(137, 252, 233, 1)' : 'white':EditHandler.EditID ? 'black':'#008B8B'
               }
               editable={EditHandler.EditID ? false : true}
               value={data.IdName}
@@ -515,7 +599,7 @@ export default function Edit_Field({route}) {
                 <Button
                   disabled={EditHandler.EditID ? true : false}
                   mode="contained"
-                  buttonColor="rgba(137, 252, 233, 1)"
+                  buttonColor={isDarkMode?"rgba(137, 252, 233, 1)":'#008B8B'}
                   onPress={() => selectImageID()}>
                   Upload
                 </Button>
@@ -533,7 +617,7 @@ export default function Edit_Field({route}) {
                       name="edit"
                       size={25}
                       color={
-                        EditHandler.EditID ? 'white' : 'rgba(137, 252, 233, 1)'
+                        isDarkMode ? EditHandler.EditID ? 'white' : 'rgba(137, 252, 233, 1)': EditHandler.EditID ? 'black' : '#008B8B'
                       }
                     />
                   </View>
@@ -561,7 +645,7 @@ export default function Edit_Field({route}) {
               styles.signIn,
               {
                 marginTop: 10,
-                backgroundColor: 'white',
+                backgroundColor: isDarkMode? 'white':'#008B8B',
               },
             ]}>
             <View
@@ -574,6 +658,26 @@ export default function Edit_Field({route}) {
                 <Text style={[styles.textSign, {color: 'black'}]}>
                   Update Profile
                 </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={[
+              styles.signIn,
+              {
+                marginTop: 10,
+                backgroundColor: isDarkMode? 'white':'#008B8B',
+              },
+            ]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <View>
+                <Text style={[styles.textSign, {color: 'black'}]}>Cancel</Text>
               </View>
             </View>
           </TouchableOpacity>

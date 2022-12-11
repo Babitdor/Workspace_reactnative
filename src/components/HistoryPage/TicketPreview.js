@@ -15,7 +15,6 @@ export default function TicketPreview({route}) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: 'black',
       }}>
       <View style={styles.footer}>
         <View key={id} style={styles.TopCard}>

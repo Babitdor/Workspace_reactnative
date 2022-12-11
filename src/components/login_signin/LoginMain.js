@@ -7,21 +7,37 @@ import {
 } from 'react-native-responsive-dimensions';
 import {TouchableOpacity} from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import {useContext} from 'react';
+import {AuthContext} from '../../navigation/AuthProvider';
 export default function LoginMain({navigation}) {
+  const {isDarkMode} = useContext(AuthContext);
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: isDarkMode ? 'black' : 'white'},
+      ]}>
       <View style={styles.header}>
         <Animatable.Image
           animation="fadeInUp"
           duration={1500}
-          style={styles.logo}
+          style={[styles.logo, {tintColor: isDarkMode ? 'white' : 'black'}]}
           resizeMode="stretch"
           source={require('../../assets/Workspace.png')}
         />
       </View>
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <Text style={styles.title}>Come On And Chill with Us!</Text>
-        <Text style={styles.text}>Sign in with an account</Text>
+      <Animatable.View
+        animation="fadeInUpBig"
+        style={[
+          styles.footer,
+          {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+        ]}>
+        <Text style={[styles.title, {color: isDarkMode ? 'white' : 'black'}]}>
+          Come On And Chill with Us!
+        </Text>
+        <Text style={[styles.text, {color: isDarkMode ? 'white' : 'black'}]}>
+          Sign in with an account
+        </Text>
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.buttonbtn}
@@ -53,6 +69,15 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     paddingVertical: 50,
     paddingHorizontal: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
   },
   logo: {
     width: 400,

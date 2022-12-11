@@ -1,12 +1,18 @@
 import {View, Text, Image, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import NavOptions from '../components/home/NavOptions';
 import * as Animatable from 'react-native-animatable';
+import {AuthContext} from '../navigation/AuthProvider';
 
 export default function Home({navigation}) {
+  const {isDarkMode} = useContext(AuthContext);
   return (
-    <SafeAreaView style={styles.Safearea}>
+    <SafeAreaView
+      style={[
+        styles.Safearea,
+        {backgroundColor: isDarkMode ? 'black' : 'white'},
+      ]}>
       <View style={styles.container}>
         <Animatable.View
           style={styles.header}
@@ -15,7 +21,11 @@ export default function Home({navigation}) {
           useNativeDriver>
           <View style={{padding: 20, marginBottom: 15}}>
             <Image
-              style={styles.Image}
+            resizeMode='contain'
+              style={[
+                styles.Image,
+                {tintColor: isDarkMode ? 'white' : 'black'},
+              ]}
               source={require('../assets/Workspace.png')}
             />
             <Text
@@ -30,7 +40,7 @@ export default function Home({navigation}) {
 
         <Animatable.View
           animation="fadeInUpBig"
-          style={styles.footer}
+          style={[styles.footer,{backgroundColor:isDarkMode?'#181818':'#EEEEEE'}]}
           useNativeDriver>
           <NavOptions navigation={navigation} />
         </Animatable.View>
@@ -68,6 +78,6 @@ const styles = StyleSheet.create({
   Safearea: {
     height: '100%',
     width: '100%',
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
   },
 });

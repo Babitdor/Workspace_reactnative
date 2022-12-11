@@ -22,7 +22,7 @@ LogBox.ignoreLogs([
 ]);
 
 export default function Coffee_ConvoHistory() {
-  const {user, setTicketType, TicketType} = useContext(AuthContext);
+  const {user, isDarkMode} = useContext(AuthContext);
   // const [Refresh, setRefresh] = useState(true);
   const [CoffeeTicket, setCoffeeTickets] = useState();
 
@@ -52,7 +52,7 @@ export default function Coffee_ConvoHistory() {
         flex: 1,
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: isDarkMode ? 'black' : 'white',
       }}>
       {/* <View
         style={{
@@ -69,21 +69,28 @@ export default function Coffee_ConvoHistory() {
           <Refreshs name="refresh" size={35} color={'white'} />
         </TouchableOpacity>
       </View> */}
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: isDarkMode ? 'black' : 'white'},
+        ]}>
         <Animatable.View
           style={styles.header}
           animation="fadeInUp"
           useNativeDriver>
           <Image
             source={require('../../../assets/PageIcons/Coffee_Convo.png')}
-            style={{width: 400, height: 400}}
+            style={{width: 400, height: 300}}
             resizeMode="contain"
           />
         </Animatable.View>
 
         <Animatable.View
           animation="fadeInUpBig"
-          style={styles.footer}
+          style={[
+            styles.footer,
+            {backgroundColor: isDarkMode ? '#181818' : '#EEEEEE'},
+          ]}
           useNativeDriver>
           <View
             style={{
@@ -99,7 +106,11 @@ export default function Coffee_ConvoHistory() {
               />
             </View>
             <View>
-              <Text style={[styles.title, {fontSize: 18}]}>
+              <Text
+                style={[
+                  styles.title,
+                  {fontSize: 18, color: isDarkMode ? 'white' : 'black'},
+                ]}>
                 Coffee & Convo History
               </Text>
             </View>

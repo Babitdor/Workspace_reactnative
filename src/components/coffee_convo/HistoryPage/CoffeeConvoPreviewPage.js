@@ -14,7 +14,6 @@ export default function CoffeeConvoPreviewPage({route}) {
         flex: 1,
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
       }}>
       <View style={[styles.footer]}>
         <View
