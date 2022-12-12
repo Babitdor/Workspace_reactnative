@@ -1,11 +1,13 @@
 import {View, Text, Image} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
 import LottieView from 'lottie-react-native';
 import {useNavigation} from '@react-navigation/native';
+import {AuthContext} from '../../navigation/AuthProvider';
 
 export default function Intro() {
   const navigation = useNavigation();
+  const {isDarkMode} = useContext(AuthContext);
   const FoodMenu = () => {
     navigation.navigate('FoodMenu');
   };
@@ -15,7 +17,7 @@ export default function Intro() {
       onDone={FoodMenu}
       pages={[
         {
-          backgroundColor: 'black',
+          backgroundColor: isDarkMode ? 'black' : 'white',
           image: (
             <Image
               style={{
@@ -31,7 +33,7 @@ export default function Intro() {
           subtitle: 'Order your food in advanced, and we get it ready!',
         },
         {
-          backgroundColor: 'black',
+          backgroundColor: isDarkMode ? 'black' : 'white',
           image: (
             <Image
               style={{
@@ -47,7 +49,7 @@ export default function Intro() {
           subtitle: 'Pick any Table, and We bring your Food in an instant.',
         },
         {
-          backgroundColor: 'black',
+          backgroundColor: isDarkMode ? 'black' : 'white',
           image: (
             <Image
               style={{

@@ -4,9 +4,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import TicketIcon from 'react-native-vector-icons/Entypo';
 import {Divider} from '@rneui/base';
 import {FlatList} from 'react-native';
+import {useContext} from 'react';
+import {AuthContext} from '../../../navigation/AuthProvider';
 // import { Divider } from '@rneui/base';
 export default function CoffeeConvoPreviewPage({route}) {
   const {Ticket, id} = route.params;
+  const {isDarkMode} = useContext(AuthContext);
   //   console.log(Ticket._data.items);
   return (
     <SafeAreaView
@@ -14,8 +17,13 @@ export default function CoffeeConvoPreviewPage({route}) {
         flex: 1,
         width: '100%',
         height: '100%',
+        backgroundColor: isDarkMode ? 'black' : 'white',
       }}>
-      <View style={[styles.footer]}>
+      <View
+        style={[
+          styles.footer,
+          {backgroundColor: isDarkMode ? 'black' : 'white'},
+        ]}>
         <View
           key={id}
           style={{
@@ -32,7 +40,7 @@ export default function CoffeeConvoPreviewPage({route}) {
                   fontWeight: 'bold',
                   marginHorizontal: -15,
                   padding: 10,
-                  color: 'white',
+                  color: isDarkMode ? 'white' : 'black',
                   borderRadius: 20,
                   textAlign: 'center',
                 },
@@ -49,7 +57,7 @@ export default function CoffeeConvoPreviewPage({route}) {
                   marginBottom: 10,
                   marginHorizontal: -15,
                   padding: 10,
-                  color: 'white',
+                  color: isDarkMode ? 'white' : 'black',
                   borderRadius: 20,
                   textAlign: 'center',
                 },
@@ -70,7 +78,11 @@ export default function CoffeeConvoPreviewPage({route}) {
                 alignItems: 'center',
               }}>
               <View>
-                <TicketIcon name="ticket" size={30} color={'white'} />
+                <TicketIcon
+                  name="ticket"
+                  size={30}
+                  color={isDarkMode ? 'white' : 'black'}
+                />
               </View>
               <View>
                 <Text
@@ -80,6 +92,7 @@ export default function CoffeeConvoPreviewPage({route}) {
                       marginLeft: 10,
                       fontWeight: 'bold',
                       fontSize: 25,
+                      color: isDarkMode ? 'white' : 'black',
                     },
                   ]}>
                   {Ticket._data.Type}
@@ -97,12 +110,24 @@ export default function CoffeeConvoPreviewPage({route}) {
               marginBottom: 10,
             }}>
             <View>
-              <Text style={[styles.text, {fontSize: 20, fontWeight: 'bold'}]}>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    color: isDarkMode ? 'white' : 'black',
+                  },
+                ]}>
                 Total :{' '}
               </Text>
             </View>
             <View>
-              <Text style={[styles.text, {fontSize: 20}]}>
+              <Text
+                style={[
+                  styles.text,
+                  {fontSize: 20, color: isDarkMode ? 'white' : 'black'},
+                ]}>
                 {Ticket._data.total}
               </Text>
             </View>
@@ -116,11 +141,11 @@ export default function CoffeeConvoPreviewPage({route}) {
               {
                 textAlign: 'center',
                 fontWeight: 'bold',
-                marginHorizontal:16,
-                borderBottomWidth:1,
-                borderColor: 'rgba(137, 252, 233, 1)',
+                marginHorizontal: 16,
+                borderBottomWidth: 1,
+                borderColor: isDarkMode?'rgba(137, 252, 233, 1)':'gray',
                 padding: 8,
-                color: 'white',
+                color: isDarkMode ? 'white' : 'black',
               },
             ]}>
             Orders
@@ -140,7 +165,7 @@ export default function CoffeeConvoPreviewPage({route}) {
                   justifyContent: 'space-between',
                   margin: 10,
                 }}>
-                <Items items={item} />
+                <Items items={item} isDarkMode={isDarkMode} />
                 <Divider width={0.2} />
               </View>
             );
@@ -169,12 +194,14 @@ const Items = props => (
       />
     </View>
     <View>
-      <Text style={{fontSize: 18, color: 'white'}}>
+      <Text style={{fontSize: 18, color: props.isDarkMode ? 'white' : 'black'}}>
         {props.items.title}
       </Text>
     </View>
     <View>
-      <Text style={{fontSize: 15, color: 'white'}}>{props.items.price}</Text>
+      <Text style={{fontSize: 15, color: props.isDarkMode ? 'white' : 'black'}}>
+        {props.items.price}
+      </Text>
     </View>
   </View>
 );

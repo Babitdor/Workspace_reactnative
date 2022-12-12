@@ -1,22 +1,29 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import TicketIcon from 'react-native-vector-icons/Entypo';
 import Clock from 'react-native-vector-icons/AntDesign';
 import Seat from 'react-native-vector-icons/MaterialIcons';
 import Calendar from 'react-native-vector-icons/Entypo';
 import {Divider} from '@rneui/base';
+import {AuthContext} from '../../navigation/AuthProvider';
 import {FlatList} from 'react-native';
 import moment from 'moment';
 export default function TicketPreview({route}) {
   const {Ticket, id} = route.params;
+  const {isDarkMode} = useContext(AuthContext);
 
   return (
     <SafeAreaView
       style={{
         flex: 1,
+        backgroundColor: isDarkMode ? 'black' : 'white',
       }}>
-      <View style={styles.footer}>
+      <View
+        style={[
+          styles.footer,
+          {backgroundColor: isDarkMode ? 'black' : 'white'},
+        ]}>
         <View key={id} style={styles.TopCard}>
           <View>
             <Text
@@ -27,7 +34,7 @@ export default function TicketPreview({route}) {
                   marginBottom: 0,
                   fontWeight: 'bold',
                   padding: 10,
-                  color: 'white',
+                  color: isDarkMode ? 'white' : 'black',
                   textAlign: 'center',
                 },
               ]}>
@@ -43,7 +50,7 @@ export default function TicketPreview({route}) {
                   fontWeight: 'bold',
                   padding: 10,
                   marginBottom: 10,
-                  color: 'white',
+                  color: isDarkMode ? 'white' : 'black',
                   textAlign: 'center',
                 },
               ]}>
@@ -70,11 +77,17 @@ export default function TicketPreview({route}) {
                   <Seat
                     name="event-seat"
                     size={25}
-                    color="rgba(137, 252, 233, 1)"
+                    color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'gray'}
                   />
                 </View>
                 <View>
-                  <Text style={[styles.text, {marginLeft: 5}]}>Seat no.</Text>
+                  <Text
+                    style={[
+                      styles.text,
+                      {marginLeft: 5, color: isDarkMode ? 'white' : 'black'},
+                    ]}>
+                    Seat no.
+                  </Text>
                 </View>
               </View>
               <View>
@@ -82,7 +95,7 @@ export default function TicketPreview({route}) {
                   style={[
                     styles.text,
                     {
-                      color: 'rgba(137, 252, 233, 1)',
+                      color: isDarkMode ? 'rgba(137, 252, 233, 1)' : 'gray',
                       fontWeight: 'bold',
                       fontSize: 25,
                     },
@@ -113,7 +126,7 @@ export default function TicketPreview({route}) {
                   <Clock
                     name="clockcircleo"
                     size={25}
-                    color="rgba(137, 252, 233, 1)"
+                    color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'gray'}
                   />
                 </View>
                 <View>
@@ -123,6 +136,7 @@ export default function TicketPreview({route}) {
                       {
                         fontWeight: 'bold',
                         fontSize: 18,
+                        color: isDarkMode ? 'white' : 'black',
                       },
                     ]}>
                     Start
@@ -130,7 +144,11 @@ export default function TicketPreview({route}) {
                 </View>
               </View>
               <View>
-                <Text style={[styles.text, {fontSize: 18}]}>
+                <Text
+                  style={[
+                    styles.text,
+                    {fontSize: 18, color: isDarkMode ? 'white' : 'black'},
+                  ]}>
                   {moment(Ticket._data.StartTime, 'HH:mm:ss').format('LT')}
                 </Text>
               </View>
@@ -145,11 +163,17 @@ export default function TicketPreview({route}) {
                 <Calendar
                   name="calendar"
                   size={25}
-                  color="rgba(137, 252, 233, 1)"
+                  color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'gray'}
                 />
               </View>
               <View>
-                <Text style={[styles.text]}>{Ticket._data.Date}</Text>
+                <Text
+                  style={[
+                    styles.text,
+                    {color: isDarkMode ? 'white' : 'black'},
+                  ]}>
+                  {Ticket._data.Date}
+                </Text>
               </View>
             </View>
 
@@ -167,7 +191,7 @@ export default function TicketPreview({route}) {
                   <Clock
                     name="clockcircleo"
                     size={25}
-                    color="rgba(137, 252, 233, 1)"
+                    color={isDarkMode ? 'rgba(137, 252, 233, 1)' : 'gray'}
                   />
                 </View>
                 <View>
@@ -177,6 +201,7 @@ export default function TicketPreview({route}) {
                       {
                         fontWeight: 'bold',
                         fontSize: 18,
+                        color: isDarkMode ? 'white' : 'black',
                       },
                     ]}>
                     End
@@ -184,7 +209,11 @@ export default function TicketPreview({route}) {
                 </View>
               </View>
               <View>
-                <Text style={[styles.text, {fontSize: 18}]}>
+                <Text
+                  style={[
+                    styles.text,
+                    {fontSize: 18, color: isDarkMode ? 'white' : 'black'},
+                  ]}>
                   {moment(Ticket._data.EndTime, 'HH:mm:ss').format('LT')}
                 </Text>
               </View>
@@ -198,12 +227,24 @@ export default function TicketPreview({route}) {
               marginBottom: 10,
             }}>
             <View>
-              <Text style={[styles.text, {fontSize: 18, fontWeight: 'bold'}]}>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    color: isDarkMode ? 'white' : 'black',
+                  },
+                ]}>
                 Total :{' '}
               </Text>
             </View>
             <View>
-              <Text style={[styles.text, {fontSize: 20}]}>
+              <Text
+                style={[
+                  styles.text,
+                  {fontSize: 20, color: isDarkMode ? 'white' : 'black'},
+                ]}>
                 {Ticket._data.total}/-
               </Text>
             </View>
@@ -217,11 +258,11 @@ export default function TicketPreview({route}) {
               {
                 textAlign: 'center',
                 fontWeight: 'bold',
-                color: 'white',
+                color: isDarkMode ? 'white' : 'black',
                 marginBottom: 10,
                 borderBottomWidth: 1,
                 fontSize: 16,
-                borderColor: 'rgba(137, 252, 233, 1)',
+                borderColor: isDarkMode?'rgba(137, 252, 233, 1)':'gray',
                 padding: 6,
                 margin: 6,
               },
@@ -244,8 +285,8 @@ export default function TicketPreview({route}) {
                   justifyContent: 'space-between',
                   margin: 10,
                 }}>
-                <Items items={item} />
-                <Divider width={0.2} color="white" />
+                <Items items={item} isDarkMode={isDarkMode} />
+                <Divider width={0.2} color={isDarkMode ? 'white' : 'black'} />
               </View>
             );
           }}
@@ -273,10 +314,14 @@ const Items = props => (
       />
     </View>
     <View>
-      <Text style={{fontSize: 18, color: 'white'}}>{props.items.title}</Text>
+      <Text style={{fontSize: 18, color: props.isDarkMode ? 'white' : 'black'}}>
+        {props.items.title}
+      </Text>
     </View>
     <View>
-      <Text style={{fontSize: 15, color: 'white'}}>{props.items.price}</Text>
+      <Text style={{fontSize: 15, color: props.isDarkMode ? 'white' : 'black'}}>
+        {props.items.price}
+      </Text>
     </View>
   </View>
 );
