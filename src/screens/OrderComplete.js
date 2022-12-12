@@ -28,7 +28,11 @@ export default function OrderComplete(route) {
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: isDarkMode ? 'black' : 'white'}}>
-      <StatusBar translucent />
+      <StatusBar
+        translucent
+        backgroundColor={isDarkMode ? 'black' : 'white'}
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+      />
       <View
         style={[
           styles.container,

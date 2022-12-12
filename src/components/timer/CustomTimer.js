@@ -63,12 +63,12 @@ export default function CustomTimer(props) {
           <View>
             <View style={{alignItems: 'center', padding: 10}}>
               <View>
-                <Text style={{color: 'white', fontSize: 20}}>
+                <Text style={{color:  isDarkMode?'white':'black', fontSize: 20}}>
                   {timeLeft.days}
                 </Text>
               </View>
               <View>
-                <Text style={{color: 'white', fontSize: 12}}>Days</Text>
+                <Text style={{color: isDarkMode?'white':'black', fontSize: 12}}>Days</Text>
               </View>
             </View>
           </View>
@@ -76,12 +76,12 @@ export default function CustomTimer(props) {
           <View>
             <View style={{alignItems: 'center', padding: 10}}>
               <View>
-                <Text style={{color: 'white', fontSize: 20}}>
+                <Text style={{color:  isDarkMode?'white':'black', fontSize: 20}}>
                   {timeLeft.hours}
                 </Text>
               </View>
               <View>
-                <Text style={{color: 'white', fontSize: 12}}>Hours</Text>
+                <Text style={{color:  isDarkMode?'white':'black', fontSize: 12}}>Hours</Text>
               </View>
             </View>
           </View>
@@ -89,12 +89,12 @@ export default function CustomTimer(props) {
           <View>
             <View style={{alignItems: 'center', padding: 10}}>
               <View>
-                <Text style={{color: 'white', fontSize: 20}}>
+                <Text style={{color:  isDarkMode?'white':'black', fontSize: 20}}>
                   {timeLeft.minutes}
                 </Text>
               </View>
               <View>
-                <Text style={{color: 'white', fontSize: 12}}>Minutes</Text>
+                <Text style={{color:  isDarkMode?'white':'black', fontSize: 12}}>Minutes</Text>
               </View>
             </View>
           </View>
@@ -102,12 +102,12 @@ export default function CustomTimer(props) {
           <View>
             <View style={{alignItems: 'center', padding: 10}}>
               <View>
-                <Text style={{color: 'white', fontSize: 20}}>
+                <Text style={{color:  isDarkMode?'white':'black', fontSize: 20}}>
                   {timeLeft.seconds}
                 </Text>
               </View>
               <View>
-                <Text style={{color: 'white', fontSize: 12}}>Seconds</Text>
+                <Text style={{color: isDarkMode?'white':'black', fontSize: 12}}>Seconds</Text>
               </View>
             </View>
           </View>

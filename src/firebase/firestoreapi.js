@@ -28,10 +28,9 @@ export async function uploadDatatoFirestore(
       total: totalRs,
       seatsNo: seatid,
     })
-    .catch(e => {
+    .finally(e => {
       console.log(e);
     });
-  return Promise;
 }
 
 export async function uploadConferenceDatatoFirestore(

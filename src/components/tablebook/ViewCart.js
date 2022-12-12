@@ -16,19 +16,18 @@ import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 import {FlatList} from 'react-native';
 import {uploadDatatoFirestore} from '../../firebase/firestoreapi';
-
 import {LogBox} from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['Please report: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();
-
 import urid from 'urid';
 import {
   EndTimeNotifications,
   StartTimeNotifications,
 } from '../notifications/Notifications';
 const {height} = Dimensions.get('screen');
-
 let Count = 0;
+
 export default function ConferenceCart(props) {
   const [Tables, setTable] = useState([]);
   const [BookingID, setBookingID] = useState();
@@ -49,7 +48,7 @@ export default function ConferenceCart(props) {
 
   useEffect(() => {
     async function FetchData() {
-      var snapshot = await firebase
+      var snapshot = firebase
         .app()
         .database()
         .ref('/Data/Tables/')
@@ -80,8 +79,8 @@ export default function ConferenceCart(props) {
     setChanged(isChanged => !isChanged);
     Count = 0;
     SelectedSeats.map(seat => {
-      for (var i = 0; i < Object.keys(Tables).length; i++) {
-        for (var j = 0; j < Object.keys(Tables[i].seats).length; j++) {
+      for (var i in Object.keys(Tables)) {
+        for (var j in Object.keys(Tables[i].seats)) {
           if (
             JSON.stringify(seat.empty) ===
               JSON.stringify(!Tables[i].seats[j].empty) &&
@@ -89,21 +88,20 @@ export default function ConferenceCart(props) {
               JSON.stringify(!Tables[i].seats[j].booked) &&
             JSON.stringify(seat.id) === JSON.stringify(Tables[i].seats[j].id)
           ) {
-            Count++;
+            Count = Count + 1;
           }
         }
       }
     });
-    return Count;
   };
 
   // (Using Object.keys and Selected Seat to grayoutseats)
-  const grayoutseats = async SelectedSeats => {
-    await SelectedSeats.map(async item => {
-      for (var i = 0; i < Object.keys(Tables).length; i++) {
-        for (var j = 0; j < Object.keys(Tables[i].seats).length; j++) {
+  function grayoutseats(SelectedSeats) {
+    SelectedSeats.map(item => {
+      for (var i in Object.keys(Tables)) {
+        for (var j in Object.keys(Tables[i].seats)) {
           if (item.id === Tables[i].seats[j].id) {
-            await reference.ref(`/Data/Tables/${i}/seats/${j}`).update({
+            reference.ref(`/Data/Tables/${i}/seats/${j}`).update({
               booked: false,
               empty: false,
             });
@@ -111,16 +109,15 @@ export default function ConferenceCart(props) {
         }
       }
     });
-  };
+  }
 
   const OnPayment = () => {
     dispatch({type: 'DESTORY_SESSION'});
-    return;
   };
   //Function to update & store the firebase cloud store. Note : Integration of payment framework are to be done in here
   const addOrdertoFirebase = async () => {
-    // AddtoBooked(seatid);
-    if (Checking(SelectedSeats) > 0) {
+    Checking(SelectedSeats);
+    if (Count > 0) {
       await uploadDatatoFirestore(
         BookingID,
         user,
@@ -131,24 +128,22 @@ export default function ConferenceCart(props) {
         totalRs,
         seatid,
       )
-        .then(() => {
-          OnPayment();
+        .finally(async () => {
           grayoutseats(SelectedSeats);
-          // GrayOutSeats(SelectedSeats, Tables);
           StartTimeNotifications(SelectDate, MinTime, BookingID);
           EndTimeNotifications(SelectDate, MaxTime, BookingID);
+        })
+        .then(() => {
           setModalVisible(false);
           navigation.navigate('Completed', {totalRs: totalRs});
-        })
-        .catch(e => {
-          alert(e);
-          navigation.navigate('Home');
+          OnPayment();
         });
     } else {
       alert('Seat is Taken');
       navigation.navigate('Home');
     }
   };
+
   const checkoutModalContent = () => {
     return (
       <>
@@ -195,11 +190,24 @@ export default function ConferenceCart(props) {
             />
 
             <View style={styles.subtotalContainer}>
-              <Text style={[styles.subTotalText,{ color: isDarkMode?'white':'black'}]}>Subtotal</Text>
-              <Text style={[styles.subTotalText,{ color: isDarkMode?'white':'black'}]}>{totalRs}</Text>
+              <Text
+                style={[
+                  styles.subTotalText,
+                  {color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                Subtotal
+              </Text>
+              <Text
+                style={[
+                  styles.subTotalText,
+                  {color: isDarkMode ? 'white' : 'black'},
+                ]}>
+                {totalRs}
+              </Text>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <TouchableOpacity
+                delayPressIn={150}
                 style={{
                   marginTop: 20,
                   backgroundColor: 'rgba(137, 252, 233, 1)',
