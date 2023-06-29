@@ -4,11 +4,11 @@
 </p>
 
 
-<h3 align="center">Alt-Space Workspace App</h3>
+<h3 align="center">Workspace Booking App</h3>
 
 ---
 
-<p align="center"> A workspace booking app for Alt-Space
+<p align="center"> A workspace booking app
     <br> 
 </p>
 
